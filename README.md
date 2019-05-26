@@ -1,2 +1,28 @@
-# dgraph_graphql_go_svelte
-A frontend implementation for romshark/dgraph_graphql_go based on Svelte
+# [Progressive Web App](https://developers.google.com/web/progressive-web-apps) in [Svelte](https://svelte.dev)
+A frontend implementation for [romshark/dgraph_graphql_go](https://github.com/romshark/dgraph_graphql_go)
+
+- [x] Svelte
+- [x] Dgraph-GraphQL-Go API
+- [ ] SPA (Routing)
+- [ ] CSS Preprocessor
+- [ ] PWA
+- [ ] GraphQL Caching
+- [ ] SSR
+
+## Getting Started
+
+Install the dependencies
+
+```bash
+cd dgraph_graphql_go_svelte
+npm i
+```
+
+then start webpack in development mode
+
+```bash
+npm run dev
+```
+
+Now you're ready to go. Open [localhost:8081](http://localhost:8081) in your browser and have fun!
+

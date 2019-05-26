@@ -1,0 +1,64 @@
+html {
+	width: 100vw;
+	height: 100vh;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family:
+		'Lucida Sans',
+		'Lucida Sans Regular',
+		'Lucida Grande',
+		'Roboto',
+		'Arial';
+	line-height: 1.5;
+	font-size: 1rem;
+}
+
+div, input, button, textarea, svg,
+span, a, p, q, b, i, label,
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	background: none;
+	border: none;
+	outline: none;
+	box-sizing: border-box;
+	transition: all cubic-bezier(.22,.61,.36,1) 200ms;
+	font-size: 1rem;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.modal {
+	display: flex;
+	margin: auto;
+	padding: 2rem;
+	border-radius: 4px;
+	background-color: #fff;
+	flex: 0 1 auto;
+	flex-flow: row wrap;
+	box-shadow: 0 16px 40px rgba(0,0,0,.3);
+	overflow: hidden;
+}
+
+h3.view-title {
+	margin: 0 auto 4rem auto;
+	text-align: center;
+}
+
+button {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}

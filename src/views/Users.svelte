@@ -1,0 +1,115 @@
+<script>
+	import { sessionUser } from '../stores'
+	import { api } from '../api'
+
+	// Semicolon needed because otherwise javascript
+	// would try to assign it as a function
+	const userList = [];
+
+	(async function() {
+		const resp = await api.Query(
+			`query {
+				users { id, displayName }
+			}`,
+		)
+
+		for (let user of resp.users) userList.unshift(user)
+		userList = userList
+	}())
+</script>
+
+
+
+<style>
+	h3 {
+		margin: auto;
+	}
+
+	#userList {
+		display: flex;
+		flex-flow: row wrap;
+	}
+	#userList .user {
+		display: flex;
+		padding: 2rem 1rem;
+		flex-flow: row wrap;
+		flex: 0 0 calc(50% - 1rem);
+		border-radius: 4px;
+		border: solid 1px rgba(0,0,0,.1);
+		justify-content: center;
+		align-items: center;
+		transform: scale(1);
+	}
+	#userList .user:nth-child(odd) {
+		margin: 0 1rem 2rem 0;
+	}
+	#userList .user:nth-child(even) {
+		margin: 0 0 2rem 1rem;
+	}
+	#userList .user:hover {
+		transform: scale(1.05);
+		box-shadow: 0 10px 20px rgba(0,0,0,.05);
+	}
+	#userList .user .picture {
+		display: flex;
+		margin-bottom: 2rem;
+		padding: 1rem;
+		flex: 0 0 auto;
+		background-color: rgba(0,0,0,.025);
+		border-radius: 100%;
+		justify-content: center;
+		align-items: center;
+	}
+	#userList .user .picture svg {
+		height: 2.5rem;
+		width: 2.5rem;
+	}
+	#userList .user .displayName {
+		flex: 1 1 100%;
+		text-align: center;
+	}
+
+	@media screen and (min-width: 826px) {
+		#userList .user {
+			flex: 0 0 calc(100% / 4 - 2rem);
+		}
+		/* Every first user */
+		#userList .user:nth-child(4n+1) {
+			margin: 0 1rem 2rem 0;
+		}
+		/* Every secound & third user */
+		#userList .user:nth-child(4n+2),
+		#userList .user:nth-child(4n+3) {
+			margin: 0 1.5rem 2rem 1.5rem;
+		}
+		/* Every fourth user */
+		#userList .user:nth-child(4n-0) {
+			margin: 0 0 2rem 1rem;
+		}
+	}
+</style>
+
+
+
+<div id="userList">
+	{#each userList as {id, displayName}}
+		{#if id === $sessionUser.id && userList.length === 1}
+			<h3 class="view-title">
+				Your the only existing user ☹️
+			</h3>
+		{:else}
+			<div class="user">
+				<div class="picture">
+					<svg xmlns="http://www.w3.org/2000/svg" viewbox=" 0 0 120 120" fill="none">
+						<path fill="#000" fill-rule="evenodd" d="M60 57a23 23 0 1 0 0-46 23 23 0 0 0 0 46zm0-4a19 19 0 1 0 0-38 19 19 0 0 0 0 38z" clip-rule="evenodd"/>
+						<path fill="#000" d="M40 73a21 21 0 0 0-21 21v13a2 2 0 1 1-4 0V94a25 25 0 0 1 25-25h40a25 25 0 0 1 25 25v13a2 2 0 1 1-4 0V94a21 21 0 0 0-21-21H40z"/>
+					</svg>
+				</div>
+				<span class="displayName">
+					{displayName}
+				</span>
+			</div>
+		{/if}
+	{/each}
+</div>
+
