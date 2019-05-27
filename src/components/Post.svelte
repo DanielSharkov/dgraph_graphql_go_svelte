@@ -70,7 +70,7 @@
 	}
 	.post .header {
 		display: flex;
-		margin-bottom: 2rem;
+		margin-bottom: 3rem;
 		flex: 1 1 100%;
 		justify-content: flex-start;
 		align-content: center;
@@ -104,7 +104,7 @@
 	.post .author .picture svg {
 		height: 1.5rem;
 		width: 1.5rem;
-		stroke-width: 2;
+		stroke-width: 4;
 		stroke: #000;
 	}
 	.post .author .display-name {
@@ -136,7 +136,7 @@
 	}
 	.post .reactions {
 		display: flex;
-		margin-top: 2rem;
+		margin-top: 3rem;
 		border-top: solid 1px rgba(0,0,0,.1);
 		flex: 1 1 100%;
 		flex-flow: row wrap;
@@ -199,16 +199,19 @@
 		border: solid 1px transparent;
 		flex: 1 1 100%;
 		border-radius: 4px;
+		border-color: rgba(0,0,0,.1);
+		box-shadow: none;
 	}
 	.post .reactions .message:hover {
-		border-color: rgba(0,0,0,.1);
-	}
-	.post .reactions .message:focus {
-		border-color: #03f;
+		border-color: #000;
 	}
 	.post .reactions .message:active {
 		border-color: #03f;
-		background-color: rgba(0,40,255,.05);
+		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
+	}
+	.post .reactions .message:focus {
+		border-color: #03f;
+		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
 	}
 </style>
 

@@ -149,7 +149,7 @@
 		top: -1rem;
 		margin-bottom: 0;
 		opacity: .15;
-		font-size: 10px;
+		font-size: .5rem;
 		letter-spacing: 1px;
 		font-weight: 100;
 		font-family: monospace;
@@ -274,7 +274,7 @@
 	#user-profile #sessions .entries .session .current-label:before {
 		content: '';
 		height: 1px;
-		width: .5rem;
+		width: 1rem;
 		margin: 0 .5rem;
 		background-color: #03f;
 	}

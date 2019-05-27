@@ -20,16 +20,18 @@ body {
 	font-size: 1rem;
 }
 
-div, input, button, textarea, svg,
+div, input, button, textarea, svg, svg *,
 span, a, p, q, b, i, label,
 h1, h2, h3, h4, h5, h6 {
-	margin: 0;
-	padding: 0;
 	background: none;
 	border: none;
 	outline: none;
 	box-sizing: border-box;
 	transition: all cubic-bezier(.22,.61,.36,1) 200ms;
+}
+
+span, a, q, p, i, b, label,
+input, textarea, button {
 	font-size: 1rem;
 }
 

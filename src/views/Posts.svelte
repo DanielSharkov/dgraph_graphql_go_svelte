@@ -165,7 +165,7 @@
 	}
 	.post .header {
 		display: flex;
-		margin-bottom: 2rem;
+		margin-bottom: 3rem;
 		flex: 1 1 100%;
 		justify-content: flex-start;
 		align-content: center;
@@ -188,7 +188,7 @@
 	.post .author .picture svg {
 		height: 1.5rem;
 		width: 1.5rem;
-		stroke-width: 2;
+		stroke-width: 4;
 		stroke: #000;
 	}
 	.post .author .display-name {
