@@ -200,6 +200,7 @@
 	}
 	.post .title input {
 		font-weight: inherit;
+		font-size: inherit;
 	}
 	.post .contents {
 		flex: 1 1 100%;

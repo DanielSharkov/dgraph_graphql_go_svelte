@@ -63,4 +63,18 @@ button {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	cursor: pointer;
+}
+
+.icon.small {
+	height: 1rem;
+	width: 1rem;
+}
+.icon {
+	height: 1.5rem;
+	width: 1.5rem;
+}
+.icon.large {
+	height: 2rem;
+	width: 2rem;
 }

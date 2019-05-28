@@ -174,10 +174,8 @@
 		flex: 0 0 auto;
 		align-items: center;
 		align-self: flex-start;
-		background: none;
 		border: solid 1px transparent;
 		border-radius: 4px;
-		cursor: pointer;
 	}
 	#user-profile #sessions .close-all-sessions {
 		margin: auto 0;
@@ -188,10 +186,6 @@
 	#user-profile #sessions .close-all-sessions:active,
 	#user-profile #sessions .close-all-sessions:focus {
 		opacity: 1;
-	}
-	#user-profile #sessions .close-session svg {
-		height: 14px;
-		width: 14px;
 	}
 	#user-profile #sessions .close-session:hover,
 	#user-profile #sessions .close-session:hover svg > *,
@@ -386,7 +380,7 @@
 							<button
 							class="close-session"
 							on:click={() => closeSession(key, index)}>
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 320 512">
+								<svg class="icon small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
 									<path fill="#000" d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"/>
 								</svg>
 							</button>
