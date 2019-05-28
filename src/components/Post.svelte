@@ -48,7 +48,7 @@
 			}`,
 			{
 				subjectID: id,
-				authorID: $sessionUser.key,
+				authorID: $sessionUser.id,
 				emotion: formReactData.emote,
 				message: formReactData.message,
 			},

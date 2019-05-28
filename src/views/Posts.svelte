@@ -110,10 +110,14 @@
 					creation
 					title
 					contents
+					author {
+						id
+						displayName
+					}
 				}
 			}`,
 			{
-				author: $sessionUser.key,
+				author: $sessionUser.id,
 				title: formPostData.title,
 				contents: formPostData.contents,
 			},
