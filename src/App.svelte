@@ -3,7 +3,12 @@
 	import ProfileView from './views/ViewProfile'
 	import PostsView from './views/Posts'
 	import SignInModal from './components/SignInModal'
-	import { sessionUser, isValidSession, modalViewer, ModalView } from './stores'
+	import {
+		sessionUser,
+		isValidSession,
+		modalViewer,
+		ModalView,
+	} from './stores'
 
 	const navigationViews = ['Posts', 'Users']
 	let currentView = 'Posts'
@@ -67,49 +72,65 @@
 	#sessionUser button {
 		display: flex;
 		margin: 0;
-		padding: .5rem 0;
+		padding: .5rem;
 		align-content: center;
 		align-items: center;
 		background: none;
 		border: none;
 		cursor: pointer;
-		flex: 1 1 100%;
+		flex: 1 1 auto;
 		border-radius: 4px;
+		border: solid 1px transparent;
 	}
-	#sessionUser button .picture {
-		margin-left: 1rem;
+	#sessionUser button:hover {
+		border-color: #03f;
+		background-color: rgba(0,40,255,.1);
 	}
-	#sessionUser button .picture svg {
-		height: 24px;
-		width: 24px;
-		stroke-width: 3;
-		stroke: #000;
-	}
-	#sessionUser button:hover .displayName,
-	#sessionUser button:active .displayName {
-		color: #03f;
-	}
-	#sessionUser button:hover .picture svg > *,
-	#sessionUser button:active .picture svg > * {
-		fill: #03f;
-		stroke: #03f;
-	}
-	#sessionUser.profile-view button:focus {
-		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
-	}
-	#sessionUser.profile-view button {
-		padding: .5rem 1rem;
+	#sessionUser button:active,
+	#sessionUser button:focus {
+		border-color: #03f;
 		background-color: #03f;
 	}
-	#sessionUser.profile-view button .displayName {
+	#sessionUser .user {
+		padding: .5rem 1rem;
+	}
+	#sessionUser button .picture {
+		display: flex;
+		margin-left: 1rem;
+		flex: 0 0 auto;
+		justify-content: center;
+		align-content: center;
+		align-items: center;
+	}
+	#sessionUser button svg {
+		height: 1.5rem;
+		width: 1.5rem;
+	}
+	#sessionUser button:hover svg > * {
+		stroke: #03f;
+	}
+	#sessionUser button:active svg > *,
+	#sessionUser button:focus svg > * {
+		stroke: #fff;
+	}
+	#sessionUser button:hover .displayName {
+		color: #03f;
+	}
+	#sessionUser button:active .displayName,
+	#sessionUser button:focus .displayName {
 		color: #fff;
 	}
-	#sessionUser.profile-view button .picture svg > * {
-		fill: #fff;
+	#sessionUser.profile-view .user {
+		background-color: #03f;
+	}
+	#sessionUser.profile-view .user .displayName {
+		color: #fff;
+	}
+	#sessionUser.profile-view .user .picture svg > * {
 		stroke: #fff;
 	}
 
-	#viewport {
+	#router-viewport {
 		display: block;
 		max-width: 960px;
 		margin: auto;
@@ -143,7 +164,7 @@
 		header {
 			padding: 1rem;
 		}
-		#viewport {
+		#router-viewport {
 			padding: 0 1rem 4rem 1rem;
 		}
 	}
@@ -171,6 +192,7 @@
 		</div>
 		<div id="sessionUser" class:profile-view={currentView === 'Profile'}>
 			<button
+			class="user"
 			on:click={() => {
 				if ($isValidSession) currentView = 'Profile'
 				else modalViewer.open(new ModalView('sign_in'))
@@ -183,16 +205,16 @@
 					{/if}
 				</span>
 				<div class="picture">
-					<svg xmlns="http://www.w3.org/2000/svg" viewbox=" 0 0 120 120" fill="none">
-						<path fill="#000" fill-rule="evenodd" d="M60 57a23 23 0 1 0 0-46 23 23 0 0 0 0 46zm0-4a19 19 0 1 0 0-38 19 19 0 0 0 0 38z" clip-rule="evenodd"/>
-						<path fill="#000" d="M40 73a21 21 0 0 0-21 21v13a2 2 0 1 1-4 0V94a25 25 0 0 1 25-25h40a25 25 0 0 1 25 25v13a2 2 0 1 1-4 0V94a21 21 0 0 0-21-21H40z"/>
+					<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none">
+						<path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
+						<circle cx="60" cy="34" r="21" stroke="#000" stroke-width=".4rem"/>
 					</svg>
 				</div>
 			</button>
 		</div>
 	</header>
 
-	<div id="viewport">
+	<div id="router-viewport">
 		{#if currentView === 'Users'}
 			<UsersView/>
 		{:else if currentView === 'Profile'}
