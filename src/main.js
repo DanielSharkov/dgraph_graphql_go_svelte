@@ -8,9 +8,19 @@ if (typeof(Storage) !== undefined) {
 	}
 
 	window.handleRequestError = function(err) {
-		// err.c = error code
-		// err.m = error message
-		alert(`${err.c}\n${err.m}`)
+		// err.data.errors.c = error code
+		// err.data.errors.m = error message
+		if (err === undefined) console.error(
+			'Unexpected error @ handleRequestError',
+		)
+		else if (err.data.errors !== undefined) alert(
+			`${err.data.errors.c}\n` +
+			`${err.data.errors.m}`,
+		)
+		else alert(
+			`${err.status}\n` +
+			`${err.data}`,
+		)
 	}
 
 	const app = new App({target: document.body})
