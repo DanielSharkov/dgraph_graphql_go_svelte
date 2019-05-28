@@ -7,10 +7,11 @@
 	} from '../stores'
 	import { api } from '../api'
 
-	export let id;
-	export let creation;
-	export let title;
-	export let contents;
+	export let id = ''
+	export let creation = new Date(0)
+	export let title = ''
+	export let contents = ''
+	export let reactions = []
 	export let author = {
 		id: '',
 		displayName: '',

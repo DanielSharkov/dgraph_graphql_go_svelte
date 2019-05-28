@@ -3,7 +3,7 @@
 	import { sessionUser, isValidSession, UserSession } from '../stores'
 	import { api } from '../api'
 
-	const postList = [];
+	const postList = []
 	let showCreatePost = false
 	const formPostData = {
 		title: '',
