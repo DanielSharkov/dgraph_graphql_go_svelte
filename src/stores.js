@@ -52,7 +52,7 @@ function initUserSession() {
 		},
 		reset: () => {
 			const nullSess = new UserSession()
-			window.localStorage.setItem('session', nullSess)
+			window.localStorage.setItem('session', nullSess.json())
 			return set(nullSess)
 		},
 		
