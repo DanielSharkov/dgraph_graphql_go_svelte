@@ -286,8 +286,8 @@
 		opacity: .25;
 		pointer-events: none;
 	}
-	#user-profile #personal-data .actions button:hover svg,
-	#user-profile #personal-data .actions button:active svg {
+	#user-profile #personal-data .actions button:hover svg > *,
+	#user-profile #personal-data .actions button:active svg > * {
 		stroke: #03f;
 	}
 	#user-profile #personal-data .actions button:not(:first-child) {
@@ -454,9 +454,9 @@
 	<div id="user-profile" class:is-editing-profile={isEditing}>
 		<section id="personal-data">
 			<div class="picture">
-				<svg xmlns="http://www.w3.org/2000/svg" viewbox=" 0 0 120 120" fill="none">
-					<path fill="#000" fill-rule="evenodd" d="M60 57a23 23 0 1 0 0-46 23 23 0 0 0 0 46zm0-4a19 19 0 1 0 0-38 19 19 0 0 0 0 38z" clip-rule="evenodd"/>
-					<path fill="#000" d="M40 73a21 21 0 0 0-21 21v13a2 2 0 1 1-4 0V94a25 25 0 0 1 25-25h40a25 25 0 0 1 25 25v13a2 2 0 1 1-4 0V94a21 21 0 0 0-21-21H40z"/>
+				<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
+					<circle cx="60" cy="34" r="21" stroke-width=".25rem"/>
 				</svg>
 			</div>
 			<h1 class="display-name">
@@ -495,7 +495,7 @@
 				<div class="actions">
 					<button class="cancel-edit" on:click={cancelEdit}>
 						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#000">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".6rem" d="M35 99l64-64m0 64L35 35"/>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M35 99l64-64m0 64L35 35"/>
 						</svg>
 					</button>
 					<button
@@ -503,7 +503,7 @@
 					on:click={saveEdit}
 					disabled={!emailChanged && !isValidPass}>
 						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".6rem" d="M18 69l24 23 64-63"/>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M18 69l24 23 64-63"/>
 						</svg>
 					</button>
 				</div>

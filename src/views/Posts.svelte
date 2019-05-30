@@ -189,12 +189,6 @@
 		justify-content: center;
 		align-items: center;
 	}
-	.post .author .picture svg {
-		height: 1.5rem;
-		width: 1.5rem;
-		stroke-width: 4;
-		stroke: #000;
-	}
 	.post .author .display-name {
 		flex: 1 1 auto;
 	}
@@ -280,9 +274,9 @@
 		<div class="header">
 			<div class="author">
 				<div class="picture">
-					<svg xmlns="http://www.w3.org/2000/svg" viewbox=" 0 0 120 120" fill="none">
-						<path fill="#000" fill-rule="evenodd" d="M60 57a23 23 0 1 0 0-46 23 23 0 0 0 0 46zm0-4a19 19 0 1 0 0-38 19 19 0 0 0 0 38z" clip-rule="evenodd"/>
-						<path fill="#000" d="M40 73a21 21 0 0 0-21 21v13a2 2 0 1 1-4 0V94a25 25 0 0 1 25-25h40a25 25 0 0 1 25 25v13a2 2 0 1 1-4 0V94a21 21 0 0 0-21-21H40z"/>
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
+						<circle cx="60" cy="34" r="21" stroke-width=".5rem"/>
 					</svg>
 				</div>
 				<span class="display-name">

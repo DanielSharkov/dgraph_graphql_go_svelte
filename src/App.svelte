@@ -201,9 +201,9 @@
 					{/if}
 				</span>
 				<div class="picture">
-					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none">
-						<path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
-						<circle cx="60" cy="34" r="21" stroke="#000" stroke-width=".4rem"/>
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
+						<circle cx="60" cy="34" r="21" stroke-width=".5rem"/>
 					</svg>
 				</div>
 			</button>

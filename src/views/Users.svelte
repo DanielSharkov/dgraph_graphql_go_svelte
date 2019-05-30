@@ -100,9 +100,9 @@
 		{:else}
 			<div class="user">
 				<div class="picture">
-					<svg xmlns="http://www.w3.org/2000/svg" viewbox=" 0 0 120 120" fill="none">
-						<path fill="#000" fill-rule="evenodd" d="M60 57a23 23 0 1 0 0-46 23 23 0 0 0 0 46zm0-4a19 19 0 1 0 0-38 19 19 0 0 0 0 38z" clip-rule="evenodd"/>
-						<path fill="#000" d="M40 73a21 21 0 0 0-21 21v13a2 2 0 1 1-4 0V94a25 25 0 0 1 25-25h40a25 25 0 0 1 25 25v13a2 2 0 1 1-4 0V94a21 21 0 0 0-21-21H40z"/>
+					<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
+						<circle cx="60" cy="34" r="21" stroke-width=".25rem"/>
 					</svg>
 				</div>
 				<span class="displayName">
