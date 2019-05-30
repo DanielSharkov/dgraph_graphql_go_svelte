@@ -1,9 +1,9 @@
 <script>
-	import { isValidSession, sessionUser } from '../stores'
+	import { isValidSession, sessionUser, UserSession } from '../stores'
 	import { api } from './../api'
 
-	// Semicolon needed because otherwise javascript
-	// would try to assign it as a function
+	let isEditing = false
+
 	const user = {
 		displayName: '',
 		sessions: [],
@@ -11,6 +11,17 @@
 		email: '',
 		posts: [],
 		reactions: [],
+	}
+
+	$:passChanged = profileEdit.newPass !== ''
+	$:isValidPass = profileEdit.newPass.length > 5
+	$:emailChanged = profileEdit.newEmail !== $sessionUser.email
+
+	// Semicolon needed because otherwise javascript
+	// would try to assign it as a function
+	const profileEdit = {
+		newEmail: $sessionUser.email,
+		newPass: '',
 	};
 
 	(async function() {
@@ -66,10 +77,11 @@
 			{id: $sessionUser.id},
 		)
 
-		user.displayName = resp.user.displayName
+		profileEdit.displayName = user.displayName = resp.user.displayName
+		profileEdit.newEmail = user.email = resp.user.email
+		user.id = resp.user.id
 		user.sessions = resp.user.sessions
 		user.creation = resp.user.creation
-		user.email = resp.user.email
 		user.posts = resp.user.posts
 		user.reactions = resp.user.publishedReactions
 	}())
@@ -104,6 +116,56 @@
 
 		if (resp.closeAllSession) sessionUser.reset()
 	}
+
+	function cancelEdit() {
+		profileEdit.newPass = ''
+		profileEdit.newEmail = $sessionUser.email
+		isEditing = false
+	}
+
+	async function saveEdit() {
+		if (!emailChanged && !isValidPass) return
+
+		let vars = {
+			user: $sessionUser.id,
+			editor: $sessionUser.id,
+		}
+
+		if (emailChanged) vars['newEmail'] = profileEdit.newEmail
+		if (passChanged) vars['newPass'] = profileEdit.newPass
+
+		const resp = await api.Query(
+			`mutation (
+				$user: Identifier!
+				$editor: Identifier!
+				${emailChanged ? '$newEmail: String':''}
+				${passChanged ? '$newPass: String':''}
+			) {
+				editUser(
+					user: $user
+					editor: $editor
+					${emailChanged ? 'newEmail: $newEmail':''}
+					${passChanged ? 'newPassword: $newPass':''}
+				) {
+					displayName
+					email
+				}
+			}`,
+			vars,
+		)
+
+		profileEdit.newPass = ''
+		profileEdit.newEmail = resp.editUser.email
+		let oldData = $sessionUser
+		sessionUser.set(new UserSession(
+			oldData.key,
+			oldData.id,
+			resp.editUser.email,
+			oldData.displayName,
+			oldData.creation,
+		))
+		isEditing = false
+	}
 </script>
 
 
@@ -114,6 +176,10 @@
 		margin-bottom: 4rem;
 		flex-flow: row wrap;
 		align-items: center;
+	}
+	#user-profile.is-editing-profile section:not(#personal-data) {
+		pointer-events: none;
+		opacity: .25;
 	}
 	#user-profile section h4 {
 		flex: 1 0 auto;
@@ -139,20 +205,46 @@
 		width: 5rem;
 	}
 	#user-profile #personal-data .display-name {
-		text-align: center;
-		flex: 1 1 100%;
-	}
-	#user-profile #personal-data .email {
-		position: relative;
-		top: -1.25rem;
 		margin-bottom: 0;
+	}
+	#user-profile #personal-data .display-name,
+	#user-profile #personal-data .email,
+	#user-profile #personal-data .new-pass {
 		flex: 1 1 100%;
 		text-align: center;
+	}
+	#user-profile #personal-data input {
+		margin-bottom: .5rem;
+		padding: .5rem;
+		font-size: inherit;
+		font-weight: inherit;
+		text-align: center;
+		border-radius: 4px;
+		border: solid 1px transparent;
+	}
+	#user-profile #personal-data input:hover,
+	#user-profile.is-editing-profile #personal-data input {
+		border-color: rgba(0,0,0,.1);
+	}
+	#user-profile.is-editing-profile #personal-data input:hover {
+		border-color: #000;
+	}
+	#user-profile.is-editing-profile #personal-data input:active,
+	#user-profile.is-editing-profile #personal-data input:focus {
+		border-color: #03f;
+		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
+	}
+	#user-profile #personal-data .new-pass.not-set input:not(active):not(:focus)::placeholder {
+		color: #03f;
+	}
+	#user-profile #personal-data .new-pass.not-set:hover:not(active):not(:focus) {
+		text-decoration: underline;
+	}
+	#user-profile #personal-data .new-pass.not-set input:not(:hover):not(:active):not(:focus) {
+		border-color: transparent;
 	}
 	#user-profile #personal-data .id {
-		position: relative;
-		top: -1rem;
-		margin-bottom: 0;
+		margin: .5rem 0;
 		opacity: .15;
 		font-size: .5rem;
 		letter-spacing: 1px;
@@ -161,14 +253,17 @@
 		flex: 1 1 100%;
 		text-align: center;
 		text-transform: uppercase;
+		cursor: default;
 	}
 	#user-profile #personal-data .id:hover {
 		opacity: 1;
 	}
 	#user-profile #personal-data .creation {
+		margin-top: 1rem;
 		flex: 1 1 100%;
 		text-align: center;
 		font-size: .75rem;
+		opacity: .5;
 	}
 	#user-profile #personal-data .actions {
 		position: absolute;
@@ -187,9 +282,16 @@
 		flex: 0 0 auto;
 		justify-content: center;
 	}
+	#user-profile #personal-data .actions button[disabled] {
+		opacity: .25;
+		pointer-events: none;
+	}
 	#user-profile #personal-data .actions button:hover svg,
 	#user-profile #personal-data .actions button:active svg {
 		stroke: #03f;
+	}
+	#user-profile #personal-data .actions button:not(:first-child) {
+		margin-left: .5rem;
 	}
 
 	#user-profile #sessions .close-session,
@@ -349,7 +451,7 @@
 
 
 {#if $isValidSession}
-	<div id="user-profile">
+	<div id="user-profile" class:is-editing-profile={isEditing}>
 		<section id="personal-data">
 			<div class="picture">
 				<svg xmlns="http://www.w3.org/2000/svg" viewbox=" 0 0 120 120" fill="none">
@@ -357,8 +459,28 @@
 					<path fill="#000" d="M40 73a21 21 0 0 0-21 21v13a2 2 0 1 1-4 0V94a25 25 0 0 1 25-25h40a25 25 0 0 1 25 25v13a2 2 0 1 1-4 0V94a21 21 0 0 0-21-21H40z"/>
 				</svg>
 			</div>
-			<h1 class="display-name">{user.displayName}</h1>
-			<span class="email">{user.email}</span>
+			<h1 class="display-name">
+				{profileEdit.displayName}
+			</h1>
+			<span class="email">
+				<input
+					placeholder="email"
+					type="email"
+					bind:value={profileEdit.newEmail}
+					readonly={!isEditing}
+					on:click={() => isEditing = true}
+				/>
+			</span>
+			<span
+			class="new-pass"
+			class:hidden={!isEditing}
+			class:not-set={!passChanged}>
+				<input
+					placeholder="New password"
+					type="password"
+					bind:value={profileEdit.newPass}
+				/>
+			</span>
 			<span class="id">{$sessionUser.id}</span>
 
 			<p class="creation">Joined on {
@@ -369,13 +491,36 @@
 					day: 'numeric',
 				})
 			}</p>
-			<div class="actions">
-				<button class="signout" on:click={() => closeSession($sessionUser.key)}>
-					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none">
-						<path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
-					</svg>
-				</button>
-			</div>
+			{#if isEditing}
+				<div class="actions">
+					<button class="cancel-edit" on:click={cancelEdit}>
+						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#000">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".6rem" d="M35 99l64-64m0 64L35 35"/>
+						</svg>
+					</button>
+					<button
+					class="save-edit"
+					on:click={saveEdit}
+					disabled={!emailChanged && !isValidPass}>
+						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".6rem" d="M18 69l24 23 64-63"/>
+						</svg>
+					</button>
+				</div>
+			{:else}
+				<div class="actions">
+					<button class="signout" on:click={() => closeSession($sessionUser.key)}>
+						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
+						</svg>
+					</button>
+					<button class="edit-acc" on:click={() => isEditing = !isEditing}>
+						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M84 24L16 92l-6 18 18-6 68-68M84 24l12 12M84 24l10-10 12 12-10 10"/>
+						</svg>
+					</button>
+				</div>
+			{/if}
 		</section>
 
 		<section id="sessions">

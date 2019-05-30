@@ -21,7 +21,7 @@ body {
 }
 
 div, input, button, textarea, svg, svg *,
-span, a, p, q, b, i, label,
+span, a, p, q, b, i, label, section,
 h1, h2, h3, h4, h5, h6 {
 	background: none;
 	border: none;
