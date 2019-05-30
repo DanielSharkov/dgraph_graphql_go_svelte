@@ -11,15 +11,17 @@ if (typeof(Storage) !== undefined) {
 		// err.data.errors.c = error code
 		// err.data.errors.m = error message
 		if (err === undefined) console.error(
-			'Unexpected error @ handleRequestError',
+			'DEBUG\nUnexpected error @ handleRequestError',
 		)
 		else if (err.data.errors !== undefined) alert(
-			`${err.data.errors.c}\n` +
-			`${err.data.errors.m}`,
+			'DEBUG\n' +
+			`Err code: ${err.data.errors.c}\n` +
+			`Err msg: ${err.data.errors.m}`,
 		)
 		else alert(
-			`${err.status}\n` +
-			`${err.data}`,
+			'DEBUG\n' +
+			`Req. status: ${err.status}\n` +
+			`Req. data: ${err.data}`,
 		)
 	}
 
