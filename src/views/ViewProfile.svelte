@@ -86,9 +86,11 @@
 			// When closing current session reset the session
 			if (sessionKey === $sessionUser.key) sessionUser.reset()
 
-			user.sessions.splice(index, 1)
-			// Reactivate sessions list
-			user.sessions = user.sessions
+			if (index !== undefined) {
+				user.sessions.splice(index, 1)
+				// Reactivate sessions list
+				user.sessions = user.sessions
+			}
 		}
 	}
 
@@ -118,6 +120,9 @@
 	}
 	#user-profile section .entries {
 		flex: 1 1 100%;
+	}
+	#user-profile #personal-data {
+		position: relative;
 	}
 	#user-profile #personal-data .picture {
 		display: flex;
@@ -164,6 +169,27 @@
 		flex: 1 1 100%;
 		text-align: center;
 		font-size: .75rem;
+	}
+	#user-profile #personal-data .actions {
+		position: absolute;
+		top: 0;
+		right: 0;
+		display: flex;
+	}
+	#user-profile #personal-data .actions button {
+		position: relative;
+		display: flex;
+		margin: 0;
+		padding: .5rem;
+		border: solid 1px transparent;
+		border-radius: 4px;
+		align-items: center;
+		flex: 0 0 auto;
+		justify-content: center;
+	}
+	#user-profile #personal-data .actions button:hover svg,
+	#user-profile #personal-data .actions button:active svg {
+		stroke: #03f;
 	}
 
 	#user-profile #sessions .close-session,
@@ -343,6 +369,13 @@
 					day: 'numeric',
 				})
 			}</p>
+			<div class="actions">
+				<button class="signout" on:click={() => closeSession($sessionUser.key)}>
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none">
+						<path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
+					</svg>
+				</button>
+			</div>
 		</section>
 
 		<section id="sessions">
