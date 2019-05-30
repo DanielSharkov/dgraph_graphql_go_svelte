@@ -48,7 +48,7 @@
 			))
 			modalViewer.close()
 		} catch(err) {
-			inputError = err.response.data.error.m
+			inputError = err.response.data.errors.m
 		}
 	}
 
@@ -78,7 +78,7 @@
 			)
 			SignIn()
 		} catch(err) {
-			inputError = err.response.data.error.m
+			inputError = err.response.data.errors.m
 		}
 	}
 
@@ -93,6 +93,11 @@
 			formData.password !== ''
 	}
 	validateInput()
+
+	function handleAction() {
+		if (isSigningUp) SignUp()
+		else SignIn()
+	}
 </script>
 
 
@@ -104,7 +109,7 @@
 		flex: 0 1 500px;
 	}
 	.modal.signin h1 {
-		margin: 0 0 2rem 0;
+		margin: 0 0 1rem 0;
 		text-align: center;
 		flex: 1 1 100%;
 	}
@@ -118,6 +123,7 @@
 	}
 	.modal.signin .form .input-error {
 		color: #f05;
+		margin: 0 auto 1rem auto;
 	}
 	.modal.signin .form input {
 		margin: 0 0 2rem 0;
@@ -180,20 +186,23 @@
 
 <div class="modal signin" class:show-sign-up-panel={isSigningUp}>
 	<h1>
-		{#if isSigningUp}Sign up{:else}Sign in{/if}
+		{#if isSigningUp}
+			Sign up
+		{:else}
+			Sign in
+		{/if}
 	</h1>
 	<div class="form">
-		{#if inputError !== ''}
-			<p class="input-error">{inputError}</p>
-		{/if}
-		{#if isSigningUp}
-			<input
-				on:input={() => validateInput()}
-				placeholder="Name"
-				type="text"
-				bind:value={formData.displayName}
-			/>
-		{/if}
+		<p class="input-error" class:invisible={inputError === ''}>
+			{inputError}
+		</p>
+		<input
+			class:hidden={!isSigningUp}
+			on:input={() => validateInput()}
+			placeholder="Name"
+			type="text"
+			bind:value={formData.displayName}
+		/>
 		<input
 			on:input={() => validateInput()}
 			placeholder="Email"
@@ -219,7 +228,7 @@
 		<button
 		class="primary"
 		disabled={!isValidInput}
-		on:click={isSigningUp ? SignUp : SignIn}>
+		on:click={handleAction}>
 			{#if isSigningUp}
 				Sign up
 			{:else}

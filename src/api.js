@@ -33,6 +33,7 @@ export function API(hostUrl, graphEndpoint) {
 				return resp.data.data
 			} catch(err) {
 				window.handleRequestError(err.response)
+				throw err
 			}
 		}}
 	})
