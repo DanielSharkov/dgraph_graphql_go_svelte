@@ -243,21 +243,6 @@
 	#user-profile #personal-data .new-pass.not-set input:not(:hover):not(:active):not(:focus) {
 		border-color: transparent;
 	}
-	#user-profile #personal-data .id {
-		margin: .5rem 0;
-		opacity: .15;
-		font-size: .5rem;
-		letter-spacing: 1px;
-		font-weight: 100;
-		font-family: monospace;
-		flex: 1 1 100%;
-		text-align: center;
-		text-transform: uppercase;
-		cursor: default;
-	}
-	#user-profile #personal-data .id:hover {
-		opacity: 1;
-	}
 	#user-profile #personal-data .creation {
 		margin-top: 1rem;
 		flex: 1 1 100%;
@@ -481,7 +466,6 @@
 					bind:value={profileEdit.newPass}
 				/>
 			</span>
-			<span class="id">{$sessionUser.id}</span>
 
 			<p class="creation">Joined on {
 				new Date(user.creation).toLocaleDateString('en-US', {
