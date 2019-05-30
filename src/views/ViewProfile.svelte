@@ -184,6 +184,9 @@
 	#user-profile section h4 {
 		flex: 1 0 auto;
 	}
+	#user-profile section .placeholder {
+		opacity: .25;
+	}
 	#user-profile section .entries {
 		flex: 1 1 100%;
 	}
@@ -555,39 +558,51 @@
 		<section id="posts">
 			<h4>Published posts</h4>
 			<div class="entries">
-				{#each user.posts as {id, creation, title}}
-					<div class="post" post-id={id}>
-						<h3 class="title">{title}</h3>
-						<span class="creation">{
-							new Date(creation).toLocaleDateString('en-US', {
-								weekday: 'long',
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-							})
-						}</span>
-					</div>
-				{/each}
+				{#if user.posts.length < 1}
+					<span class="placeholder">
+						No posts puiblished
+					</span>
+				{:else}
+					{#each user.posts as {id, creation, title}}
+						<div class="post" post-id={id}>
+							<h3 class="title">{title}</h3>
+							<span class="creation">{
+								new Date(creation).toLocaleDateString('en-US', {
+									weekday: 'long',
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric',
+								})
+							}</span>
+						</div>
+					{/each}
+				{/if}
 			</div>
 		</section>
 
 		<section id="reactions">
 			<h4>Published reactions</h4>
 			<div class="entries">
-				{#each user.reactions as {
-					id,
-					creation,
-					author,
-					emotion,
-					message,
-				}}
-					<li class="reaction">
-						<span>{id}</span>
-						<span>{creation}</span>
-						<span>{emotion}</span>
-						<span>{message}</span>
-					</li>
-				{/each}
+				{#if user.reactions.length < 1}
+					<span class="placeholder">
+						No reactions published
+					</span>
+				{:else}
+					{#each user.reactions as {
+						id,
+						creation,
+						author,
+						emotion,
+						message,
+					}}
+						<li class="reaction">
+							<span>{id}</span>
+							<span>{creation}</span>
+							<span>{emotion}</span>
+							<span>{message}</span>
+						</li>
+					{/each}
+				{/if}
 			</div>
 		</section>
 	</div>
