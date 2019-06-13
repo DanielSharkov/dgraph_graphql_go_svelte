@@ -17,6 +17,7 @@ module.exports = {
 		chunkFilename: '[name].[id].js'
 	},
 	devServer: {
+		historyApiFallback: true,
 		disableHostCheck: true,
 		watchContentBase: true,
 		host: '0.0.0.0',
@@ -32,7 +33,6 @@ module.exports = {
 		rules: [
 			{
 				test: /\.svelte$/,
-				exclude: /node_modules/,
 				use: {
 					loader: 'svelte-loader',
 					options: {

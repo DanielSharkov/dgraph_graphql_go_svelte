@@ -1,7 +1,7 @@
 <script>
-	import UsersView from './views/Users'
-	import ProfileView from './views/ViewProfile'
-	import PostsView from './views/Posts'
+	import { RouterViewport } from '@danielsharkov/svelte-router'
+	import router from './router'
+	
 	import SignInModal from './components/SignInModal'
 	import {
 		sessionUser,
@@ -10,8 +10,10 @@
 		ModalView,
 	} from './stores'
 
-	const navigationViews = ['Posts', 'Users']
-	let currentView = 'Posts'
+	function sessionUserAction() {
+		if ($isValidSession) router.push('profile')
+		else modalViewer.open(new ModalView('sign_in'))
+	}
 </script>
 
 
@@ -178,21 +180,22 @@
 <div id="app">
 	<header>
 		<div id="navigation">
-			{#each navigationViews as view}
-				<button
-				class:active={currentView === view}
-				on:click={() => currentView = {view}.view}>
-					{view}
-				</button>
+			{#each $router.routes as route}
+				{#if route.metadata && route.metadata.nav}
+					<button
+					class:active={$router.route.name === route.name}
+					on:click={() => router.push(route.name)}>
+						{route.metadata.nav.displayName}
+					</button>
+				{/if}
 			{/each}
 		</div>
-		<div id="sessionUser" class:profile-view={currentView === 'Profile'}>
+		<div
+		id="sessionUser"
+		class:profile-view={$router.route.name === 'profile'}>
 			<button
 			class="user"
-			on:click={() => {
-				if ($isValidSession) currentView = 'Profile'
-				else modalViewer.open(new ModalView('sign_in'))
-			}}>
+			on:click={sessionUserAction}>
 				<span class="displayName">
 					{#if $isValidSession}
 						{$sessionUser.displayName}
@@ -211,12 +214,6 @@
 	</header>
 
 	<div id="router-viewport">
-		{#if currentView === 'Users'}
-			<UsersView/>
-		{:else if currentView === 'Profile'}
-			<ProfileView/>
-		{:else if currentView === 'Posts'}
-			<PostsView/>
-		{/if}
+		<RouterViewport {router}/>
 	</div>
 </div>

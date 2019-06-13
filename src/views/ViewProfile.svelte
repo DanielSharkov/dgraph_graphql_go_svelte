@@ -168,6 +168,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{user.displayName}</title>
+</svelte:head>
+
 
 
 <style>
@@ -438,174 +442,170 @@
 
 
 
-{#if $isValidSession}
-	<div id="user-profile" class:is-editing-profile={isEditing}>
-		<section id="personal-data">
-			<div class="picture">
-				<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
-					<circle cx="60" cy="34" r="21" stroke-width=".25rem"/>
-				</svg>
+<div id="user-profile" class:is-editing-profile={isEditing}>
+	<section id="personal-data">
+		<div class="picture">
+			<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
+				<circle cx="60" cy="34" r="21" stroke-width=".25rem"/>
+			</svg>
+		</div>
+		<h1 class="display-name">
+			{profileEdit.displayName}
+		</h1>
+		<span class="email">
+			<input
+				placeholder="email"
+				type="email"
+				bind:value={profileEdit.newEmail}
+				readonly={!isEditing}
+				on:click={() => isEditing = true}
+			/>
+		</span>
+		<span
+		class="new-pass"
+		class:hidden={!isEditing}
+		class:not-set={!passChanged}>
+			<input
+				placeholder="New password"
+				type="password"
+				bind:value={profileEdit.newPass}
+			/>
+		</span>
+
+		<p class="creation">Joined on {
+			new Date(user.creation).toLocaleDateString('en-US', {
+				weekday: 'long',
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+			})
+		}</p>
+		{#if isEditing}
+			<div class="actions">
+				<button class="cancel-edit" on:click={cancelEdit}>
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#000">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M35 99l64-64m0 64L35 35"/>
+					</svg>
+				</button>
+				<button
+				class="save-edit"
+				on:click={saveEdit}
+				disabled={!emailChanged && !isValidPass}>
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M18 69l24 23 64-63"/>
+					</svg>
+				</button>
 			</div>
-			<h1 class="display-name">
-				{profileEdit.displayName}
-			</h1>
-			<span class="email">
-				<input
-					placeholder="email"
-					type="email"
-					bind:value={profileEdit.newEmail}
-					readonly={!isEditing}
-					on:click={() => isEditing = true}
-				/>
-			</span>
-			<span
-			class="new-pass"
-			class:hidden={!isEditing}
-			class:not-set={!passChanged}>
-				<input
-					placeholder="New password"
-					type="password"
-					bind:value={profileEdit.newPass}
-				/>
-			</span>
+		{:else}
+			<div class="actions">
+				<button class="signout" on:click={() => closeSession($sessionUser.key)}>
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
+					</svg>
+				</button>
+				<button class="edit-acc" on:click={() => isEditing = !isEditing}>
+					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M84 24L16 92l-6 18 18-6 68-68M84 24l12 12M84 24l10-10 12 12-10 10"/>
+					</svg>
+				</button>
+			</div>
+		{/if}
+	</section>
 
-			<p class="creation">Joined on {
-				new Date(user.creation).toLocaleDateString('en-US', {
-					weekday: 'long',
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric',
-				})
-			}</p>
-			{#if isEditing}
-				<div class="actions">
-					<button class="cancel-edit" on:click={cancelEdit}>
-						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#000">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M35 99l64-64m0 64L35 35"/>
+	<section id="sessions">
+		<h4>Open sessions</h4>
+		<button class="close-all-sessions" on:click={closeAllSessions}>
+			Close all sessions
+		</button>
+		<div class="entries">
+			{#each user.sessions as {key, creation}, index}
+				<div
+				class="session"
+				class:current={key === $sessionUser.key}>
+					<div class="device-icon">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+							<path fill="#000" d="M60 80a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+							<path fill="#000" fill-rule="evenodd" d="M14 11h92a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H63.6l5.3 17H83a2 2 0 1 1 0 4H37a2 2 0 1 1 0-4h14l5.4-17H14a8 8 0 0 1-8-8V19a8 8 0 0 1 8-8zm44 85.5h4l2.7 9.5h-9.4l2.7-9.5zM14 15a4 4 0 0 0-4 4v62a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V19a4 4 0 0 0-4-4H14z" clip-rule="evenodd"/>
 						</svg>
-					</button>
-					<button
-					class="save-edit"
-					on:click={saveEdit}
-					disabled={!emailChanged && !isValidPass}>
-						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M18 69l24 23 64-63"/>
-						</svg>
-					</button>
-				</div>
-			{:else}
-				<div class="actions">
-					<button class="signout" on:click={() => closeSession($sessionUser.key)}>
-						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
-						</svg>
-					</button>
-					<button class="edit-acc" on:click={() => isEditing = !isEditing}>
-						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M84 24L16 92l-6 18 18-6 68-68M84 24l12 12M84 24l10-10 12 12-10 10"/>
-						</svg>
-					</button>
-				</div>
-			{/if}
-		</section>
-
-		<section id="sessions">
-			<h4>Open sessions</h4>
-			<button class="close-all-sessions" on:click={closeAllSessions}>
-				Close all sessions
-			</button>
-			<div class="entries">
-				{#each user.sessions as {key, creation}, index}
-					<div
-					class="session"
-					class:current={key === $sessionUser.key}>
-						<div class="device-icon">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
-								<path fill="#000" d="M60 80a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-								<path fill="#000" fill-rule="evenodd" d="M14 11h92a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H63.6l5.3 17H83a2 2 0 1 1 0 4H37a2 2 0 1 1 0-4h14l5.4-17H14a8 8 0 0 1-8-8V19a8 8 0 0 1 8-8zm44 85.5h4l2.7 9.5h-9.4l2.7-9.5zM14 15a4 4 0 0 0-4 4v62a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V19a4 4 0 0 0-4-4H14z" clip-rule="evenodd"/>
+					</div>
+					<div class="content">
+						<span class="device-name">Here device name</span>
+						{#if key === $sessionUser.key}
+							<span class="current-label">This session</span>
+						{/if}
+						<span class="creation">{
+							new Date(creation).toLocaleDateString('en-US', {
+								weekday: 'long',
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+								minute: '2-digit',
+								hour: '2-digit',
+								hour12: false,
+							})
+						}</span>
+						<button
+						class="close-session"
+						on:click={() => closeSession(key, index)}>
+							<svg class="icon small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+								<path fill="#000" d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"/>
 							</svg>
-						</div>
-						<div class="content">
-							<span class="device-name">Here device name</span>
-							{#if key === $sessionUser.key}
-								<span class="current-label">This session</span>
-							{/if}
-							<span class="creation">{
-								new Date(creation).toLocaleDateString('en-US', {
-									weekday: 'long',
-									year: 'numeric',
-									month: 'long',
-									day: 'numeric',
-									minute: '2-digit',
-									hour: '2-digit',
-									hour12: false,
-								})
-							}</span>
-							<button
-							class="close-session"
-							on:click={() => closeSession(key, index)}>
-								<svg class="icon small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-									<path fill="#000" d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"/>
-								</svg>
-							</button>
-						</div>
+						</button>
+					</div>
+				</div>
+			{/each}
+		</div>
+	</section>
+
+	<section id="posts">
+		<h4>Published posts</h4>
+		<div class="entries">
+			{#if user.posts.length < 1}
+				<span class="placeholder">
+					No posts puiblished
+				</span>
+			{:else}
+				{#each user.posts as {id, creation, title}}
+					<div class="post" post-id={id}>
+						<h3 class="title">{title}</h3>
+						<span class="creation">{
+							new Date(creation).toLocaleDateString('en-US', {
+								weekday: 'long',
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})
+						}</span>
 					</div>
 				{/each}
-			</div>
-		</section>
+			{/if}
+		</div>
+	</section>
 
-		<section id="posts">
-			<h4>Published posts</h4>
-			<div class="entries">
-				{#if user.posts.length < 1}
-					<span class="placeholder">
-						No posts puiblished
-					</span>
-				{:else}
-					{#each user.posts as {id, creation, title}}
-						<div class="post" post-id={id}>
-							<h3 class="title">{title}</h3>
-							<span class="creation">{
-								new Date(creation).toLocaleDateString('en-US', {
-									weekday: 'long',
-									year: 'numeric',
-									month: 'long',
-									day: 'numeric',
-								})
-							}</span>
-						</div>
-					{/each}
-				{/if}
-			</div>
-		</section>
-
-		<section id="reactions">
-			<h4>Published reactions</h4>
-			<div class="entries">
-				{#if user.reactions.length < 1}
-					<span class="placeholder">
-						No reactions published
-					</span>
-				{:else}
-					{#each user.reactions as {
-						id,
-						creation,
-						author,
-						emotion,
-						message,
-					}}
-						<li class="reaction">
-							<span>{id}</span>
-							<span>{creation}</span>
-							<span>{emotion}</span>
-							<span>{message}</span>
-						</li>
-					{/each}
-				{/if}
-			</div>
-		</section>
-	</div>
-{:else}
-	<h3 class="view-title">Not signed in</h3>
-{/if}
+	<section id="reactions">
+		<h4>Published reactions</h4>
+		<div class="entries">
+			{#if user.reactions.length < 1}
+				<span class="placeholder">
+					No reactions published
+				</span>
+			{:else}
+				{#each user.reactions as {
+					id,
+					creation,
+					author,
+					emotion,
+					message,
+				}}
+					<li class="reaction">
+						<span>{id}</span>
+						<span>{creation}</span>
+						<span>{emotion}</span>
+						<span>{message}</span>
+					</li>
+				{/each}
+			{/if}
+		</div>
+	</section>
+</div>
