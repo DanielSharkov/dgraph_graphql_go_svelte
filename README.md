@@ -1,9 +1,9 @@
 # [Progressive Web App](https://developers.google.com/web/progressive-web-apps) in [Svelte](https://svelte.dev)
 A frontend implementation for [romshark/dgraph_graphql_go](https://github.com/romshark/dgraph_graphql_go)
 
-- [x] Svelte
-- [x] Dgraph-GraphQL-Go API
-- [ ] SPA (Routing)
+- [x] [Svelte](https://svelte.dev)
+- [x] [Dgraph-GraphQL-Go API](https://github.com/romshark/dgraph_graphql_go)
+- [x] [SPA (Routing)](https://github.com/DanielSharkov/svelte-router)
 - [ ] CSS Preprocessor
 - [ ] PWA
 - [ ] GraphQL Caching
