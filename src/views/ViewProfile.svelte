@@ -1,8 +1,11 @@
 <script>
 	import { isValidSession, sessionUser, UserSession } from '../stores'
 	import { api } from './../api'
+	import router from '../router'
 
 	let isEditing = false
+
+	export let params;
 
 	const user = {
 		displayName: '',
@@ -13,90 +16,95 @@
 		reactions: [],
 	}
 
+	$:isSignedInUser = $sessionUser.id == params.id
 	$:passChanged = profileEdit.newPass !== ''
 	$:isValidPass = profileEdit.newPass.length > 5
 	$:emailChanged = profileEdit.newEmail !== $sessionUser.email
 
-	// Semicolon needed because otherwise javascript
-	// would try to assign it as a function
 	const profileEdit = {
 		newEmail: $sessionUser.email,
 		newPass: '',
-	};
+	}
 
-	(async function() {
-		if (!$isValidSession) return
-
-		const resp = await api.Query(
-			`query (
-				$id: Identifier!
-			) {
-				user(id: $id) {
+	async function fetchUser() {
+		let query = `
+			query ($uid: Identifier!) {
+				user(id: $uid) {
 					id
 					displayName
-					email
 					creation
-					sessions {
-						key
-						creation
-					}
 					posts {
 						id
-						creation
 						title
+						creation
 					}
 					publishedReactions {
 						id
-						creation
 						emotion
 						message
-						reactions {
-							id
-							creation
-							author {
-								id
-								displayName
-							}
-							emotion
-							message
-							subject {
-								__typename
-								... on Post {
-									id
-									title
-								}
-								... on Reaction {
-									id
-									emotion
-								}
-							}
-						}
+						creation
 					}
 				}
-			}`,
-			{id: $sessionUser.id},
-		)
+			}`
+		if ($isValidSession && $sessionUser.id == params.id) {
+			query = `
+				query ($uid: Identifier!) {
+					user(id: $uid) {
+						id
+						email
+						displayName
+						creation
+						sessions {
+							key
+							creation
+						}
+						posts {
+							id
+							title
+							creation
+						}
+						publishedReactions {
+							id
+							emotion
+							message
+							creation
+						}
+					}
+				}`
+		}
+		const resp = await api.Query(query, {uid: params.id})
 
 		profileEdit.displayName = user.displayName = resp.user.displayName
-		profileEdit.newEmail = user.email = resp.user.email
 		user.id = resp.user.id
-		user.sessions = resp.user.sessions
 		user.creation = resp.user.creation
-		user.posts = resp.user.posts
-		user.reactions = resp.user.publishedReactions
-	}())
 
-	async function closeSession(sessionKey, index) {
+		for (const post of resp.user.posts) {
+			user.posts.unshift(post)
+		}
+		user.posts = user.posts
+
+		for (const reaction of resp.user.publishedReactions) {
+			user.reactions.unshift(reaction)
+		}
+		user.reactions = user.reactions
+
+		if (params.id === $sessionUser.id) {
+			profileEdit.newEmail = user.email = resp.user.email
+			user.sessions = resp.user.sessions
+		}
+	}
+
+	async function closeSession(sesKey, index) {
 		const resp = await api.Query(
-			`mutation ($sessionKey: String!) {
-				closeSession(key: $sessionKey)
+			`mutation ($sesKey: String!) {
+				closeSession(key: $sesKey)
 			}`,
-			{sessionKey},
+			{sesKey},
 		)
 
 		if (resp.closeSession) {
 			// When closing current session reset the session
-			if (sessionKey === $sessionUser.key) sessionUser.reset()
+			if (sesKey === $sessionUser.key) sessionUser.reset()
 
 			if (index !== undefined) {
 				user.sessions.splice(index, 1)
@@ -108,8 +116,8 @@
 
 	async function closeAllSessions() {
 		const resp = await api.Query(
-			`mutation ($id: Identifier!) {
-				closeAllSession(id: $id)
+			`mutation ($uid: Identifier!) {
+				closeAllSession(id: $uid)
 			}`,
 			{id: $sessionUser.id},
 		)
@@ -129,23 +137,29 @@
 		let vars = {
 			user: $sessionUser.id,
 			editor: $sessionUser.id,
+			newEmail: null,
+			newPass: null,
 		}
 
-		if (emailChanged) vars['newEmail'] = profileEdit.newEmail
-		if (passChanged) vars['newPass'] = profileEdit.newPass
+		if (emailChanged) {
+			vars['newEmail'] = profileEdit.newEmail
+		}
+		if (passChanged) {
+			vars['newPass'] = profileEdit.newPass
+		}
 
 		const resp = await api.Query(
 			`mutation (
 				$user: Identifier!
 				$editor: Identifier!
-				${emailChanged ? '$newEmail: String':''}
-				${passChanged ? '$newPass: String':''}
+				$newEmail: String
+				$newPass: String
 			) {
 				editUser(
 					user: $user
 					editor: $editor
-					${emailChanged ? 'newEmail: $newEmail':''}
-					${passChanged ? 'newPassword: $newPass':''}
+					newEmail: $newEmail
+					newPassword: $newPass
 				) {
 					displayName
 					email
@@ -166,11 +180,16 @@
 		))
 		isEditing = false
 	}
+
+	function viewPost(id) {
+		router.push('post', {id})
+	}
 </script>
 
 <svelte:head>
 	<title>{user.displayName}</title>
 </svelte:head>
+<svelte:window on:routeUpdated={fetchUser}/>
 
 
 
@@ -453,25 +472,27 @@
 		<h1 class="display-name">
 			{profileEdit.displayName}
 		</h1>
-		<span class="email">
-			<input
-				placeholder="email"
-				type="email"
-				bind:value={profileEdit.newEmail}
-				readonly={!isEditing}
-				on:click={() => isEditing = true}
-			/>
-		</span>
-		<span
-		class="new-pass"
-		class:hidden={!isEditing}
-		class:not-set={!passChanged}>
-			<input
-				placeholder="New password"
-				type="password"
-				bind:value={profileEdit.newPass}
-			/>
-		</span>
+		{#if isSignedInUser}
+			<span class="email">
+				<input
+					placeholder="email"
+					type="email"
+					bind:value={profileEdit.newEmail}
+					on:click={() => isEditing = true}
+					on:focus={() => isEditing = true}
+				/>
+			</span>
+			<span
+			class="new-pass"
+			class:hidden={!isEditing}
+			class:not-set={!passChanged}>
+				<input
+					placeholder="New password"
+					type="password"
+					bind:value={profileEdit.newPass}
+				/>
+			</span>
+		{/if}
 
 		<p class="creation">Joined on {
 			new Date(user.creation).toLocaleDateString('en-US', {
@@ -481,82 +502,86 @@
 				day: 'numeric',
 			})
 		}</p>
-		{#if isEditing}
-			<div class="actions">
-				<button class="cancel-edit" on:click={cancelEdit}>
-					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#000">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M35 99l64-64m0 64L35 35"/>
-					</svg>
-				</button>
-				<button
-				class="save-edit"
-				on:click={saveEdit}
-				disabled={!emailChanged && !isValidPass}>
-					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M18 69l24 23 64-63"/>
-					</svg>
-				</button>
-			</div>
-		{:else}
-			<div class="actions">
-				<button class="signout" on:click={() => closeSession($sessionUser.key)}>
-					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
-					</svg>
-				</button>
-				<button class="edit-acc" on:click={() => isEditing = !isEditing}>
-					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M84 24L16 92l-6 18 18-6 68-68M84 24l12 12M84 24l10-10 12 12-10 10"/>
-					</svg>
-				</button>
-			</div>
+		{#if isSignedInUser}
+			{#if isEditing}
+				<div class="actions">
+					<button class="cancel-edit" on:click={cancelEdit}>
+						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#000">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M35 99l64-64m0 64L35 35"/>
+						</svg>
+					</button>
+					<button
+					class="save-edit"
+					on:click={saveEdit}
+					disabled={!emailChanged && !isValidPass}>
+						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M18 69l24 23 64-63"/>
+						</svg>
+					</button>
+				</div>
+			{:else}
+				<div class="actions">
+					<button class="signout" on:click={() => closeSession($sessionUser.key)}>
+						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
+						</svg>
+					</button>
+					<button class="edit-acc" on:click={() => isEditing = !isEditing}>
+						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M84 24L16 92l-6 18 18-6 68-68M84 24l12 12M84 24l10-10 12 12-10 10"/>
+						</svg>
+					</button>
+				</div>
+			{/if}
 		{/if}
 	</section>
 
-	<section id="sessions">
-		<h4>Open sessions</h4>
-		<button class="close-all-sessions" on:click={closeAllSessions}>
-			Close all sessions
-		</button>
-		<div class="entries">
-			{#each user.sessions as {key, creation}, index}
-				<div
-				class="session"
-				class:current={key === $sessionUser.key}>
-					<div class="device-icon">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
-							<path fill="#000" d="M60 80a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-							<path fill="#000" fill-rule="evenodd" d="M14 11h92a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H63.6l5.3 17H83a2 2 0 1 1 0 4H37a2 2 0 1 1 0-4h14l5.4-17H14a8 8 0 0 1-8-8V19a8 8 0 0 1 8-8zm44 85.5h4l2.7 9.5h-9.4l2.7-9.5zM14 15a4 4 0 0 0-4 4v62a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V19a4 4 0 0 0-4-4H14z" clip-rule="evenodd"/>
-						</svg>
-					</div>
-					<div class="content">
-						<span class="device-name">Here device name</span>
-						{#if key === $sessionUser.key}
-							<span class="current-label">This session</span>
-						{/if}
-						<span class="creation">{
-							new Date(creation).toLocaleDateString('en-US', {
-								weekday: 'long',
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-								minute: '2-digit',
-								hour: '2-digit',
-								hour12: false,
-							})
-						}</span>
-						<button
-						class="close-session"
-						on:click={() => closeSession(key, index)}>
-							<svg class="icon small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-								<path fill="#000" d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"/>
+	{#if isSignedInUser}
+		<section id="sessions">
+			<h4>Open sessions</h4>
+			<button class="close-all-sessions" on:click={closeAllSessions}>
+				Close all sessions
+			</button>
+			<div class="entries">
+				{#each user.sessions as session, index}
+					<div
+					class="session"
+					class:current={session.key === $sessionUser.key}>
+						<div class="device-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+								<path fill="#000" d="M60 80a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+								<path fill="#000" fill-rule="evenodd" d="M14 11h92a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H63.6l5.3 17H83a2 2 0 1 1 0 4H37a2 2 0 1 1 0-4h14l5.4-17H14a8 8 0 0 1-8-8V19a8 8 0 0 1 8-8zm44 85.5h4l2.7 9.5h-9.4l2.7-9.5zM14 15a4 4 0 0 0-4 4v62a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V19a4 4 0 0 0-4-4H14z" clip-rule="evenodd"/>
 							</svg>
-						</button>
+						</div>
+						<div class="content">
+							<span class="device-name">Here device name</span>
+							{#if session.key === $sessionUser.key}
+								<span class="current-label">This session</span>
+							{/if}
+							<span class="creation">{
+								new Date(session.creation).toLocaleDateString('en-US', {
+									weekday: 'long',
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric',
+									minute: '2-digit',
+									hour: '2-digit',
+									hour12: false,
+								})
+							}</span>
+							<button
+							class="close-session"
+							on:click={() => closeSession(session.key, index)}>
+								<svg class="icon small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+									<path fill="#000" d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"/>
+								</svg>
+							</button>
+						</div>
 					</div>
-				</div>
-			{/each}
-		</div>
-	</section>
+				{/each}
+			</div>
+		</section>
+	{/if}
 
 	<section id="posts">
 		<h4>Published posts</h4>
@@ -567,7 +592,7 @@
 				</span>
 			{:else}
 				{#each user.posts as {id, creation, title}}
-					<div class="post" post-id={id}>
+					<div class="post" post-id={id} on:click={() => viewPost(id)}>
 						<h3 class="title">{title}</h3>
 						<span class="creation">{
 							new Date(creation).toLocaleDateString('en-US', {

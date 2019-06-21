@@ -14,9 +14,9 @@
 		return formPostData.title === '' || formPostData.contents === ''
 	}
 
-	(async function() {
+	async function fetchPosts() {
 		const resp = await api.Query(
-			`query {
+			`{
 				posts {
 					id
 					author {
@@ -28,26 +28,6 @@
 					contents
 					reactions {
 						id
-						subject {
-							... on Reaction {
-								id
-								author {
-									id
-									displayName
-								}
-								emotion
-								message
-							}
-							... on Post {
-								id
-								author {
-									id
-									displayName
-								}
-								title
-								contents
-							}
-						}
 						author {
 							id
 							displayName
@@ -56,26 +36,6 @@
 						message
 						reactions {
 							id
-							subject {
-								... on Reaction {
-									id
-									author {
-										id
-										displayName
-									}
-									emotion
-									message
-								}
-								... on Post {
-									id
-									author {
-										id
-										displayName
-									}
-									title
-									contents
-								}
-							}
 							author {
 								id
 								displayName
@@ -90,7 +50,8 @@
 
 		for (const post of resp.posts) postList.unshift(post)
 		postList = postList
-	}())
+	}
+	fetchPosts()
 
 	async function createNewPost() {
 		if (!$isValidSession || isFormEmpty()) return
@@ -125,6 +86,10 @@
 
 		postList.unshift(resp.createPost)
 		postList = postList
+
+		showCreatePost = false
+		formPostData.title = ''
+		formPostData.contents = ''
 	}
 </script>
 

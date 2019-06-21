@@ -1,4 +1,5 @@
 <script>
+	import { fade } from 'svelte/transition'
 	import { RouterViewport } from '@danielsharkov/svelte-router'
 	import router from './router'
 	
@@ -11,8 +12,14 @@
 	} from './stores'
 
 	function sessionUserAction() {
-		if ($isValidSession) router.push('profile')
-		else modalViewer.open(new ModalView('sign_in'))
+		if ($isValidSession) {
+			let test = $sessionUser.id
+			console.log(test)
+			router.push('profile', {id: test})
+		}
+		else {
+			modalViewer.open(new ModalView('sign_in'))
+		}
 	}
 </script>
 
@@ -156,6 +163,8 @@
 		width: 100%;
 		height: 100%;
 		background-color: rgba(0,0,0,.5);
+		backdrop-filter: blur(16px);
+		-webkit-backdrop-filter: blur(16px);
 	}
 
 	@media screen and (max-width: 825px) {
@@ -170,12 +179,14 @@
 
 
 
-<div id="modal-viewport" class:hidden={$modalViewer.type === ''}>
-	<div class="background" on:click={modalViewer.close}/>
-	{#if $modalViewer.type === 'sign_in'}
-		<SignInModal/>
-	{/if}
-</div>
+{#if $modalViewer.type !== ''}
+	<div id="modal-viewport" transition:fade={{duration:100}}>
+		<div class="background" on:click={modalViewer.close}/>
+		{#if $modalViewer.type === 'sign_in'}
+			<SignInModal/>
+		{/if}
+	</div>
+{/if}
 
 <div id="app">
 	<header>
@@ -192,7 +203,10 @@
 		</div>
 		<div
 		id="sessionUser"
-		class:profile-view={$router.route.name === 'profile'}>
+		class:profile-view={
+			$router.route.name == 'profile' &&
+			$router.route.params.id === $sessionUser.id
+		}>
 			<button
 			class="user"
 			on:click={sessionUserAction}>

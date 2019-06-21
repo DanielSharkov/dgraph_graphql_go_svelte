@@ -1,8 +1,10 @@
 import { Router } from '@danielsharkov/svelte-router'
 
+import NotFoundView from './views/NotFound'
 import UsersView from './views/Users'
 import ProfileView from './views/ViewProfile'
 import PostsView from './views/Posts'
+import PostView from './views/Post'
 
 import { isValidSession } from './stores'
 
@@ -15,6 +17,10 @@ export default new Router({
 		'root': {
 			path: '/',
 		},
+		'404': {
+			path: '/404',
+			component: NotFoundView,
+		},
 		'posts': {
 			path: '/posts',
 			component: PostsView,
@@ -23,6 +29,10 @@ export default new Router({
 					displayName: 'Posts',
 				},
 			},
+		},
+		'post': {
+			path: '/post/:id',
+			component: PostView,
 		},
 		'users': {
 			path: '/users',
@@ -34,13 +44,27 @@ export default new Router({
 			},
 		},
 		'profile': {
-			path: '/profile',
+			path: '/profile/:id',
 			component: ProfileView,
 		},
 	},
-	beforePush(name, params) {
-		if (name == 'profile' && !$isValidSession) {
+	fallback: {
+		name: '404',
+	},
+	beforePush(name, params, previousRoute) {
+		if (
+			previousRoute !== null &&
+			previousRoute.name === 'posts' &&
+			name === 'signin.modal'
+		) {
+			alert('Sign in modal')
+			return previousRoute
+		}
+
+		switch (name) {
+		case 'root':
 			name = 'posts'
+			break
 		}
 
 		return { name, params }

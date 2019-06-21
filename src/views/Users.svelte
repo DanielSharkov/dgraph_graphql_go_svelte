@@ -1,5 +1,6 @@
 <script>
 	import { sessionUser } from '../stores'
+	import router from '../router'
 	import { api } from '../api'
 
 	// Semicolon needed because otherwise javascript
@@ -7,11 +8,7 @@
 	const userList = [];
 
 	(async function() {
-		const resp = await api.Query(
-			`query {
-				users { id, displayName }
-			}`,
-		)
+		const resp = await api.Query(`{ users { id displayName } }`)
 
 		for (let user of resp.users) userList.unshift(user)
 		userList = userList
@@ -43,6 +40,7 @@
 		justify-content: center;
 		align-items: center;
 		transform: scale(1);
+		cursor: pointer;
 	}
 	#userList .user:nth-child(odd) {
 		margin: 0 1rem 2rem 0;
@@ -102,7 +100,7 @@
 				Your the only existing user ☹️
 			</h3>
 		{:else}
-			<div class="user">
+			<div class="user" on:click={() => router.push('profile', {id})}>
 				<div class="picture">
 					<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
