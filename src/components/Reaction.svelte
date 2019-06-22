@@ -66,7 +66,7 @@
 		flex: 1 1 auto;
 	}
 	.reaction .header .creation {
-		margin-left: auto;
+		margin: auto 0 auto 1rem;
 		flex: 0 0 auto;
 		font-size: .75rem;
 		justify-self: flex-end;
