@@ -23,8 +23,8 @@
 		margin-top: 2rem;
 		padding: 1rem;
 		flex: 1 1 100%;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
+		border: solid 1px var(--app-border-01);
+		border-radius: var(--app-border-radius);
 	}
 	.reaction .header {
 		display: flex;
@@ -47,13 +47,13 @@
 		opacity: 1;
 	}
 	.reaction .header .author:hover .picture {
-		border-color: #03f;
+		border-color: var(--app-primary);
 	}
 	.reaction .header .author:hover .picture svg > * {
-		stroke: #03f;
+		stroke: var(--app-primary);
 	}
 	.reaction .header .author:hover .display-name {
-		color: #03f;
+		color: var(--app-primary);
 	}
 	.reaction .header .author .picture {
 		display: flex;
@@ -80,39 +80,18 @@
 	:global(.reaction > .create-reaction) {
 		margin: 0 0 0 1rem;
 		padding: 1rem 0 1rem 1rem;
-		border-left: solid 1px rgba(0,0,0,.1);
+		border-left: solid 1px var(--app-border-01);
 	}
 	:global(.reaction .reaction) {
 		margin: 0 0 0 1rem;
 		padding: 1rem 0 1rem 1rem;
 		background: none;
 		border: none;
-		border-left: solid 1px rgba(0,0,0,.1);
+		border-left: solid 1px var(--app-border-01);
 		border-radius: 0;
 	}
 	:global(.reaction .reaction .header) {
 		margin-top: .5rem;
-	}
-	.reaction .new-reaction {
-		display: inline-block;
-		margin: 0;
-		padding: .25rem .5rem;
-		background: none;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
-		cursor: pointer;
-		color: #03f;
-		outline: none;
-		font-size: .75rem;
-	}
-	.reaction .new-reaction:hover {
-		background-color: rgba(0,40,255,.1);
-		border-color: #03f;
-	}
-	.reaction .new-reaction:active {
-		background-color: #03f;
-		border-color: #03f;
-		color: #fff;
 	}
 </style>
 
@@ -125,7 +104,7 @@
 		author-id={author.id}
 		on:click={() => router.push('profile', {id: author.id})}>
 			<div class="picture">
-				<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+				<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
 					<circle cx="60" cy="34" r="21" stroke-width=".5rem"/>
 				</svg>
@@ -163,7 +142,7 @@
 			}}
 		/>
 	{:else}
-		<button class="new-reaction" on:click={()=>createReaction = true}>
+		<button class="primary small" on:click={()=>createReaction = true}>
 			+ Write reaction
 		</button>
 	{/if}

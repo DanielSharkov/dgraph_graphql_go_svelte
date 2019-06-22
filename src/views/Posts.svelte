@@ -103,25 +103,7 @@
 
 <style>
 	#createNewPost {
-		display: block;
-		width: 100%;
 		margin: 0 auto 2rem auto;
-		padding: 1rem;
-		background: none;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
-		cursor: pointer;
-		color: #03f;
-		outline: none;
-	}
-	#createNewPost:hover {
-		background-color: rgba(0,40,255,.1);
-		border-color: #03f;
-	}
-	#createNewPost:active {
-		background-color: #03f;
-		border-color: #03f;
-		color: #fff;
 	}
 
 	input, textarea {
@@ -134,8 +116,8 @@
 		display: flex;
 		margin: 0 auto 2rem auto;
 		padding: 2rem;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
+		border: solid 1px var(--app-border-01);
+		border-radius: var(--app-border-radius);
 		flex-flow: row wrap;
 	}
 	.post .header {
@@ -180,7 +162,7 @@
 		padding: .25rem;
 		outline: none;
 		border: solid 1px transparent;
-		border-radius: 4px;
+		border-radius: var(--app-border-radius);
 		line-height: 1.5;
 	}
 	.post .title input:hover,
@@ -189,45 +171,14 @@
 	}
 	.post .title input:focus,
 	.post .contents:focus {
-		border-color: #03f;
-		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
+		border-color: var(--app-primary);
+		box-shadow: 0 0 0 .25rem var(--app-primary-01);
 	}
 	.post .actions {
 		display: flex;
 		flex-flow: row nowrap;
 		margin-top: 1rem;
 		flex: 1 1 100%;
-	}
-	.post .actions button {
-		margin: 0;
-		padding: .5rem 1rem;
-		background: none;
-		border: solid 1px transparent;
-		border-radius: 4px;
-		cursor: pointer;
-		outline: none;
-	}
-	.post .actions button:hover {
-		border-color: rgba(0,0,0,.1);
-	}
-	.post .actions button:active {
-		background-color: rgba(0,0,0,.05);
-		border-color: #000;
-		color: #000;
-	}
-	.post .actions .primary {
-		margin-left: auto;
-		border: solid 1px rgba(0,0,0,.1);
-		color: #03f;
-	}
-	.post .actions .primary:hover {
-		background-color: rgba(0,40,255,.1);
-		border-color: #03f;
-	}
-	.post .actions .primary:active {
-		background-color: #03f;
-		border-color: #03f;
-		color: #fff;
 	}
 </style>
 
@@ -245,7 +196,7 @@
 		<div class="header">
 			<div class="author">
 				<div class="picture">
-					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+					<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
 						<circle cx="60" cy="34" r="21" stroke-width=".5rem"/>
 					</svg>
@@ -269,10 +220,16 @@
 			bind:value={formPostData.contents}
 		></textarea>
 		<div class="actions">
-			<button id="cancelNewPost" on:click={() => showCreatePost = false}>
+			<button
+			id="cancelNewPost"
+			class="secondary"
+			on:click={() => showCreatePost = false}>
 				Cancel
 			</button>
-			<button id="submitNewPost" class="primary" on:click={createNewPost}>
+			<button
+			id="submitNewPost"
+			class="primary"
+			on:click={createNewPost}>
 				+ Create Post
 			</button>
 		</div>
@@ -281,6 +238,7 @@
 	<button
 	id="createNewPost"
 	class:hidden={showCreatePost}
+	class="full-width large primary"
 	on:click={() => showCreatePost = true}>
 		+ Write a new post
 	</button>

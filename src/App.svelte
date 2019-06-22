@@ -9,6 +9,7 @@
 		isValidSession,
 		modalViewer,
 		ModalView,
+		appTheme,
 	} from './stores'
 
 	function sessionUserAction() {
@@ -24,14 +25,10 @@
 
 
 <style>
-	#app {
-		max-width: 800px;
-		margin: auto;
-	}
-
 	header {
 		display: flex;
-		width: 100%;
+		max-width: 800px;
+		margin: auto;
 		margin-bottom: 2rem;
 		padding: 1rem 0;
 		align-content: stretch;
@@ -46,27 +43,21 @@
 	}
 	#navigation button {
 		margin: 0 1rem 0 0;
-		padding: .5rem 1rem;
-		background: none;
-		border: none;
-		border: solid 1px transparent;
-		border-radius: 4px;
-		cursor: pointer;
 	}
 	#navigation button:hover {
-		background-color: rgba(0,40,255,0.05);
-		border-color: #03f;
-		color: #03f;
+		background-color: var(--app-primary-01);
+		border-color: var(--app-primary);
+		color: var(--app-primary);
 	}
 	#navigation button:active,
 	#navigation button.active,
 	#navigation button:focus {
-		background-color: #03f;
-		border-color: #03f;
+		background-color: var(--app-primary);
+		border-color: var(--app-primary);
 		color: #fff;
 	}
 	#navigation button:focus {
-		box-shadow: 0 0 0 .25rem rgba(0,40,255,0.05);
+		box-shadow: 0 0 0 .25rem var(--app-primary-01);
 	}
 
 	#sessionUser {
@@ -77,26 +68,16 @@
 		align-items: center;
 	}
 	#sessionUser button {
-		display: flex;
-		margin: 0;
-		padding: .5rem;
-		align-content: center;
-		align-items: center;
-		background: none;
-		border: none;
-		cursor: pointer;
 		flex: 1 1 auto;
-		border-radius: 4px;
-		border: solid 1px transparent;
 	}
 	#sessionUser button:hover {
-		border-color: #03f;
-		background-color: rgba(0,40,255,.1);
+		border-color: var(--app-primary);
+		background-color: var(--app-primary-01);
 	}
 	#sessionUser button:active,
 	#sessionUser button:focus {
-		border-color: #03f;
-		background-color: #03f;
+		border-color: var(--app-primary);
+		background-color: var(--app-primary);
 	}
 	#sessionUser .user {
 		padding: .5rem 1rem;
@@ -110,21 +91,21 @@
 		align-items: center;
 	}
 	#sessionUser button:hover svg > * {
-		stroke: #03f;
+		stroke: var(--app-primary);
 	}
 	#sessionUser button:active svg > *,
 	#sessionUser button:focus svg > * {
 		stroke: #fff;
 	}
 	#sessionUser button:hover .displayName {
-		color: #03f;
+		color: var(--app-primary);
 	}
 	#sessionUser button:active .displayName,
 	#sessionUser button:focus .displayName {
 		color: #fff;
 	}
 	#sessionUser.profile-view .user {
-		background-color: #03f;
+		background-color: var(--app-primary);
 	}
 	#sessionUser.profile-view .user .displayName {
 		color: #fff;
@@ -135,7 +116,7 @@
 
 	#router-viewport {
 		display: block;
-		max-width: 960px;
+		max-width: 800px;
 		margin: auto;
 		padding-bottom: 4rem;
 	}
@@ -186,7 +167,7 @@
 	</div>
 {/if}
 
-<div id="app">
+<div id="app" class="{$appTheme}-theme">
 	<header>
 		<div id="navigation">
 			{#each $router.routes as route}
@@ -216,7 +197,7 @@
 					{/if}
 				</span>
 				<div class="picture">
-					<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+					<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
 						<circle cx="60" cy="34" r="21" stroke-width=".5rem"/>
 					</svg>

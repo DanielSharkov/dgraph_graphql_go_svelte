@@ -30,8 +30,8 @@
 		display: flex;
 		margin: 0 auto 4rem auto;
 		padding: 2rem;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
+		border: solid 1px var(--app-border-01);
+		border-radius: var(--app-border-radius);
 		flex-flow: row wrap;
 	}
 	.post .header {
@@ -51,13 +51,13 @@
 		cursor: pointer;
 	}
 	.post .author:hover .picture {
-		border-color: #03f;
+		border-color: var(--app-primary);
 	}
 	.post .author:hover .picture svg > * {
-		stroke: #03f;
+		stroke: var(--app-primary);
 	}
 	.post .author:hover .display-name {
-		color: #03f;
+		color: var(--app-primary);
 	}
 	.post .author .picture {
 		display: flex;
@@ -83,6 +83,7 @@
 		flex: 1 0 auto;
 	}
 	.post .contents {
+		width: 100%;
 		font-family:
 			'Lucida Sans',
 			'Lucida Sans Regular',
@@ -92,40 +93,23 @@
 		margin: 0;
 		padding: .25rem;
 		flex: 1 1 100%;
+		word-wrap: break-word;
 	}
 	.post .reactions {
 		display: flex;
 		margin-top: 3rem;
-		border-top: solid 1px rgba(0,0,0,.1);
+		border-top: solid 1px var(--app-border-01);
 		flex: 1 1 100%;
 		flex-flow: row wrap;
 	}
 	:global(.post .reactions > .create-reaction) {
 		margin-top: 2rem;
 		padding: 1rem;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
+		border: solid 1px var(--app-border-01);
+		border-radius: var(--app-border-radius);
 	}
 	.post .reactions .new-reaction {
-		display: inline-block;
-		width: 100%;
 		margin-top: 2rem;
-		padding: 1rem;
-		background: none;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
-		cursor: pointer;
-		color: #03f;
-		outline: none;
-	}
-	.post .reactions .new-reaction:hover {
-		background-color: rgba(0,40,255,.1);
-		border-color: #03f;
-	}
-	.post .reactions .new-reaction:active {
-		background-color: #03f;
-		border-color: #03f;
-		color: #fff;
 	}
 </style>
 
@@ -138,7 +122,7 @@
 		author-id={author.id}
 		on:click={() => router.push('profile', {id: author.id})}>
 			<div class="picture">
-				<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+				<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
 					<circle cx="60" cy="34" r="21" stroke-width=".5rem"/>
 				</svg>
@@ -167,7 +151,9 @@
 				on:created={react => reactions = [react.detail, ...reactions]}
 			/>
 		{:else}
-			<button class="new-reaction" on:click={()=>createReaction = true}>
+			<button
+			class="full-width large primary new-reaction"
+			on:click={()=>createReaction = true}>
 				+ Write reaction
 			</button>
 		{/if}

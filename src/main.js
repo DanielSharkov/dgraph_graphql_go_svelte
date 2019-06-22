@@ -4,7 +4,10 @@ import { UserSession } from './stores'
 // App only going to work when web storage is available
 if (typeof(Storage) !== undefined) {
 	if (window.localStorage.getItem('session') === undefined) {
-		localStorage.setItem('session', new UserSession())
+		window.localStorage.setItem('session', new UserSession())
+	}
+	if (window.localStorage.getItem('appTheme') === undefined) {
+		window.localStorage.setItem('appTheme', '')
 	}
 
 	window.handleRequestError = function(err) {

@@ -85,79 +85,49 @@
 		align-items: center;
 		line-height: 1;
 		padding: .5rem;
-		border-radius: 4px;
+		border-radius: var(--app-border-radius);
 		background: none;
 		border: solid 1px transparent;
 		cursor: pointer;
 	}
 	.create-reaction .emote:hover {
-		border-color: rgba(0,0,0,.1);
+		border-color: var(--app-border-01);
 	}
 	.create-reaction .emote:active {
-		background-color: rgba(0,0,0,.1);
+		background-color: var(--app-border-01);
 		border-color: transparent;
 	}
 	.create-reaction .emote.selected {
-		background-color: rgba(0,40,255,.05);
-		border-color: #03f;
+		background-color: var(--app-primary-01);
+		border-color: var(--app-primary);
 	}
 	.create-reaction .actions {
 		margin: 0 0 0 auto;
 	}
-	.create-reaction button {
-		padding: .5rem 1rem;
-		background: none;
-		border-radius: 4px;
-		cursor: pointer;
-		outline: none;
-		border: solid 1px transparent;
-	}
-	.create-reaction button.secondary {
-		color: rgba(0,0,0,.5);
-	}
-	.create-reaction button.secondary:hover {
-		color: #000;
-		background-color: rgba(0,0,0,.05);
-		border-color: #000;
-	}
-	.create-reaction button.secondary:active {
-		color: #FFF;
-		background-color: #000;
-		border-color: #000;
-	}
-	.create-reaction button.primary {
-		border-color: rgba(0,0,0,.1);
-		color: #03f;
-	}
-	.create-reaction button.primary:hover {
-		border-color: #03f;
-		background-color: rgba(0,40,255,.05);
-	}
-	.create-reaction button.primary:active {
-		background-color: #03f;
-		color: #fff;
+	.create-reaction .actions > * {
+		display: inline-block;
 	}
 	.create-reaction .message {
 		margin: 1rem auto 0 auto;
 		padding: .5rem;
 		border: solid 1px transparent;
 		flex: 1 1 100%;
-		border-radius: 4px;
+		border-radius: var(--app-border-radius);
 		border-color: rgba(0,0,0,.1);
 		box-shadow: none;
 		resize: vertical;
 		min-height: 2.25rem;
 	}
 	.create-reaction .message:hover {
-		border-color: #000;
+		border-color: var(--app-fg);
 	}
 	.create-reaction .message:active {
-		border-color: #03f;
-		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
+		border-color: var(--app-primary);
+		box-shadow: 0 0 0 .25rem var(--app-primary-01);
 	}
 	.create-reaction .message:focus {
-		border-color: #03f;
-		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
+		border-color: var(--app-primary);
+		box-shadow: 0 0 0 .25rem var(--app-primary-01);
 	}
 </style>
 

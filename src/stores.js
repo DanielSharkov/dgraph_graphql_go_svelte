@@ -106,3 +106,28 @@ function initModalViewer() {
 	}
 }
 export const modalViewer = initModalViewer()
+
+
+
+function initAppTheme() {
+	let currentTheme = ''
+	const fromLS = window.localStorage.getItem('appTheme')
+	if (fromLS) {
+		currentTheme = fromLS
+	}
+
+	const {subscribe, update} = writable(currentTheme)
+	return {
+		subscribe,
+		toggle: () => update(store => {
+			if (store === 'black') {
+				store = 'default'
+			} else {
+				store = 'black'
+			}
+			window.localStorage.appTheme = store
+			return store
+		}),
+	}
+}
+export const appTheme = initAppTheme()

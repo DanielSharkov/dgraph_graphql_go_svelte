@@ -1,3 +1,69 @@
+#app {
+	--app-bg: #FFF;
+	--app-bg-lightest: rgba(0,0,0,.025);
+
+	--app-fg: #000;
+	--app-fg-lightest: rgba(0,0,0,.25);
+
+	--app-border-01: rgba(0,0,0,.1);
+	--app-border-radius: 4px;
+
+	--app-primary: #03F;
+	--app-primary-01: rgba(0,50,255,.1);
+
+	--app-btn-bg: transparent;
+	--app-btn-fg: #000;
+	--app-btn-border: transparent;
+	--app-btn-hover-bg: ;
+	--app-btn-hover-fg: ;
+	--app-btn-hover-border: ;
+	--app-btn-active-bg: ;
+	--app-btn-active-fg: ;
+	--app-btn-active-border: ;
+	--app-btn-focus-bg: ;
+	--app-btn-focus-fg: ;
+	--app-btn-focus-border: ;
+
+	--app-btn-secondary-bg: transparent;
+	--app-btn-secondary-fg: var(--app-fg);
+	--app-btn-secondary-border: transparent;
+	--app-btn-secondary-hover-bg: var(--app-bg-lightest);
+	--app-btn-secondary-hover-fg: var(--app-fg);
+	--app-btn-secondary-hover-border: var(--app-fg);
+	--app-btn-secondary-active-bg: var(--app-fg);
+	--app-btn-secondary-active-fg: var(--app-bg);
+	--app-btn-secondary-active-border: var(--app-fg);
+	--app-btn-secondary-focus-bg: var(--app-fg);
+	--app-btn-secondary-focus-fg: #FFF;
+	--app-btn-secondary-focus-border: var(--app-fg);
+
+	--app-btn-primary-bg: transparent;
+	--app-btn-primary-fg: var(--app-primary);
+	--app-btn-primary-border: var(--app-border-01);
+	--app-btn-primary-hover-bg: rgba(0,50,255,.1);
+	--app-btn-primary-hover-fg: var(--app-primary);
+	--app-btn-primary-hover-border: var(--app-primary);
+	--app-btn-primary-active-bg: var(--app-primary);
+	--app-btn-primary-active-fg: #FFF;
+	--app-btn-primary-active-border: var(--app-primary);
+	--app-btn-primary-focus-bg: var(--app-primary);
+	--app-btn-primary-focus-fg: #FFF;
+	--app-btn-primary-focus-border: var(--app-primary);
+
+	/* --app-btn-danger-bg: ;
+	--app-btn-danger-fg: ;
+	--app-btn-danger-border: ;
+	--app-btn-danger-hover-bg: ;
+	--app-btn-danger-hover-fg: ;
+	--app-btn-danger-hover-border: ;
+	--app-btn-danger-active-bg: ;
+	--app-btn-danger-active-fg: ;
+	--app-btn-danger-active-border: ;
+	--app-btn-danger-focus-bg: ;
+	--app-btn-danger-focus-fg: ;
+	--app-btn-danger-focus-border: ; */
+}
+
 html {
 	width: 100vw;
 	height: 100vh;
@@ -7,6 +73,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	overflow: hidden;
 }
 
 body {
@@ -18,6 +85,29 @@ body {
 		'Arial';
 	line-height: 1.5;
 	font-size: 1rem;
+}
+
+#app {
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
+	color: var(--app-fg);
+	background-color: var(--app-bg);
+}
+
+#app.black-theme {
+	--app-bg: #000;
+	--app-bg-lightest: rgba(255,255,255,.15);
+
+	--app-fg: #FFF;
+	--app-fg-lightest: rgba(255,255,255,.5);
+
+	--app-border-01: rgba(255,255,255,.2);
+
+	--app-primary: #09F;
+	--app-primary-01: rgba(0,170,255,.2);
+
+	--app-btn-primary-border: var(--app-border-01);
 }
 
 div, input, button, textarea, svg, svg *,
@@ -43,7 +133,7 @@ input, textarea, button {
 	display: flex;
 	margin: auto;
 	padding: 2rem;
-	border-radius: 4px;
+	border-radius: var(--app-border-radius);
 	background-color: #fff;
 	flex: 0 1 auto;
 	flex-flow: row wrap;
@@ -56,7 +146,21 @@ h3.view-title {
 	text-align: center;
 }
 
+input {
+	color: var(--app-fg);
+}
+
 button {
+	display: flex;
+	margin: 0;
+	padding: .5rem 1rem;
+	cursor: pointer;
+	border: solid 1px var(--app-btn-border);
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	color: var(--app-fg);
+	border-radius: var(--app-border-radius);
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -65,16 +169,115 @@ button {
 	user-select: none;
 	cursor: pointer;
 }
-
-.icon.small {
-	height: 1rem;
-	width: 1rem;
+button > *:not(:first-child) {
+	margin-left: .5rem;
 }
+button.small {
+	padding: .25rem .5rem;
+	font-size: .75rem;
+}
+button.large {
+	padding: 1rem 2rem;
+}
+button.full-width {
+	flex: 1 1 100%;
+	width: 100%;
+}
+button.secondary {
+	color: var(--app-btn-secondary-fg);
+	background-color: var(--app-btn-secondary-bg);
+	border-color: var(--app-btn-secondary-border) !important;
+}
+button.secondary:hover {
+	color: var(--app-btn-secondary-hover-fg);
+	background-color: var(--app-btn-secondary-hover-bg);
+	border-color: var(--app-btn-secondary-hover-border) !important;
+}
+button.secondary:focus,
+button.secondary:active,
+button.secondary.active {
+	color: var(--app-btn-secondary-active-fg);
+	background-color: var(--app-btn-secondary-active-bg);
+	border-color: var(--app-btn-secondary-active-border) !important;
+}
+button.primary {
+	color: var(--app-btn-primary-fg);
+	background-color: var(--app-btn-primary-bg);
+	border-color: var(--app-btn-primary-border) !important;
+}
+button.primary:hover {
+	color: var(--app-btn-primary-hover-fg);
+	background-color: var(--app-btn-primary-hover-bg);
+	border-color: var(--app-btn-primary-hover-border) !important;
+}
+button.primary:hover .icon.stroked {
+	stroke: var(--app-btn-primary-hover-fg);
+}
+button.primary:hover .icon.filled > * {
+	fill: var(--app-btn-primary-hover-fg);
+}
+button.primary:focus,
+button.primary:active,
+button.primary.active {
+	background-color: var(--app-btn-primary-active-bg);
+	color: var(--app-btn-primary-active-fg);
+}
+button.primary:focus > *,
+button.primary:active > *,
+button.primary.active > * {
+	stroke: var(--app-btn-primary-active-fg);
+	fill: var(--app-btn-primary-active-fg);
+}
+button.danger {
+	color: #F05;
+}
+button.danger:hover {
+	border-color: #F05 !important;
+	background-color: rgba(255,0,50,.05);
+}
+button.danger:hover .icon.stroked {
+	stroke: #F05;
+}
+button.danger:hover .icon.filled > * {
+	fill: #F05;
+}
+button.danger:focus,
+button.danger:active,
+button.danger.active {
+	background-color: #F05;
+	color: #fff;
+}
+button.danger:focus > *,
+button.danger:active > *,
+button.danger.active > * {
+	stroke: #F05;
+	fill: #F05;
+}
+button[disabled],
+button.disabled {
+	opacity: .25;
+	pointer-events: none;
+}
+
 .icon {
 	height: 1.5rem;
 	width: 1.5rem;
 }
+.icon.stroked {
+	stroke: var(--app-fg);
+}
+.icon.filled > * {
+	fill: var(--app-fg);
+}
+.icon.small {
+	height: 1rem;
+	width: 1rem;
+}
 .icon.large {
 	height: 2rem;
 	width: 2rem;
+}
+.icon.x-large {
+	height: 3rem;
+	width: 3rem;
 }

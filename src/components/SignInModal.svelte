@@ -131,7 +131,7 @@
 		flex: 1 1 100%;
 		background: none;
 		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
+		border-radius: var(--app-border-radius);
 		outline: none;
 		box-shadow: 0;
 	}
@@ -142,43 +142,8 @@
 		border-color: #03f;
 		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
 	}
-	.modal.signin .form button {
-		display: flex;
-		margin: 0;
-		padding: 0;
-		background: none;
-		border: none;
-		flex: 0 1 auto;
-		outline: none;
-		cursor: pointer;
-	}
-	.modal.signin .form button.secondary {
-		font-size: .85rem;
-	}
-	.modal.signin .form button.secondary:hover {
-		color: #03f;
-		text-decoration: underline;
-	}
 	.modal.signin .form button.primary {
 		margin: 0 0 0 auto;
-		padding: .5rem 1rem;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
-		color: #03f;
-	}
-	.modal.signin .form button.primary:hover {
-		border-color: #03f;
-		background-color: rgba(0,40,255,.05);
-	}
-	.modal.signin .form button.primary:active {
-		background-color: #03f;
-		color: #fff;
-	}
-	.modal.signin .form button[disabled] {
-		color: #000;
-		border-color: rgba(0,0,0,.5);
-		opacity: .25;
-		pointer-events: none;
 	}
 </style>
 

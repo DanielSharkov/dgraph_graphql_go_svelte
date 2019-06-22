@@ -4,6 +4,7 @@
 		sessionUser,
 		UserSession,
 		emotionsDisplayName,
+		appTheme,
 	} from '../stores'
 	import { api } from './../api'
 	import router from '../router'
@@ -249,7 +250,7 @@
 		display: flex;
 		margin: 1rem auto 1rem auto;
 		padding: 2rem;
-		background-color: rgba(0,0,0,.025);
+		background-color: var(--app-bg-lightest);
 		border-radius: 100%;
 		justify-content: center;
 		align-items: center;
@@ -274,23 +275,23 @@
 		font-size: inherit;
 		font-weight: inherit;
 		text-align: center;
-		border-radius: 4px;
+		border-radius: var(--app-border-radius);
 		border: solid 1px transparent;
 	}
 	#user-profile #personal-data input:hover,
 	#user-profile.is-editing-profile #personal-data input {
-		border-color: rgba(0,0,0,.1);
+		border-color: var(--app-border-01);
 	}
 	#user-profile.is-editing-profile #personal-data input:hover {
-		border-color: #000;
+		border-color: var(--app-fg);
 	}
 	#user-profile.is-editing-profile #personal-data input:active,
 	#user-profile.is-editing-profile #personal-data input:focus {
-		border-color: #03f;
-		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
+		border-color: var(--app-primary);
+		box-shadow: 0 0 0 .25rem var(--app-primary-01);
 	}
 	#user-profile #personal-data .new-pass.not-set input:not(active):not(:focus)::placeholder {
-		color: #03f;
+		color: var(--app-primary);
 	}
 	#user-profile #personal-data .new-pass.not-set:hover:not(active):not(:focus) {
 		text-decoration: underline;
@@ -317,7 +318,7 @@
 		margin: 0;
 		padding: .5rem;
 		border: solid 1px transparent;
-		border-radius: 4px;
+		border-radius: var(--app-border-radius);
 		align-items: center;
 		flex: 0 0 auto;
 		justify-content: center;
@@ -328,7 +329,7 @@
 	}
 	#user-profile #personal-data .actions button:hover svg > *,
 	#user-profile #personal-data .actions button:active svg > * {
-		stroke: #03f;
+		stroke: var(--app-primary);
 	}
 	#user-profile #personal-data .actions button:not(:first-child) {
 		margin-left: .5rem;
@@ -343,56 +344,32 @@
 		align-items: center;
 		align-self: flex-start;
 		border: solid 1px transparent;
-		border-radius: 4px;
+		border-radius: var(--app-border-radius);
 	}
 	#user-profile #sessions .close-all-sessions {
 		margin: auto 0;
-		font-size: .75rem;
-		opacity: .25;
 	}
-	#user-profile #sessions .close-all-sessions:hover,
-	#user-profile #sessions .close-all-sessions:active,
-	#user-profile #sessions .close-all-sessions:focus {
-		opacity: 1;
-	}
-	#user-profile #sessions .close-session:hover,
-	#user-profile #sessions .close-session:hover svg > *,
-	#user-profile #sessions .close-all-sessions:hover {
-		background-color: rgba(255,0,50,.05);
-		border-color: #f05;
-		color: #f05;
-		fill: #f05;
-		stroke: #f05;
-	}
-	#user-profile #sessions .close-session:active,
-	#user-profile #sessions .close-session:active svg > *,
-	#user-profile #sessions .close-all-sessions:active {
-		background-color: #f05;
-		border-color: #f05;
-		color: #fff;
-		fill: #fff;
-		stroke: #fff;
+	#user-profile #sessions .close-all-sessions:not(:hover):not(:active):not(:focus) {
+		color: var(--app-fg-lightest);
 	}
 	#user-profile #sessions .entries {
 		display: flex;
 		flex-flow: row wrap;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
+		border: solid 1px var(--app-border-01);
+		border-radius: var(--app-border-radius);
 	}
 	#user-profile #sessions .entries .session {
 		display: flex;
 		flex-flow: row nowrap;
 		padding: 1rem;
 		flex: 1 1 100%;
-		border-bottom: solid 1px rgba(0,0,0,.1);
+		border-bottom: solid 1px var(--app-border-01);
 		align-items: center;
 	}
 	#user-profile #sessions .entries .session:last-child {
 		border: none;
 	}
 	#user-profile #sessions .entries .session .device-icon {
-		height: 3rem;
-		width: 3rem;
 		margin: 1rem 2rem 1rem 1rem;
 		flex: 0 0 auto;
 	}
@@ -422,10 +399,13 @@
 		transform: scale(1);
 	}
 	#user-profile #sessions .entries .session.current {
-		color: #03f;
+		color: var(--app-primary);
+	}
+	#user-profile #sessions .entries .session.current .creation {
+		opacity: 1;
 	}
 	#user-profile #sessions .entries .session.current .device-icon svg > * {
-		fill: #03f;
+		fill: var(--app-primary);
 	}
 	#user-profile #sessions .entries .session .current-label {
 		display: flex;
@@ -438,7 +418,7 @@
 		height: 1px;
 		width: 1rem;
 		margin: 0 .5rem;
-		background-color: #03f;
+		background-color: var(--app-primary);
 	}
 
 	#user-profile #posts .entries,
@@ -451,10 +431,10 @@
 		display: flex;
 		margin: 0 0 1rem 0;
 		padding: 20px;
-		background-color: #fff;
+		background-color: var(--app-bg);
 		box-shadow: none;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
+		border: solid 1px var(--app-border-01);
+		border-radius: var(--app-border-radius);
 		flex-flow: row wrap;
 		flex: 0 1 100%;
 		transition: all cubic-bezier(.22,.61,.36,1) 300ms;
@@ -520,7 +500,7 @@
 <div id="user-profile" class:is-editing-profile={isEditing}>
 	<section id="personal-data">
 		<div class="picture">
-			<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
+			<svg class="icon stroked" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
 				<circle cx="60" cy="34" r="21" stroke-width=".25rem"/>
 			</svg>
@@ -562,7 +542,7 @@
 			{#if isEditing}
 				<div class="actions">
 					<button class="cancel-edit" on:click={cancelEdit}>
-						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#000">
+						<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#000">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M35 99l64-64m0 64L35 35"/>
 						</svg>
 					</button>
@@ -570,7 +550,7 @@
 					class="save-edit"
 					on:click={saveEdit}
 					disabled={!emailChanged && !isValidPass}>
-						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+						<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M18 69l24 23 64-63"/>
 						</svg>
 					</button>
@@ -578,14 +558,26 @@
 			{:else}
 				<div class="actions">
 					<button class="signout" on:click={() => closeSession($sessionUser.key)}>
-						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+						<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
 						</svg>
 					</button>
 					<button class="edit-acc" on:click={() => isEditing = !isEditing}>
-						<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
+						<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M84 24L16 92l-6 18 18-6 68-68M84 24l12 12M84 24l10-10 12 12-10 10"/>
 						</svg>
+					</button>
+					<button on:click={appTheme.toggle}>
+						{#if $appTheme === 'black'}
+							<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+								<circle cx="60" cy="60" r="28" stroke-width=".4rem"/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M29 30l-8-8M18 60H7M21 99l8-8M60 113v-11M99 99l-8-8M113 60h-11M91 29l8-8M60 18V7"/>
+							</svg>
+						{:else}
+							<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+								<path stroke-width=".4rem" d="M62 113A53 53 0 0 1 56.07 7.33c.33-.04.6.1.8.44.2.37.2.83-.04 1.23-3.4 5.4-8.4 14.6-10.57 25.02-2.18 10.45-1.54 22.32 6.6 32.71C60.82 76.9 71.6 81.57 81.74 83.5c10.13 1.93 19.76 1.14 25.67.25.46-.07.9.13 1.16.46.25.3.27.62.11.9A52.99 52.99 0 0 1 62 113z"/>
+							</svg>
+						{/if}
 					</button>
 				</div>
 			{/if}
@@ -595,7 +587,7 @@
 	{#if isSignedInUser}
 		<section id="sessions">
 			<h4>Open sessions</h4>
-			<button class="close-all-sessions" on:click={closeAllSessions}>
+			<button class="danger small close-all-sessions" on:click={closeAllSessions}>
 				Close all sessions
 			</button>
 			<div class="entries">
@@ -604,7 +596,7 @@
 					class="session"
 					class:current={session.key === $sessionUser.key}>
 						<div class="device-icon">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+							<svg class="icon x-large filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
 								<path fill="#000" d="M60 80a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
 								<path fill="#000" fill-rule="evenodd" d="M14 11h92a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H63.6l5.3 17H83a2 2 0 1 1 0 4H37a2 2 0 1 1 0-4h14l5.4-17H14a8 8 0 0 1-8-8V19a8 8 0 0 1 8-8zm44 85.5h4l2.7 9.5h-9.4l2.7-9.5zM14 15a4 4 0 0 0-4 4v62a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V19a4 4 0 0 0-4-4H14z" clip-rule="evenodd"/>
 							</svg>
@@ -626,9 +618,9 @@
 								})
 							}</span>
 							<button
-							class="close-session"
+							class="close-session danger small"
 							on:click={() => closeSession(session.key, index)}>
-								<svg class="icon small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+								<svg class="icon stroked small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
 									<path fill="#000" d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"/>
 								</svg>
 							</button>
