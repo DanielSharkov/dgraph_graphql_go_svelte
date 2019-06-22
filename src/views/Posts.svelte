@@ -34,6 +34,7 @@
 						}
 						emotion
 						message
+						creation
 						reactions {
 							id
 							author {
@@ -42,6 +43,7 @@
 							}
 							emotion
 							message
+							creation
 						}
 					}
 				}

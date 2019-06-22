@@ -1,5 +1,10 @@
 <script>
-	import { isValidSession, sessionUser, UserSession } from '../stores'
+	import {
+		isValidSession,
+		sessionUser,
+		UserSession,
+		emotionsDisplayName,
+	} from '../stores'
 	import { api } from './../api'
 	import router from '../router'
 
@@ -43,6 +48,18 @@
 						emotion
 						message
 						creation
+						subject {
+							__typename
+							... on Post {
+								id
+								title
+							}
+							... on Reaction {
+								id
+								emotion
+								message
+							}
+						}
 					}
 				}
 			}`
@@ -68,6 +85,18 @@
 							emotion
 							message
 							creation
+							subject {
+							__typename
+								... on Post {
+									id
+									title
+								}
+								... on Reaction {
+									id
+									emotion
+									message
+								}
+							}
 						}
 					}
 				}`
@@ -412,11 +441,13 @@
 		background-color: #03f;
 	}
 
-	#user-profile #posts .entries {
+	#user-profile #posts .entries,
+	#user-profile #reactions .entries {
 		display: flex;
 		flex-flow: row wrap;
 	}
-	#user-profile #posts .post {
+	#user-profile #posts .post,
+	#user-profile #reactions .reaction {
 		display: flex;
 		margin: 0 0 1rem 0;
 		padding: 20px;
@@ -426,34 +457,59 @@
 		border-radius: 4px;
 		flex-flow: row wrap;
 		flex: 0 1 100%;
-		cursor: pointer;
 		transition: all cubic-bezier(.22,.61,.36,1) 300ms;
 	}
-	#user-profile #posts .post:hover {
+	#user-profile #posts .post,
+	#user-profile #reactions .reaction.hoverable {
+		cursor: pointer;
+	}
+	#user-profile #posts .post:hover,
+	#user-profile #reactions .reaction.hoverable:hover {
 		transform: scale(1.05);
 		box-shadow: 0 10px 20px rgba(0,0,0,.05);
 	}
 	#user-profile #posts .post > * {
 		flex: 1 1 100%;
 	}
-	#user-profile #posts .post .title {
+	#user-profile #posts .post .title,
+	#user-profile #reactions .reaction .message {
 		margin-top: 0;
+		margin-bottom: .5rem;
 	}
-	#user-profile #posts .post .creation {
+	#user-profile #posts .post .creation,
+	#user-profile #reactions .reaction .creation {
+		margin-top: auto;
 		font-size: .75rem;
 		opacity: .5;
 	}
+	#user-profile #reactions .reaction .creation {
+		flex: 1 1 100%;
+	}
+	#user-profile #reactions .reaction > * {
+		flex: 1 1 100%;
+	}
+	#user-profile #reactions .reaction .react,
+	#user-profile #reactions .reaction .subject {
+		margin-bottom: 1rem;
+	}
+	#user-profile #reactions .reaction .react .emotion {
+		font-weight: bold;
+		margin-right: .25rem;
+	}
 
 	@media screen and (min-width: 826px) {
-		#user-profile #posts .post {
+		#user-profile #posts .post,
+		#user-profile #reactions .reaction {
 			flex: 0 1 calc(50% - 1rem);
 		}
 		/* Every first post */
-		#user-profile #posts .post:nth-child(odd) {
+		#user-profile #posts .post:nth-child(odd),
+		#user-profile #reactions .reaction:nth-child(odd) {
 			margin: 0 1rem 2rem 0;
 		}
 		/* Every secound post */
-		#user-profile #posts .post:nth-child(even) {
+		#user-profile #posts .post:nth-child(even),
+		#user-profile #reactions .reaction:nth-child(even) {
 			margin: 0 0 2rem 1rem;
 		}
 	}
@@ -622,13 +678,50 @@
 					author,
 					emotion,
 					message,
+					subject,
 				}}
-					<li class="reaction">
-						<span>{id}</span>
-						<span>{creation}</span>
-						<span>{emotion}</span>
-						<span>{message}</span>
-					</li>
+					<div
+					class="reaction"
+					class:hoverable={subject.__typename === 'Post'}
+					reaction-id={id}
+					on:click={() => {
+						if (subject.__typename === 'Post') {
+							router.push('post', {id: subject.id})
+						}
+					}}>
+						<div class="react">
+							<span class="emotion">
+								{$emotionsDisplayName[emotion]}
+							</span>
+							<span class="message">
+								{message}
+							</span>
+						</div>
+						<span
+						class="subject"
+						subject-type={subject.__typename}
+						subject-id={subject.id}>
+							to
+							{#if subject.__typename === 'Post'}
+								<span>"{subject.title}"</span>
+							{:else if subject.__typename === 'Reaction'}
+								<span class="emotion">
+									{$emotionsDisplayName[subject.emotion]}
+								</span>
+								<span class="message">
+									{subject.message}
+								</span>
+							{/if}
+						</span>
+						<span class="creation">{
+							new Date(creation).toLocaleDateString('en-US', {
+								weekday: 'long',
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})
+						}</span>
+					</div>
 				{/each}
 			{/if}
 		</div>

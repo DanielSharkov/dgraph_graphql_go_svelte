@@ -13,9 +13,7 @@
 
 	function sessionUserAction() {
 		if ($isValidSession) {
-			let test = $sessionUser.id
-			console.log(test)
-			router.push('profile', {id: test})
+			router.push('profile', {id: $sessionUser.id})
 		}
 		else {
 			modalViewer.open(new ModalView('sign_in'))

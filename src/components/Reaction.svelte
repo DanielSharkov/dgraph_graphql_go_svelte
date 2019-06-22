@@ -1,24 +1,17 @@
 <script>
-	import {
-		sessionUser,
-		isValidSession,
-		emotions,
-		emotionsDisplayName,
-	} from '../stores'
-	import { api } from '../api'
+	import { emotionsDisplayName } from '../stores'
 	import router from '../router'
-	import Reaction from './Reaction'
 	import CreateReaction from './CreateReaction'
 
 	export let id;
-	export let creation;
-	export let title;
-	export let contents;
-	export let reactions = []
 	export let author = {
 		id: null,
 		displayName: null,
 	}
+	export let emotion;
+	export let message;
+	export let reactions = []
+	export let creation = null
 
 	let createReaction = false
 </script>
@@ -26,50 +19,53 @@
 
 
 <style>
-	.post {
-		display: flex;
-		margin: 0 auto 4rem auto;
-		padding: 2rem;
+	.reaction {
+		margin-top: 2rem;
+		padding: 1rem;
+		flex: 1 1 100%;
 		border: solid 1px rgba(0,0,0,.1);
 		border-radius: 4px;
-		flex-flow: row wrap;
 	}
-	.post .header {
+	.reaction .header {
 		display: flex;
-		margin-bottom: 3rem;
+		margin-bottom: 1rem;
 		flex: 1 1 100%;
 		justify-content: flex-start;
 		align-content: center;
 		align-items: center;
 	}
-	.post .author {
+	.reaction .header .author {
 		display: flex;
 		flex: 0 0 auto;
 		justify-content: flex-start;
 		align-content: center;
 		align-items: center;
 		cursor: pointer;
+		opacity: .5;
 	}
-	.post .author:hover .picture {
+	.reaction .header .author:hover {
+		opacity: 1;
+	}
+	.reaction .header .author:hover .picture {
 		border-color: #03f;
 	}
-	.post .author:hover .picture svg > * {
+	.reaction .header .author:hover .picture svg > * {
 		stroke: #03f;
 	}
-	.post .author:hover .display-name {
+	.reaction .header .author:hover .display-name {
 		color: #03f;
 	}
-	.post .author .picture {
+	.reaction .header .author .picture {
 		display: flex;
 		margin-right: 1rem;
 		flex: 0 0 auto;
 		justify-content: center;
 		align-items: center;
 	}
-	.post .author .display-name {
+	.reaction .header .author .display-name {
 		flex: 1 1 auto;
 	}
-	.post .creation {
+	.reaction .header .creation {
 		margin-left: auto;
 		flex: 0 0 auto;
 		font-size: .75rem;
@@ -77,52 +73,43 @@
 		align-self: flex-start;
 		opacity: .25;
 	}
-	.post .title {
-		margin: 0 0 .5rem 0;
-		padding: .25rem;
-		flex: 1 0 auto;
-	}
-	.post .contents {
-		font-family:
-			'Lucida Sans',
-			'Lucida Sans Regular',
-			'Lucida Grande',
-			'Roboto',
-			'Arial';
-		margin: 0;
-		padding: .25rem;
+	.reaction .content {
+		margin-bottom: 1rem;
 		flex: 1 1 100%;
 	}
-	.post .reactions {
-		display: flex;
-		margin-top: 3rem;
-		border-top: solid 1px rgba(0,0,0,.1);
-		flex: 1 1 100%;
-		flex-flow: row wrap;
+	:global(.reaction > .create-reaction) {
+		margin: 0 0 0 1rem;
+		padding: 1rem 0 1rem 1rem;
+		border-left: solid 1px rgba(0,0,0,.1);
 	}
-	:global(.post .reactions > .create-reaction) {
-		margin-top: 2rem;
-		padding: 1rem;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: 4px;
+	:global(.reaction .reaction) {
+		margin: 0 0 0 1rem;
+		padding: 1rem 0 1rem 1rem;
+		background: none;
+		border: none;
+		border-left: solid 1px rgba(0,0,0,.1);
+		border-radius: 0;
 	}
-	.post .reactions .new-reaction {
+	:global(.reaction .reaction .header) {
+		margin-top: .5rem;
+	}
+	.reaction .new-reaction {
 		display: inline-block;
-		width: 100%;
-		margin-top: 2rem;
-		padding: 1rem;
+		margin: 0;
+		padding: .25rem .5rem;
 		background: none;
 		border: solid 1px rgba(0,0,0,.1);
 		border-radius: 4px;
 		cursor: pointer;
 		color: #03f;
 		outline: none;
+		font-size: .75rem;
 	}
-	.post .reactions .new-reaction:hover {
+	.reaction .new-reaction:hover {
 		background-color: rgba(0,40,255,.1);
 		border-color: #03f;
 	}
-	.post .reactions .new-reaction:active {
+	.reaction .new-reaction:active {
 		background-color: #03f;
 		border-color: #03f;
 		color: #fff;
@@ -131,7 +118,7 @@
 
 
 
-<div class="post" post-id={id}>
+<div class="reaction" reaction-id={id}>
 	<div class="header">
 		<div
 		class="author"
@@ -157,22 +144,27 @@
 			})
 		}</span>
 	</div>
-	<h3 class="title">{title}</h3>
-	<pre class="contents">{contents}</pre>
-	<div class="reactions">
-		{#if createReaction}
-			<CreateReaction
-				subject={id}
-				on:cancel={() => createReaction = false}
-				on:created={react => reactions = [react.detail, ...reactions]}
-			/>
-		{:else}
-			<button class="new-reaction" on:click={()=>createReaction = true}>
-				+ Write reaction
-			</button>
-		{/if}
-		{#each reactions as reaction}
-			<Reaction {...reaction}/>
-		{/each}
+	<div class="content">
+		<span>{$emotionsDisplayName[emotion]}</span>
+		<span>{message}</span>
 	</div>
+	{#if reactions.length > 0}
+		{#each reactions as reaction}
+			<svelte:self {...reaction}/>
+		{/each}
+	{/if}
+	{#if createReaction}
+		<CreateReaction
+			subject={id}
+			on:cancel={() => createReaction = false}
+			on:created={react => {
+				reactions = [react.detail, ...reactions]
+				createReaction = false
+			}}
+		/>
+	{:else}
+		<button class="new-reaction" on:click={()=>createReaction = true}>
+			+ Write reaction
+		</button>
+	{/if}
 </div>
