@@ -7,8 +7,8 @@
 
 	async function fetchPost() {
 		const resp = await api.Query(
-			`query ($uid: Identifier!) {
-				post(id: $uid) {
+			`query ($id: Identifier!) {
+				post(id: $id) {
 					id
 					author {
 						id
@@ -39,7 +39,7 @@
 					}
 				}
 			}`,
-			{uid: params.id}
+			{id: params.id}
 		)
 
 		post = resp.post

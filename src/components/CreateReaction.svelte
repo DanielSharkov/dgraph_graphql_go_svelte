@@ -30,15 +30,15 @@
 
 		const resp = await api.Query(
 			`mutation (
-				$authorID: Identifier!
-				$subjectID: Identifier!
-				$emotion: Emotion!
+				$authorId: Identifier!,
+				$subjectId: Identifier!,
+				$emotion: Emotion!,
 				$message: String!
 			) {
 				createReaction(
-					author: $authorID
-					subject: $subjectID
-					emotion: $emotion
+					author: $authorId,
+					subject: $subjectId,
+					emotion: $emotion,
 					message: $message
 				) {
 					id
@@ -48,8 +48,8 @@
 				}
 			}`,
 			{
-				subjectID: subject,
-				authorID: $sessionUser.id,
+				authorId: $sessionUser.id,
+				subjectId: subject,
 				emotion: form.emote,
 				message: form.message,
 			},

@@ -70,13 +70,13 @@
 
 		const resp = await api.Query(
 			`mutation (
-				$author: Identifier!
-				$title: String!
+				$author: Identifier!,
+				$title: String!,
 				$contents: String!
 			) {
 				createPost(
-					author: $author
-					title: $title
+					author: $author,
+					title: $title,
 					contents: $contents
 				) {
 					id
