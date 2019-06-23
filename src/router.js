@@ -52,15 +52,6 @@ export default new Router({
 		name: '404',
 	},
 	beforePush(name, params, previousRoute) {
-		if (
-			previousRoute !== null &&
-			previousRoute.name === 'posts' &&
-			name === 'signin.modal'
-		) {
-			alert('Sign in modal')
-			return previousRoute
-		}
-
 		switch (name) {
 		case 'root':
 			name = 'posts'
