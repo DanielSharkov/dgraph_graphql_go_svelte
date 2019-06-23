@@ -56,13 +56,13 @@
 		try {
 			const resp = await api.Query(
 				`mutation (
-						$displayName: String!
+						$email: String!,
+						$displayName: String!,
 						$password: String!
-						$email: String!
 					) {
 						createUser(
-							displayName: $displayName
-							email: $email
+							email: $email,
+							displayName: $displayName,
 							password: $password
 						) {
 							id
