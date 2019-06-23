@@ -10,12 +10,12 @@ export function UserSession(
 	creation = new Date(0),
 ) {
 	Object.defineProperties(this, {
-		key: {value: key},
-		creation: {value: creation},
-		id: {value: id},
-		email: {value: email},
-		displayName: {value: displayName},
-		json: {value: function() {
+		key:         { value: key },
+		creation:    { value: creation },
+		id:          { value: id },
+		email:       { value: email },
+		displayName: { value: displayName },
+		json:        { value: function() {
 			return JSON.stringify({
 				key: this.key,
 				creation: this.creation,
@@ -29,6 +29,7 @@ export function UserSession(
 
 function initUserSession() {
 	let currentSession = new UserSession()
+
 	const fromLS = window.localStorage.getItem('session')
 	if (fromLS) {
 		const decoded = JSON.parse(fromLS)
@@ -41,16 +42,16 @@ function initUserSession() {
 		)
 	}
 
-	const {subscribe, set} = writable(currentSession)
+	const { subscribe, set } = writable(currentSession)
 	return {
 		subscribe,
-		set: session => {
+		set(session) {
 			if (session instanceof UserSession) {
 				window.localStorage.setItem('session', session.json())
 				return set(session)
 			}
 		},
-		reset: () => {
+		reset() {
 			const nullSess = new UserSession()
 			window.localStorage.setItem('session', nullSess.json())
 			return set(nullSess)
@@ -61,7 +62,13 @@ function initUserSession() {
 export const sessionUser = initUserSession()
 export const isValidSession = derived(
 	sessionUser,
-	s => s.key !== '' && s.id !== '' && s.email !== '',
+	(session) => {
+		return (
+			session.key !== '' &&
+			session.id !== '' &&
+			session.email !== ''
+		)
+	},
 )
 
 
@@ -83,26 +90,30 @@ export const emotionsDisplayName = readable({
 
 
 
-export function ModalView(
-	type = '',
-	data = {},
-) {
+export function ModalView(type = '', data = {}) {
 	Object.defineProperties(this, {
-		type: {value: type},
-		data: {value: data},
+		type: { value: type },
+		data: { value: data },
 	})
 }
 
 function initModalViewer() {
-	const {subscribe, set} = writable(new ModalView())
+	const { subscribe, set } = writable(new ModalView())
 	return {
 		subscribe,
-		open: modal => {
+		open(modal) {
 			if (modal instanceof ModalView) {
-				return set(new ModalView(modal.type, modal.data || {}))
+				return set(
+					new ModalView(
+						modal.type,
+						modal.data || {},
+					)
+				)
 			}
 		},
-		close: () => set(new ModalView()),
+		close() {
+			return set(new ModalView())
+		},
 	}
 }
 export const modalViewer = initModalViewer()
@@ -110,24 +121,22 @@ export const modalViewer = initModalViewer()
 
 
 function initAppTheme() {
-	let currentTheme = ''
-	const fromLS = window.localStorage.getItem('appTheme')
-	if (fromLS) {
-		currentTheme = fromLS
-	}
-
-	const {subscribe, update} = writable(currentTheme)
+	const { subscribe, update } = writable(
+		window.localStorage.getItem('appTheme') || ''
+	)
 	return {
 		subscribe,
-		toggle: () => update(store => {
-			if (store === 'black') {
-				store = 'default'
-			} else {
-				store = 'black'
-			}
-			window.localStorage.appTheme = store
-			return store
-		}),
+		toggle() {
+			return update(store => {
+				if (store === 'black') {
+					store = 'default'
+				} else {
+					store = 'black'
+				}
+				window.localStorage.appTheme = store
+				return store
+			})
+		},
 	}
 }
 export const appTheme = initAppTheme()
