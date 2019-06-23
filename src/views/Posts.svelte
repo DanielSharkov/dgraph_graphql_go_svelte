@@ -138,7 +138,6 @@
 	}
 	.post .header {
 		display: flex;
-		margin-bottom: 3rem;
 		flex: 1 1 100%;
 		justify-content: flex-start;
 		align-content: center;
@@ -161,39 +160,32 @@
 	.post .author .display-name {
 		flex: 1 1 auto;
 	}
-	.post .title {
-		margin: 0 0 .5rem 0;
-		flex: 1 0 auto;
+	.post .content {
+		margin: 2rem 0;
+		flex: 1 1 100%;
 	}
-	.post .title input {
+	.post .content .title {
+		margin: 0 0 .5rem 0;
+	}
+	.post .content .title input {
 		font-weight: inherit;
 		font-size: inherit;
 	}
-	.post .contents {
+	.post .content .contents {
 		flex: 1 1 100%;
 	}
-	.post .title input,
-	.post .contents {
+	.post .content .title input,
+	.post .content .contents {
 		margin: 0;
-		padding: .25rem;
-		outline: none;
-		border: solid 1px transparent;
-		border-radius: var(--app-border-radius);
 		line-height: 1.5;
 	}
-	.post .title input:hover,
-	.post .contents:hover {
-		border-color: #000;
-	}
-	.post .title input:focus,
-	.post .contents:focus {
-		border-color: var(--app-primary);
-		box-shadow: 0 0 0 .25rem var(--app-primary-01);
+	.post .content .title input:not(:hover):not(:active):not(:focus),
+	.post .content .contents:not(:hover):not(:active):not(:focus) {
+		border-color: transparent;
 	}
 	.post .actions {
 		display: flex;
 		flex-flow: row nowrap;
-		margin-top: 1rem;
 		flex: 1 1 100%;
 	}
 	.post .actions .primary {
@@ -221,19 +213,22 @@
 				</span>
 			</div>
 		</div>
-		<h3 class="title">
-			<input
-				placeholder="Title ..."
-				type="text"
-				bind:value={formPostData.title}
-			/>
-		</h3>
-		<textarea
-			placeholder="Write your comment ..."
-			class="contents"
-			rows="10"
-			bind:value={formPostData.contents}
-		></textarea>
+		<div class="content">
+			<h3 class="title">
+				<input
+					class="small"
+					placeholder="Title ..."
+					type="text"
+					bind:value={formPostData.title}
+				/>
+			</h3>
+			<textarea
+				placeholder="Write your comment ..."
+				class="contents small"
+				rows="10"
+				bind:value={formPostData.contents}
+			></textarea>
+		</div>
 		<div class="actions">
 			<button
 			id="cancelNewPost"

@@ -93,6 +93,7 @@ body {
 	overflow: auto;
 	color: var(--app-fg);
 	background-color: var(--app-bg);
+	transition: all cubic-bezier(.22,.61,.36,1) 400ms;
 }
 
 #app.black-theme {

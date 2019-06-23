@@ -36,7 +36,6 @@
 	}
 	.post .header {
 		display: flex;
-		margin-bottom: 3rem;
 		flex: 1 1 100%;
 		justify-content: flex-start;
 		align-content: center;
@@ -77,12 +76,16 @@
 		align-self: flex-start;
 		opacity: .25;
 	}
-	.post .title {
+	.post .content {
+		margin: 2rem 0;
+		flex: 1 1 100%;
+	}
+	.post .content .title {
 		margin: 0 0 .5rem 0;
 		padding: .25rem;
 		flex: 1 0 auto;
 	}
-	.post .contents {
+	.post .content .contents {
 		width: 100%;
 		font-family:
 			'Lucida Sans',
@@ -105,9 +108,6 @@
 		padding: 1rem;
 		border: solid 1px var(--app-border-01);
 		border-radius: var(--app-border-radius);
-	}
-	.post .reactions .new-reaction {
-		margin-top: 2rem;
 	}
 </style>
 
@@ -139,8 +139,10 @@
 			})
 		}</span>
 	</div>
-	<h3 class="title">{title}</h3>
-	<pre class="contents">{contents}</pre>
+	<div class="content">
+		<h3 class="title">{title}</h3>
+		<pre class="contents">{contents}</pre>
+	</div>
 	<div class="reactions">
 		{#if createReaction}
 			<CreateReaction
@@ -153,7 +155,7 @@
 			/>
 		{:else}
 			<button
-			class="full-width primary new-reaction"
+			class="full-width primary"
 			on:click={() => createReaction = true}>
 				+ Write reaction
 			</button>
