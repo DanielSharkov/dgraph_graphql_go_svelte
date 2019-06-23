@@ -158,16 +158,16 @@
 
 
 
-{#if $modalViewer.type !== ''}
-	<div id="modal-viewport" transition:fade={{duration:100}}>
-		<div class="background" on:click={modalViewer.close}/>
-		{#if $modalViewer.type === 'sign_in'}
-			<SignInModal/>
-		{/if}
-	</div>
-{/if}
-
 <div id="app" class="{$appTheme}-theme">
+	{#if $modalViewer.type !== ''}
+		<div id="modal-viewport" transition:fade={{duration:100}}>
+			<div class="background" on:click={modalViewer.close}/>
+			{#if $modalViewer.type === 'sign_in'}
+				<SignInModal/>
+			{/if}
+		</div>
+	{/if}
+
 	<header>
 		<div id="navigation">
 			{#each $router.routes as route}

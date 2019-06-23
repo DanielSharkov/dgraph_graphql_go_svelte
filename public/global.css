@@ -259,6 +259,27 @@ button.disabled {
 	pointer-events: none;
 }
 
+input {
+	padding: .5rem;
+	border: solid 1px var(--app-border-01);
+	border-radius: var(--app-border-radius);
+	box-shadow: 0;
+}
+input:hover {
+	border-color: var(--app-fg);
+}
+input:active,
+input:focus {
+	border-color: var(--app-primary);
+	box-shadow: 0 0 0 .25rem var(--app-primary-01);
+}
+input.small {
+	padding: .25rem;
+}
+input.large {
+	padding: 1rem;
+}
+
 .icon {
 	height: 1.5rem;
 	width: 1.5rem;

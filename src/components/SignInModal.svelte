@@ -94,9 +94,14 @@
 	}
 	validateInput()
 
-	function handleAction() {
+	function primaryAction() {
 		if (isSigningUp) SignUp()
 		else SignIn()
+	}
+
+	function secondaryAction() {
+		isSigningUp = !isSigningUp
+		validateInput()
 	}
 </script>
 
@@ -113,7 +118,7 @@
 		text-align: center;
 		flex: 1 1 100%;
 	}
-	.modal.signin .form {
+	.modal.signin form {
 		display: flex;
 		flex: 0 1 100%;
 		width: 100%;
@@ -121,28 +126,15 @@
 		align-content: flex-start;
 		align-items: center;
 	}
-	.modal.signin .form .input-error {
+	.modal.signin form .input-error {
 		color: #f05;
 		margin: 0 auto 1rem auto;
 	}
-	.modal.signin .form input {
+	.modal.signin form input {
 		margin: 0 0 2rem 0;
-		padding: 1rem;
 		flex: 1 1 100%;
-		background: none;
-		border: solid 1px rgba(0,0,0,.1);
-		border-radius: var(--app-border-radius);
-		outline: none;
-		box-shadow: 0;
 	}
-	.modal.signin .form input:hover {
-		border-color: #000;
-	}
-	.modal.signin .form input:focus {
-		border-color: #03f;
-		box-shadow: 0 0 0 .25rem rgba(0,40,255,.1);
-	}
-	.modal.signin .form button.primary {
+	.modal.signin form button.primary {
 		margin: 0 0 0 auto;
 	}
 </style>
@@ -157,33 +149,33 @@
 			Sign in
 		{/if}
 	</h1>
-	<div class="form">
+	<form>
 		<p class="input-error" class:invisible={inputError === ''}>
 			{inputError}
 		</p>
 		<input
+			class="large"
 			class:hidden={!isSigningUp}
-			on:input={() => validateInput()}
+			on:input={validateInput}
 			placeholder="Name"
 			type="text"
 			bind:value={formData.displayName}
 		/>
 		<input
-			on:input={() => validateInput()}
+			class="large"
+			on:input={validateInput}
 			placeholder="Email"
 			type="text"
 			bind:value={formData.email}
 		/>
 		<input
-			on:input={() => validateInput()}
+			class="large"
+			on:input={validateInput}
 			placeholder="Password"
 			type="password"
 			bind:value={formData.password}
 		/>
-		<button class="secondary" on:click={() => {
-			isSigningUp = !isSigningUp
-			validateInput()
-		}}>
+		<button type="button" class="secondary" on:click={secondaryAction}>
 			{#if isSigningUp}
 				Back to sign in
 			{:else}
@@ -191,14 +183,15 @@
 			{/if}
 		</button>
 		<button
+		type="button"
 		class="primary"
 		disabled={!isValidInput}
-		on:click={handleAction}>
+		on:click={primaryAction}>
 			{#if isSigningUp}
 				Sign up
 			{:else}
 				Sign in
 			{/if}
 		</button>
-	</div>
+	</form>
 </div>
