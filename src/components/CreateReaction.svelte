@@ -117,25 +117,9 @@
 	}
 	.create-reaction .message {
 		margin: 1rem auto 0 auto;
-		padding: .5rem;
-		border: solid 1px transparent;
 		flex: 1 1 100%;
-		border-radius: var(--app-border-radius);
-		border-color: rgba(0,0,0,.1);
-		box-shadow: none;
 		resize: vertical;
 		min-height: 2.25rem;
-	}
-	.create-reaction .message:hover {
-		border-color: var(--app-fg);
-	}
-	.create-reaction .message:active {
-		border-color: var(--app-primary);
-		box-shadow: 0 0 0 .25rem var(--app-primary-01);
-	}
-	.create-reaction .message:focus {
-		border-color: var(--app-primary);
-		box-shadow: 0 0 0 .25rem var(--app-primary-01);
 	}
 	.create-reaction .not-signed-in {
 		margin: auto;

@@ -97,8 +97,6 @@
 	}
 	.post .reactions {
 		display: flex;
-		margin-top: 3rem;
-		border-top: solid 1px var(--app-border-01);
 		flex: 1 1 100%;
 		flex-flow: row wrap;
 	}

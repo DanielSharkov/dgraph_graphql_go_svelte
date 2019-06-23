@@ -276,24 +276,31 @@ button.link:hover {
 	text-decoration: underline;
 }
 
-input {
+input,
+textarea {
 	padding: .5rem;
 	border: solid 1px var(--app-border-01);
 	border-radius: var(--app-border-radius);
 	box-shadow: 0;
+	color: var(--app-fg);
 }
-input:hover {
+input:hover,
+textarea:hover {
 	border-color: var(--app-fg);
 }
 input:active,
-input:focus {
+input:focus,
+textarea:active,
+textarea:focus {
 	border-color: var(--app-primary);
 	box-shadow: 0 0 0 .25rem var(--app-primary-01);
 }
-input.small {
+input.small,
+textarea.small {
 	padding: .25rem;
 }
-input.large {
+input.large,
+textarea.large {
 	padding: 1rem;
 }
 
