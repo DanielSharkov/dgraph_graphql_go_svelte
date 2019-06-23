@@ -148,17 +148,20 @@
 			<CreateReaction
 				subject={id}
 				on:cancel={() => createReaction = false}
-				on:created={react => reactions = [react.detail, ...reactions]}
+				on:created={react => {
+					createReaction = false
+					reactions = [react.detail, ...reactions]
+				}}
 			/>
 		{:else}
 			<button
-			class="full-width large primary new-reaction"
-			on:click={()=>createReaction = true}>
+			class="full-width primary new-reaction"
+			on:click={() => createReaction = true}>
 				+ Write reaction
 			</button>
 		{/if}
 		{#each reactions as reaction}
-			<Reaction {...reaction}/>
+			<Reaction {reaction}/>
 		{/each}
 	</div>
 </div>

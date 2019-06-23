@@ -3,15 +3,17 @@
 	import router from '../router'
 	import CreateReaction from './CreateReaction'
 
-	export let id;
-	export let author = {
+	export let reaction = {
 		id: null,
-		displayName: null,
+		author: {
+			id: null,
+			displayName: null,
+		},
+		emotion: null,
+		message: null,
+		reactions: [],
+		creation: null,
 	}
-	export let emotion;
-	export let message;
-	export let reactions = []
-	export let creation = null
 
 	let createReaction = false
 </script>
@@ -100,12 +102,12 @@
 
 
 
-<div class="reaction" reaction-id={id}>
+<div class="reaction" reaction-id={reaction.id}>
 	<div class="header">
 		<div
 		class="author"
-		author-id={author.id}
-		on:click={() => router.push('profile', {id: author.id})}>
+		author-id={reaction.author.id}
+		on:click={() => router.push('profile', {id: reaction.author.id})}>
 			<div class="picture">
 				<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
@@ -113,11 +115,11 @@
 				</svg>
 			</div>
 			<span class="display-name">
-				{author.displayName}
+				{reaction.author.displayName}
 			</span>
 		</div>
 		<span class="creation">{
-			new Date(creation).toLocaleDateString('en-US', {
+			new Date(reaction.creation).toLocaleDateString('en-US', {
 				year: 'numeric',
 				month: 'numeric',
 				day: 'numeric',
@@ -127,25 +129,25 @@
 		}</span>
 	</div>
 	<div class="content">
-		<span>{$emotionsDisplayName[emotion]}</span>
-		<span>{message}</span>
+		<span>{$emotionsDisplayName[reaction.emotion]}</span>
+		<span>{reaction.message}</span>
 	</div>
-	{#if reactions.length > 0}
-		{#each reactions as reaction}
-			<svelte:self {...reaction}/>
+	{#if reaction.reactions && reaction.reactions.length > 0}
+		{#each reaction.reactions as reaction}
+			<svelte:self {reaction}/>
 		{/each}
 	{/if}
 	{#if createReaction}
 		<CreateReaction
-			subject={id}
+			subject={reaction.id}
 			on:cancel={() => createReaction = false}
 			on:created={react => {
-				reactions = [react.detail, ...reactions]
 				createReaction = false
+				reaction.reactions = [react.detail, ...reaction.reactions]
 			}}
 		/>
 	{:else}
-		<button class="primary small" on:click={()=>createReaction = true}>
+		<button class="primary small" on:click={() => createReaction = true}>
 			+ Write reaction
 		</button>
 	{/if}
