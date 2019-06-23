@@ -134,11 +134,16 @@ input, textarea, button {
 	margin: auto;
 	padding: 2rem;
 	border-radius: var(--app-border-radius);
-	background-color: #fff;
+	background-color: var(--app-bg);
 	flex: 0 1 auto;
 	flex-flow: row wrap;
 	box-shadow: 0 16px 40px rgba(0,0,0,.3);
+	border: solid 1px var(--app-border-01)
 	overflow: hidden;
+}
+
+#app.black-theme .modal {
+	box-shadow: 0 16px 40px rgba(255,255,255,.1);
 }
 
 h3.view-title {
