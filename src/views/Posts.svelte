@@ -10,10 +10,6 @@
 		contents: '',
 	}
 
-	function isFormEmpty() {
-		return formPostData.title === '' || formPostData.contents === ''
-	}
-
 	async function fetchPosts() {
 		const resp = await api.Query(
 			`{
@@ -50,13 +46,21 @@
 			}`,
 		)
 
-		for (const post of resp.posts) postList.unshift(post)
+		for (const post of resp.posts) {
+			postList.unshift(post)
+		}
 		postList = postList
 	}
 	fetchPosts()
 
 	async function createNewPost() {
-		if (!$isValidSession || isFormEmpty()) return
+		if (
+			!$isValidSession ||
+			formPostData.title === '' ||
+			formPostData.contents === ''
+		) {
+			return
+		}
 
 		const resp = await api.Query(
 			`mutation (
