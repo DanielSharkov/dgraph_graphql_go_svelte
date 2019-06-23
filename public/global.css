@@ -264,6 +264,18 @@ button.disabled {
 	pointer-events: none;
 }
 
+button.link {
+	display: inline;
+	padding: 0;
+	border: none;
+	color: var(--app-primary);
+	font-size: inherit;
+	font-weight: inherit;
+}
+button.link:hover {
+	text-decoration: underline;
+}
+
 input {
 	padding: .5rem;
 	border: solid 1px var(--app-border-01);

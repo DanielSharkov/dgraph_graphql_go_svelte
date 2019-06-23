@@ -93,6 +93,9 @@
 	:global(.reaction .reaction .header) {
 		margin-top: .5rem;
 	}
+	:global(.reaction .create-reaction .not-signed-in) {
+		margin: 0 !important;
+	}
 </style>
 
 

@@ -1,12 +1,14 @@
 <script>
+	import { createEventDispatcher } from 'svelte'
+	import { api } from '../api'
 	import {
 		isValidSession,
 		sessionUser,
 		emotions,
 		emotionsDisplayName,
+		modalViewer,
+		ModalView,
 	} from '../stores'
-	import { createEventDispatcher } from 'svelte'
-	import { api } from '../api'
 
 	const dispatch = createEventDispatcher()
 
@@ -62,6 +64,12 @@
 		form.message = ''
 
 		dispatch('created', resp.createReaction)
+	}
+
+	function openSignInModal() {
+		modalViewer.open(
+			new ModalView('sign_in')
+		)
 	}
 </script>
 
@@ -129,31 +137,43 @@
 		border-color: var(--app-primary);
 		box-shadow: 0 0 0 .25rem var(--app-primary-01);
 	}
+	.create-reaction .not-signed-in {
+		margin: auto;
+	}
 </style>
 
 
 
 <div class="create-reaction">
-	{#each $emotions as emote}
-		<button
-		class="emote"
-		class:selected={{emote}.emote === form.emote}
-		on:click={() => form.emote = {emote}.emote}>
-			{$emotionsDisplayName[emote]}
-		</button>
-	{/each}
-	<div class="actions">
-		<button class="secondary" on:click={() => dispatch('cancel')}>
-			Cancel
-		</button>
-		<button class="primary" on:click={reactOnPost}>
-			React!
-		</button>
-	</div>
-	<textarea
-		class="message"
-		placeholder="Write your react message..."
-		rows="3"
-		bind:value={form.message}
-	></textarea>
+	{#if $isValidSession}
+		{#each $emotions as emote}
+			<button
+			class="emote"
+			class:selected={{emote}.emote === form.emote}
+			on:click={() => form.emote = {emote}.emote}>
+				{$emotionsDisplayName[emote]}
+			</button>
+		{/each}
+		<div class="actions">
+			<button class="secondary" on:click={() => dispatch('cancel')}>
+				Cancel
+			</button>
+			<button class="primary" on:click={reactOnPost}>
+				React!
+			</button>
+		</div>
+		<textarea
+			class="message"
+			placeholder="Write your react message..."
+			rows="3"
+			bind:value={form.message}
+		></textarea>
+	{:else}
+		<span class="not-signed-in">
+			<button class="link" on:click={openSignInModal}>
+				Sign in
+			</button>
+			to create a reaction
+		</span>
+	{/if}
 </div>

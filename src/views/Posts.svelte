@@ -1,6 +1,12 @@
 <script>
 	import Post from '../components/Post'
-	import { sessionUser, isValidSession, UserSession } from '../stores'
+	import {
+		sessionUser,
+		isValidSession,
+		UserSession,
+		modalViewer,
+		ModalView,
+	} from '../stores'
 	import { api } from '../api'
 
 	const postList = []
@@ -97,6 +103,12 @@
 		formPostData.title = ''
 		formPostData.contents = ''
 	}
+
+	function openSignInModal() {
+		modalViewer.open(
+			new ModalView('sign_in')
+		)
+	}
 </script>
 
 <svelte:head>
@@ -188,10 +200,6 @@
 
 
 
-<h3 class:hidden={$isValidSession} class="view-title">
-	Sign in to write a post.
-</h3>
-
 {#if $isValidSession}
 	<div
 	id="createPost"
@@ -246,6 +254,13 @@
 	on:click={() => showCreatePost = true}>
 		+ Write a new post
 	</button>
+{:else}
+	<h3 class="view-title">
+		<button class="link" on:click={openSignInModal}>
+			Sign in
+		</button>
+		to write a post.
+	</h3>
 {/if}
 
 <div id="posts">
