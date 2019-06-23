@@ -196,6 +196,9 @@
 		margin-top: 1rem;
 		flex: 1 1 100%;
 	}
+	.post .actions .primary {
+		margin-left: auto;
+	}
 </style>
 
 
