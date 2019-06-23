@@ -12,7 +12,9 @@
 	}
 
 	async function SignIn() {
-		if (formData.email === '' || formData.password === '') return
+		if (formData.email === '' || formData.password === '') {
+			return
+		}
 
 		try {
 			const resp = await api.Query(
@@ -46,8 +48,11 @@
 				resp.createSession.user.displayName,
 				resp.createSession.creation,
 			))
+
 			modalViewer.close()
-			setTimeout(() => window.dispatchEvent(window.eventUserSignIn), 0)
+			setTimeout(() => {
+				window.dispatchEvent(window.eventUserSignIn)
+			}, 0)
 		} catch(err) {
 			inputError = err.response.data.errors.m
 		}
@@ -85,19 +90,29 @@
 
 	let isValidInput;
 	function validateInput() {
-		if (isSigningUp) isValidInput =
-			formData.email !== '' &&
-			formData.password !== '' &&
-			formData.displayName !== ''
-		else isValidInput =
-			formData.email !== '' &&
-			formData.password !== ''
+		if (isSigningUp) {
+			isValidInput = (
+				formData.email !== '' &&
+				formData.password !== '' &&
+				formData.displayName !== ''
+			)
+		}
+		else {
+			isValidInput = (
+				formData.email !== '' &&
+				formData.password !== ''
+			)
+		}
 	}
 	validateInput()
 
 	function primaryAction() {
-		if (isSigningUp) SignUp()
-		else SignIn()
+		if (isSigningUp) {
+			SignUp()
+		}
+		else {
+			SignIn()
+		}
 	}
 
 	function secondaryAction() {
