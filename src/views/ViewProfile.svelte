@@ -596,8 +596,8 @@
 					class:current={session.key === $sessionUser.key}>
 						<div class="device-icon">
 							<svg class="icon x-large filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
-								<path fill="#000" d="M60 80a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-								<path fill="#000" fill-rule="evenodd" d="M14 11h92a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H63.6l5.3 17H83a2 2 0 1 1 0 4H37a2 2 0 1 1 0-4h14l5.4-17H14a8 8 0 0 1-8-8V19a8 8 0 0 1 8-8zm44 85.5h4l2.7 9.5h-9.4l2.7-9.5zM14 15a4 4 0 0 0-4 4v62a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V19a4 4 0 0 0-4-4H14z" clip-rule="evenodd"/>
+								<path d="M60 80a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+								<path fill-rule="evenodd" d="M14 11h92a8 8 0 0 1 8 8v62a8 8 0 0 1-8 8H63.6l5.3 17H83a2 2 0 1 1 0 4H37a2 2 0 1 1 0-4h14l5.4-17H14a8 8 0 0 1-8-8V19a8 8 0 0 1 8-8zm44 85.5h4l2.7 9.5h-9.4l2.7-9.5zM14 15a4 4 0 0 0-4 4v62a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V19a4 4 0 0 0-4-4H14z" clip-rule="evenodd"/>
 							</svg>
 						</div>
 						<div class="content">
@@ -619,8 +619,8 @@
 							<button
 							class="close-session danger small"
 							on:click={() => closeSession(session.key, index)}>
-								<svg class="icon stroked small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-									<path fill="#000" d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"/>
+								<svg class="icon filled small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+									<path d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"/>
 								</svg>
 							</button>
 						</div>
