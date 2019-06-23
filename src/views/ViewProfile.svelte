@@ -34,8 +34,8 @@
 
 	async function fetchUser() {
 		let query = `
-			query ($uid: Identifier!) {
-				user(id: $uid) {
+			query ($id: Identifier!) {
+				user(id: $id) {
 					id
 					displayName
 					creation
@@ -66,8 +66,8 @@
 			}`
 		if ($isValidSession && $sessionUser.id == params.id) {
 			query = `
-				query ($uid: Identifier!) {
-					user(id: $uid) {
+				query ($id: Identifier!) {
+					user(id: $id) {
 						id
 						email
 						displayName
@@ -102,7 +102,7 @@
 					}
 				}`
 		}
-		const resp = await api.Query(query, {uid: params.id})
+		const resp = await api.Query(query, {id: params.id})
 
 		profileEdit.displayName = user.displayName = resp.user.displayName
 		user.id = resp.user.id
@@ -124,35 +124,34 @@
 		}
 	}
 
-	async function closeSession(sesKey, index) {
+	async function closeSession(key, index) {
 		const resp = await api.Query(
-			`mutation ($sesKey: String!) {
-				closeSession(key: $sesKey)
-			}`,
-			{sesKey},
+			`mutation ($key: String!) { closeSession(key: $key) }`,
+			{key},
 		)
 
 		if (resp.closeSession) {
-			// When closing current session reset the session
-			if (sesKey === $sessionUser.key) sessionUser.reset()
-
 			if (index !== undefined) {
 				user.sessions.splice(index, 1)
 				// Reactivate sessions list
 				user.sessions = user.sessions
+			}
+			// When closing current session reset the session
+			if (key === $sessionUser.key) {
+				sessionUser.reset()
 			}
 		}
 	}
 
 	async function closeAllSessions() {
 		const resp = await api.Query(
-			`mutation ($uid: Identifier!) {
-				closeAllSession(id: $uid)
-			}`,
+			`mutation ($id: Identifier!) { closeAllSessions(user: $id) }`,
 			{id: $sessionUser.id},
 		)
 
-		if (resp.closeAllSession) sessionUser.reset()
+		if (resp.closeAllSessions) {
+			sessionUser.reset()
+		}
 	}
 
 	function cancelEdit() {
@@ -180,15 +179,15 @@
 
 		const resp = await api.Query(
 			`mutation (
-				$user: Identifier!
-				$editor: Identifier!
-				$newEmail: String
+				$user: Identifier!,
+				$editor: Identifier!,
+				$newEmail: String,
 				$newPass: String
 			) {
 				editUser(
-					user: $user
-					editor: $editor
-					newEmail: $newEmail
+					user: $user,
+					editor: $editor,
+					newEmail: $newEmail,
 					newPassword: $newPass
 				) {
 					displayName
@@ -219,7 +218,7 @@
 <svelte:head>
 	<title>{user.displayName}</title>
 </svelte:head>
-<svelte:window on:routeUpdated={fetchUser}/>
+<svelte:window on:routeUpdated={fetchUser} on:userSignIn={fetchUser}/>
 
 
 
