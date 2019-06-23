@@ -17,11 +17,11 @@
 		try {
 			const resp = await api.Query(
 				`mutation (
-					$password: String!
+					$password: String!,
 					$email: String!
 				) {
 					createSession(
-						email: $email
+						email: $email,
 						password: $password
 					) {
 						key
@@ -47,6 +47,7 @@
 				resp.createSession.creation,
 			))
 			modalViewer.close()
+			setTimeout(() => window.dispatchEvent(window.eventUserSignIn), 0)
 		} catch(err) {
 			inputError = err.response.data.errors.m
 		}

@@ -10,6 +10,8 @@ if (typeof(Storage) !== undefined) {
 		window.localStorage.setItem('appTheme', '')
 	}
 
+	window.eventUserSignIn = new CustomEvent('userSignIn')
+
 	window.handleRequestError = function(err) {
 		// err.data.errors.c = error code
 		// err.data.errors.m = error message
