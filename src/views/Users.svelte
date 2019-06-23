@@ -3,16 +3,17 @@
 	import router from '../router'
 	import { api } from '../api'
 
-	// Semicolon needed because otherwise javascript
-	// would try to assign it as a function
-	const userList = [];
+	const userList = []
 
-	(async function() {
+	async function fetchUsers() {
 		const resp = await api.Query(`{ users { id displayName } }`)
 
-		for (let user of resp.users) userList.unshift(user)
+		for (let user of resp.users) {
+			userList.unshift(user)
+		}
 		userList = userList
-	}())
+	}
+	fetchUsers()
 </script>
 
 <svelte:head>
