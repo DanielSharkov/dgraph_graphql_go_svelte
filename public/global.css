@@ -138,7 +138,7 @@ input, textarea, button {
 	flex: 0 1 auto;
 	flex-flow: row wrap;
 	box-shadow: 0 16px 40px rgba(0,0,0,.3);
-	border: solid 1px var(--app-border-01)
+	border: solid 1px var(--app-border-01);
 	overflow: hidden;
 }
 
