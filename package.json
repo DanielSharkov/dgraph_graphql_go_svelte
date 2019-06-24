@@ -7,6 +7,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "mini-css-extract-plugin": "^0.6.0",
+    "postcss-loader": "^3.0.0",
     "serve": "^11.0.0",
     "style-loader": "^0.23.1",
     "stylus": "^0.54.5",
@@ -24,5 +25,15 @@
   },
   "dependencies": {
     "axios": "^0.18.0"
-  }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "last 2 version",
+    "not dead",
+    "iOS >= 9"
+  ]
 }

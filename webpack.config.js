@@ -59,12 +59,18 @@ module.exports = {
 					 * For developing, use 'style-loader' instead.
 					 * */
 					prod ? MiniCssExtractPlugin.loader : 'style-loader',
-					'css-loader'
+					'css-loader',
+					'postcss-loader'
 				]
 			},
 			{
-				test: /\.styl$/,
-				loader: 'style-loader!css-loader!stylus-loader'
+				test: /\.styl(us)?$/,
+				use: [
+					prod ? MiniCssExtractPlugin.loader : 'style-loader',
+					'css-loader',
+					'postcss-loader',
+					'stylus-loader'
+				]
 			}
 		]
 	},
