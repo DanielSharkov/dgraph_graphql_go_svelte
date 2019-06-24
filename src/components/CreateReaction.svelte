@@ -75,55 +75,46 @@
 
 
 
-<style>
-	.create-reaction {
-		display: flex;
-		align-items: center;
-		flex-flow: row wrap;
-		flex: 1 1 100%;
-	}
-	.create-reaction .emote {
-		display: flex;
-		height: 2.5rem;
-		width: 2.5rem;
-		margin: 0 1rem 0 0;
-		font-size: 1.5rem;
-		justify-content: center;
-		align-content: center;
-		align-items: center;
-		line-height: 1;
-		padding: .5rem;
-		border-radius: var(--app-border-radius);
-		background: none;
-		border: solid 1px transparent;
-		cursor: pointer;
-	}
-	.create-reaction .emote:hover {
-		border-color: var(--app-border-01);
-	}
-	.create-reaction .emote:active {
-		background-color: var(--app-border-01);
-		border-color: transparent;
-	}
-	.create-reaction .emote.selected {
-		background-color: var(--app-primary-01);
-		border-color: var(--app-primary);
-	}
-	.create-reaction .actions {
-		margin: 0 0 0 auto;
-	}
-	.create-reaction .actions > * {
-		display: inline-block;
-	}
-	.create-reaction .message {
-		margin: 1rem auto 0 auto;
-		flex: 1 1 100%;
-		resize: vertical;
-		min-height: 2.25rem;
-	}
-	.create-reaction .not-signed-in {
-		margin: auto;
-	}
+<style lang="stylus">
+	.create-reaction
+		display flex
+		align-items center
+		flex-flow row wrap
+		flex 1 1 100%
+		.emote
+			display flex
+			height 2.5rem
+			width 2.5rem
+			margin 0 1rem 0 0
+			font-size 1.5rem
+			justify-content center
+			align-content center
+			align-items center
+			line-height 1
+			padding .5rem
+			border-radius var(--app-border-radius)
+			background none
+			border solid 1px transparent
+			cursor pointer
+			&:hover
+				border-color var(--app-border-01)
+			&:active
+				background-color var(--app-border-01)
+				border-color transparent
+			&.selected
+				background-color var(--app-primary-01)
+				border-color var(--app-primary)
+		.actions
+			margin 0 0 0 auto
+			> *
+				display inline-block
+		.message
+			margin 1rem auto 0 auto
+			flex 1 1 100%
+			resize vertical
+			min-height 2.25rem
+		.not-signed-in
+			margin auto
 </style>
 
 

@@ -1,8 +1,7 @@
 <script>
-	import { fade } from 'svelte/transition'
 	import { RouterViewport } from '@danielsharkov/svelte-router'
 	import router from './router'
-	
+	import { fade } from 'svelte/transition'
 	import SignInModal from './components/SignInModal'
 	import {
 		sessionUser,
@@ -24,136 +23,108 @@
 
 
 
-<style>
-	header {
-		display: flex;
-		max-width: 800px;
-		margin: auto;
-		margin-bottom: 2rem;
-		padding: 1rem 0;
-		align-content: stretch;
-		align-items: stretch;
-	}
+<style lang="stylus">
+	header
+		display flex
+		max-width 800px
+		margin auto
+		margin-bottom 2rem
+		padding 1rem 0
+		align-content stretch
+		align-items stretch
+		#navigation
+			display flex
+			justify-content center
+			align-items center
+			flex 0 0 auto
+			button
+				margin 0 1rem 0 0
+				&:hover
+					background-color var(--app-primary-01)
+					border-color var(--app-primary)
+					color var(--app-primary)
+				&:active, &.active, &:focus
+					background-color var(--app-primary)
+					border-color var(--app-primary)
+					color #fff
+				&:focus
+					box-shadow 0 0 0 .25rem var(--app-primary-01)
 
-	#navigation {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex: 0 0 auto;
-	}
-	#navigation button {
-		margin: 0 1rem 0 0;
-	}
-	#navigation button:hover {
-		background-color: var(--app-primary-01);
-		border-color: var(--app-primary);
-		color: var(--app-primary);
-	}
-	#navigation button:active,
-	#navigation button.active,
-	#navigation button:focus {
-		background-color: var(--app-primary);
-		border-color: var(--app-primary);
-		color: #fff;
-	}
-	#navigation button:focus {
-		box-shadow: 0 0 0 .25rem var(--app-primary-01);
-	}
+	#sessionUser
+		display flex
+		margin-left auto
+		flex 0 0 auto
+		align-content center
+		align-items center
+		.user
+			padding .5rem 1rem
+			flex 1 1 auto
+			&:hover
+				border-color var(--app-primary)
+				background-color var(--app-primary-01)
+				svg > *
+					stroke var(--app-primary)
+				.displayName
+					color var(--app-primary)
+			&:active, &:focus
+				border-color var(--app-primary)
+				background-color var(--app-primary)
+				svg > *
+					stroke #fff
+				.displayName
+					color #fff
+			.picture
+				display flex
+				margin-left 1rem
+				flex 0 0 auto
+				justify-content center
+				align-content center
+				align-items center
+		&.profile-view .user
+			background-color var(--app-primary)
+			.displayName
+				color #fff
+			.picture svg > *
+				stroke #fff
 
-	#sessionUser {
-		display: flex;
-		margin-left: auto;
-		flex: 0 0 auto;
-		align-content: center;
-		align-items: center;
-	}
-	#sessionUser button {
-		flex: 1 1 auto;
-	}
-	#sessionUser button:hover {
-		border-color: var(--app-primary);
-		background-color: var(--app-primary-01);
-	}
-	#sessionUser button:active,
-	#sessionUser button:focus {
-		border-color: var(--app-primary);
-		background-color: var(--app-primary);
-	}
-	#sessionUser .user {
-		padding: .5rem 1rem;
-	}
-	#sessionUser button .picture {
-		display: flex;
-		margin-left: 1rem;
-		flex: 0 0 auto;
-		justify-content: center;
-		align-content: center;
-		align-items: center;
-	}
-	#sessionUser button:hover svg > * {
-		stroke: var(--app-primary);
-	}
-	#sessionUser button:active svg > *,
-	#sessionUser button:focus svg > * {
-		stroke: #fff;
-	}
-	#sessionUser button:hover .displayName {
-		color: var(--app-primary);
-	}
-	#sessionUser button:active .displayName,
-	#sessionUser button:focus .displayName {
-		color: #fff;
-	}
-	#sessionUser.profile-view .user {
-		background-color: var(--app-primary);
-	}
-	#sessionUser.profile-view .user .displayName {
-		color: #fff;
-	}
-	#sessionUser.profile-view .user .picture svg > * {
-		stroke: #fff;
-	}
 
-	#router-viewport {
-		display: block;
-		max-width: 800px;
-		margin: auto;
-		padding-bottom: 4rem;
-	}
 
-	#modal-viewport {
-		z-index: 10;
-		position: absolute;
-		top: 0;
-		left: 0;
-		display: flex;
-		width: 100vw;
-		min-height: 100vh;
-		padding: 2rem;
-		justify-content: center;
-		align-items: center;
-		flex-flow: row wrap;
-	}
-	#modal-viewport > .background {
-		z-index: -1;
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0,0,0,.5);
-		backdrop-filter: blur(16px);
-		-webkit-backdrop-filter: blur(16px);
-	}
+	#router-viewport
+		display block
+		max-width 800px
+		margin auto
+		padding-bottom 4rem
 
-	@media screen and (max-width: 825px) {
-		header {
-			padding: 1rem;
-		}
-		#router-viewport {
-			padding: 0 1rem 4rem 1rem;
-		}
-	}
+	#modal-viewport
+		z-index 10
+		position absolute
+		top 0
+		left 0
+		display flex
+		width 100vw
+		min-height 100vh
+		padding 2rem
+		justify-content center
+		align-items center
+		flex-flow row wrap
+		> .background
+			z-index -1
+			position fixed
+			top 0
+			left 0
+			width 100%
+			height 100%
+			background-color rgba(0,0,0,.5)
+			backdrop-filter blur(16px)
+			-webkit-backdrop-filter blur(16px)
+
+
+
+	@media screen and (max-width 825px)
+		header
+			padding 1rem
+		#router-viewport
+			padding 0 1rem 4rem 1rem
 </style>
 
 
@@ -186,9 +157,7 @@
 			$router.route.name == 'profile' &&
 			$router.route.params.id === $sessionUser.id
 		}>
-			<button
-			class="user"
-			on:click={sessionUserAction}>
+			<button class="user" on:click={sessionUserAction}>
 				<span class="displayName">
 					{#if $isValidSession}
 						{$sessionUser.displayName}

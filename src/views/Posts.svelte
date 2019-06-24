@@ -117,80 +117,62 @@
 
 
 
-<style>
-	#createNewPost {
-		margin: 0 auto 2rem auto;
-	}
+<style lang="stylus">
+	#createNewPost
+		margin 0 auto 2rem auto
 
-	input, textarea {
-		display: block;
-		width: 100%;
-		outline: none;
-	}
+	input, textarea
+		display block
+		width 100%
 
-	.post {
-		display: flex;
-		margin: 0 auto 2rem auto;
-		padding: 2rem;
-		border: solid 1px var(--app-border-01);
-		border-radius: var(--app-border-radius);
-		flex-flow: row wrap;
-	}
-	.post .header {
-		display: flex;
-		flex: 1 1 100%;
-		justify-content: flex-start;
-		align-content: center;
-		align-items: center;
-	}
-	.post .author {
-		display: flex;
-		flex: 1 0 auto;
-		justify-content: flex-start;
-		align-content: center;
-		align-items: center;
-	}
-	.post .author .picture {
-		display: flex;
-		margin-right: 1rem;
-		flex: 0 0 auto;
-		justify-content: center;
-		align-items: center;
-	}
-	.post .author .display-name {
-		flex: 1 1 auto;
-	}
-	.post .content {
-		margin: 2rem 0;
-		flex: 1 1 100%;
-	}
-	.post .content .title {
-		margin: 0 0 .5rem 0;
-	}
-	.post .content .title input {
-		font-weight: inherit;
-		font-size: inherit;
-	}
-	.post .content .contents {
-		flex: 1 1 100%;
-	}
-	.post .content .title input,
-	.post .content .contents {
-		margin: 0;
-		line-height: 1.5;
-	}
-	.post .content .title input:not(:hover):not(:active):not(:focus),
-	.post .content .contents:not(:hover):not(:active):not(:focus) {
-		border-color: transparent;
-	}
-	.post .actions {
-		display: flex;
-		flex-flow: row nowrap;
-		flex: 1 1 100%;
-	}
-	.post .actions .primary {
-		margin-left: auto;
-	}
+	.post
+		display flex
+		margin 0 auto 2rem auto
+		padding 2rem
+		border solid 1px var(--app-border-01)
+		border-radius var(--app-border-radius)
+		flex-flow row wrap
+		.header
+			display flex
+			flex 1 1 100%
+			justify-content flex-start
+			align-content center
+			align-items center
+		.author
+			display flex
+			flex 1 0 auto
+			justify-content flex-start
+			align-content center
+			align-items center
+			.picture
+				display flex
+				margin-right 1rem
+				flex 0 0 auto
+				justify-content center
+				align-items center
+			.display-name
+				flex 1 1 auto
+		.content
+			margin 2rem 0
+			flex 1 1 100%
+			.title
+				margin 0 0 .5rem 0
+				input
+					font-weight inherit
+					font-size inherit
+			.contents
+				flex 1 1 100%
+			.title input, .contents
+				margin 0
+				line-height 1.5
+				&:not(:hover):not(:active):not(:focus)
+					border-color transparent
+		.actions
+			display flex
+			flex-flow row nowrap
+			flex 1 1 100%
+			.primary
+				margin-left auto
 </style>
 
 

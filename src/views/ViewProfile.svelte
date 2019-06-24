@@ -231,276 +231,207 @@
 
 
 
-<style>
-	#user-profile section {
-		display: flex;
-		margin-bottom: 4rem;
-		flex-flow: row wrap;
-		align-items: center;
-	}
-	#user-profile.is-editing-profile section:not(#personal-data) {
-		pointer-events: none;
-		opacity: .25;
-	}
-	#user-profile section h4 {
-		flex: 1 0 auto;
-	}
-	#user-profile section .placeholder {
-		opacity: .25;
-	}
-	#user-profile section .entries {
-		flex: 1 1 100%;
-	}
-	#user-profile #personal-data {
-		position: relative;
-	}
-	#user-profile #personal-data .picture {
-		display: flex;
-		margin: 1rem auto 1rem auto;
-		padding: 2rem;
-		background-color: var(--app-bg-lightest);
-		border-radius: 100%;
-		justify-content: center;
-		align-items: center;
-		flex: 0 0 auto;
-	}
-	#user-profile #personal-data .picture svg {
-		height: 5rem;
-		width: 5rem;
-	}
-	#user-profile #personal-data .display-name {
-		margin-bottom: 0;
-	}
-	#user-profile #personal-data .display-name,
-	#user-profile #personal-data .email,
-	#user-profile #personal-data .new-pass {
-		flex: 1 1 100%;
-		text-align: center;
-	}
-	#user-profile #personal-data input {
-		margin-bottom: .5rem;
-		padding: .5rem;
-		font-size: inherit;
-		font-weight: inherit;
-		text-align: center;
-		border-radius: var(--app-border-radius);
-		border: solid 1px transparent;
-	}
-	#user-profile #personal-data input:hover,
-	#user-profile.is-editing-profile #personal-data input {
-		border-color: var(--app-border-01);
-	}
-	#user-profile.is-editing-profile #personal-data input:hover {
-		border-color: var(--app-fg);
-	}
-	#user-profile.is-editing-profile #personal-data input:active,
-	#user-profile.is-editing-profile #personal-data input:focus {
-		border-color: var(--app-primary);
-		box-shadow: 0 0 0 .25rem var(--app-primary-01);
-	}
-	#user-profile #personal-data .new-pass.not-set input:not(active):not(:focus)::placeholder {
-		color: var(--app-primary);
-	}
-	#user-profile #personal-data .new-pass.not-set:hover:not(active):not(:focus) {
-		text-decoration: underline;
-	}
-	#user-profile #personal-data .new-pass.not-set input:not(:hover):not(:active):not(:focus) {
-		border-color: transparent;
-	}
-	#user-profile #personal-data .creation {
-		margin-top: 1rem;
-		flex: 1 1 100%;
-		text-align: center;
-		font-size: .75rem;
-		opacity: .5;
-	}
-	#user-profile #personal-data .actions {
-		position: absolute;
-		top: 0;
-		right: 0;
-		display: flex;
-	}
-	#user-profile #personal-data .actions button {
-		position: relative;
-		display: flex;
-		margin: 0;
-		padding: .5rem;
-		border: solid 1px transparent;
-		border-radius: var(--app-border-radius);
-		align-items: center;
-		flex: 0 0 auto;
-		justify-content: center;
-	}
-	#user-profile #personal-data .actions button[disabled] {
-		opacity: .25;
-		pointer-events: none;
-	}
-	#user-profile #personal-data .actions button:hover svg > *,
-	#user-profile #personal-data .actions button:active svg > * {
-		stroke: var(--app-primary);
-	}
-	#user-profile #personal-data .actions button:not(:first-child) {
-		margin-left: .5rem;
-	}
+<style lang="stylus">
+	section
+		display flex
+		margin-bottom 4rem
+		flex-flow row wrap
+		align-items center
+		h4
+			flex 1 0 auto
+		.placeholder
+			opacity .25
+		.entries
+			flex 1 1 100%
 
-	#user-profile #sessions .close-session,
-	#user-profile #sessions .close-all-sessions {
-		display: flex;
-		margin: .5rem;
-		padding: .5rem;
-		flex: 0 0 auto;
-		align-items: center;
-		align-self: flex-start;
-		border: solid 1px transparent;
-		border-radius: var(--app-border-radius);
-	}
-	#user-profile #sessions .close-all-sessions {
-		margin: auto 0;
-	}
-	#user-profile #sessions .close-all-sessions:not(:hover):not(:active):not(:focus) {
-		color: var(--app-fg-lightest);
-	}
-	#user-profile #sessions .entries {
-		display: flex;
-		flex-flow: row wrap;
-		border: solid 1px var(--app-border-01);
-		border-radius: var(--app-border-radius);
-	}
-	#user-profile #sessions .entries .session {
-		display: flex;
-		flex-flow: row nowrap;
-		padding: 1rem;
-		flex: 1 1 100%;
-		border-bottom: solid 1px var(--app-border-01);
-		align-items: center;
-	}
-	#user-profile #sessions .entries .session:last-child {
-		border: none;
-	}
-	#user-profile #sessions .entries .session .device-icon {
-		margin: 1rem 2rem 1rem 1rem;
-		flex: 0 0 auto;
-	}
-	#user-profile #sessions .entries .session .content {
-		position: relative;
-		display: flex;
-		flex-flow: row wrap;
-		flex: 1 1 auto;
-		align-content: center;
-		align-items: center;
-	}
-	#user-profile #sessions .entries .session .creation {
-		margin-top: .5rem;
-		font-size: 10px;
-		opacity: .5;
-		flex: 1 1 100%;
-	}
-	#user-profile #sessions .entries .session .close-session {
-		position: absolute;
-		top: 0;
-		right: 0;
-		opacity: 0;
-		transform: scale(.5);
-	}
-	#user-profile #sessions .entries .session:hover .close-session {
-		opacity: 1;
-		transform: scale(1);
-	}
-	#user-profile #sessions .entries .session.current {
-		color: var(--app-primary);
-	}
-	#user-profile #sessions .entries .session.current .creation {
-		opacity: 1;
-	}
-	#user-profile #sessions .entries .session.current .device-icon svg > * {
-		fill: var(--app-primary);
-	}
-	#user-profile #sessions .entries .session .current-label {
-		display: flex;
-		align-content: center;
-		align-items: center;
-		font-size: .75rem;
-	}
-	#user-profile #sessions .entries .session .current-label:before {
-		content: '';
-		height: 1px;
-		width: 1rem;
-		margin: 0 .5rem;
-		background-color: var(--app-primary);
-	}
+	#user-profile
+		&.is-editing-profile
+			section:not(#personal-data)
+				pointer-events none
+				opacity .25
+		&:not(.is-editing-profile) #personal-data input
+			&:not(:hover):not(:active):not(:focus)
+				border-color transparent
 
-	#user-profile #posts .entries,
-	#user-profile #reactions .entries {
-		display: flex;
-		flex-flow: row wrap;
-	}
-	#user-profile #posts .post,
-	#user-profile #reactions .reaction {
-		display: flex;
-		margin: 0 0 1rem 0;
-		padding: 20px;
-		background-color: var(--app-bg);
-		box-shadow: none;
-		border: solid 1px var(--app-border-01);
-		border-radius: var(--app-border-radius);
-		flex-flow: row wrap;
-		flex: 0 1 100%;
-		transition: all cubic-bezier(.22,.61,.36,1) 300ms;
-	}
-	#user-profile #posts .post,
-	#user-profile #reactions .reaction.hoverable {
-		cursor: pointer;
-	}
-	#user-profile #posts .post:hover,
-	#user-profile #reactions .reaction.hoverable:hover {
-		transform: scale(1.05);
-		box-shadow: 0 10px 20px rgba(0,0,0,.05);
-	}
-	#user-profile #posts .post > * {
-		flex: 1 1 100%;
-	}
-	#user-profile #posts .post .title,
-	#user-profile #reactions .reaction .message {
-		margin-top: 0;
-		margin-bottom: .5rem;
-	}
-	#user-profile #posts .post .creation,
-	#user-profile #reactions .reaction .creation {
-		margin-top: auto;
-		font-size: .75rem;
-		opacity: .5;
-	}
-	#user-profile #reactions .reaction .creation {
-		flex: 1 1 100%;
-	}
-	#user-profile #reactions .reaction > * {
-		flex: 1 1 100%;
-	}
-	#user-profile #reactions .reaction .react,
-	#user-profile #reactions .reaction .subject {
-		margin-bottom: 1rem;
-	}
-	#user-profile #reactions .reaction .react .emotion {
-		font-weight: bold;
-		margin-right: .25rem;
-	}
+	#personal-data
+		position relative
+		.picture
+			display flex
+			margin 1rem auto 1rem auto
+			padding 2rem
+			background-color var(--app-bg-lightest)
+			border-radius 100%
+			justify-content center
+			align-items center
+			flex 0 0 auto
+		.picture svg
+			height 5rem
+			width 5rem
+		.display-name
+			margin-bottom 0
+		.display-name, .email, .new-pass
+			flex 1 1 100%
+			text-align center
+		input
+			margin-bottom .5rem
+			text-align center
+		.new-pass.not-set
+			input:not(:active):not(:focus)::placeholder
+				color var(--app-primary)
+		.creation
+			margin-top 1rem
+			flex 1 1 100%
+			text-align center
+			font-size .75rem
+			opacity .5
+		.actions
+			position absolute
+			top 0
+			right 0
+			display flex
+			button
+				position relative
+				display flex
+				margin 0
+				padding .5rem
+				border solid 1px transparent
+				border-radius var(--app-border-radius)
+				align-items center
+				flex 0 0 auto
+				justify-content center
+				&[disabled]
+					opacity .25
+					pointer-events none
+				&:hover, &:active
+					svg > *
+						stroke var(--app-primary)
+				&:not(:first-child)
+					margin-left .5rem
 
-	@media screen and (min-width: 826px) {
-		#user-profile #posts .post,
-		#user-profile #reactions .reaction {
-			flex: 0 1 calc(50% - 1rem);
-		}
-		/* Every first post */
-		#user-profile #posts .post:nth-child(odd),
-		#user-profile #reactions .reaction:nth-child(odd) {
-			margin: 0 1rem 2rem 0;
-		}
-		/* Every secound post */
-		#user-profile #posts .post:nth-child(even),
-		#user-profile #reactions .reaction:nth-child(even) {
-			margin: 0 0 2rem 1rem;
-		}
-	}
+
+
+	#sessions
+		.close-session, .close-all-sessions
+			display flex
+			margin .5rem
+			padding .5rem
+			flex 0 0 auto
+			align-items center
+			align-self flex-start
+			border solid 1px transparent
+			border-radius var(--app-border-radius)
+		.close-all-sessions
+			margin auto 0
+			&:not(:hover):not(:active):not(:focus)
+				color var(--app-fg-lightest)
+		.entries
+			display flex
+			flex-flow row wrap
+			border solid 1px var(--app-border-01)
+			border-radius var(--app-border-radius)
+			.session
+				display flex
+				flex-flow row nowrap
+				padding 1rem
+				flex 1 1 100%
+				border-bottom solid 1px var(--app-border-01)
+				align-items center
+				&:hover .close-session
+					opacity 1
+					transform scale(1)
+				&:last-child
+					border none
+				.device-icon
+					margin 1rem 2rem 1rem 1rem
+					flex 0 0 auto
+				.content
+					position relative
+					display flex
+					flex-flow row wrap
+					flex 1 1 auto
+					align-content center
+					align-items center
+				.creation
+					margin-top .5rem
+					font-size 10px
+					opacity .5
+					flex 1 1 100%
+				.close-session
+					position absolute
+					top 0
+					right 0
+					opacity 0
+					transform scale(.5)
+				&.current
+					color var(--app-primary)
+					.creation
+						opacity 1
+					.device-icon svg > *
+						fill var(--app-primary)
+				.current-label
+					display flex
+					align-content center
+					align-items center
+					font-size .75rem
+					&:before
+						content ''
+						height 1px
+						width 1rem
+						margin 0 .5rem
+						background-color var(--app-primary)
+
+
+
+	#posts, #reactions
+		.entries
+			display flex
+			flex-flow row wrap
+			.entry
+				display flex
+				margin 0 0 1rem 0
+				padding 20px
+				background-color var(--app-bg)
+				box-shadow none
+				border solid 1px var(--app-border-01)
+				border-radius var(--app-border-radius)
+				flex-flow row wrap
+				flex 0 1 100%
+				transition all cubic-bezier(.22,.61,.36,1) 300ms
+				> *
+					flex 1 1 100%
+				&.hoverable
+					cursor pointer
+					&:hover
+						transform scale(1.05)
+						box-shadow 0 10px 20px rgba(0,0,0,.05)
+					> *
+						flex 1 1 100%
+				.content
+					margin-top 0
+					margin-bottom .5rem
+				.creation
+					margin-top auto
+					font-size .75rem
+					opacity .5
+
+	#reactions .entries .entry
+		.react, .subject
+			margin-bottom 1rem
+		.react .emotion
+			margin-right .25rem
+
+
+
+	@media screen and (min-width 826px)
+		#posts, #reactions
+			.entries .entry
+				flex 0 1 calc(50% - 1rem)
+				/* Every first post */
+				&:nth-child(odd)
+					margin 0 1rem 2rem 0
+				/* Every secound post */
+				&:nth-child(even)
+					margin 0 0 2rem 1rem
 </style>
 
 
@@ -651,8 +582,13 @@
 					</span>
 				{:else}
 					{#each user.posts as {id, creation, title}}
-						<div class="post" post-id={id} on:click={() => viewPost(id)}>
-							<h3 class="title">{title}</h3>
+						<div
+						class="entry hoverable"
+						post-id={id}
+						on:click={() => viewPost(id)}>
+							<h3 class="content">
+								{title}
+							</h3>
 							<span class="creation">{
 								new Date(creation).toLocaleDateString('en-US', {
 									weekday: 'long',
@@ -684,7 +620,7 @@
 						subject,
 					}}
 						<div
-						class="reaction"
+						class="entry"
 						class:hoverable={subject.__typename === 'Post'}
 						reaction-id={id}
 						on:click={() => {
@@ -696,7 +632,7 @@
 								<span class="emotion">
 									{$emotionsDisplayName[emotion]}
 								</span>
-								<span class="message">
+								<span class="content">
 									{message}
 								</span>
 							</div>

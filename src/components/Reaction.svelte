@@ -20,84 +20,72 @@
 
 
 
-<style>
-	.reaction {
-		margin-top: 2rem;
-		padding: 1rem;
-		flex: 1 1 100%;
-		border: solid 1px var(--app-border-01);
-		border-radius: var(--app-border-radius);
-	}
-	.reaction .header {
-		display: flex;
-		margin-bottom: 1rem;
-		flex: 1 1 100%;
-		justify-content: flex-start;
-		align-content: center;
-		align-items: center;
-	}
-	.reaction .header .author {
-		display: flex;
-		flex: 0 0 auto;
-		justify-content: flex-start;
-		align-content: center;
-		align-items: center;
-		cursor: pointer;
-		opacity: .5;
-	}
-	.reaction .header .author:hover {
-		opacity: 1;
-	}
-	.reaction .header .author:hover .picture {
-		border-color: var(--app-primary);
-	}
-	.reaction .header .author:hover .picture svg > * {
-		stroke: var(--app-primary);
-	}
-	.reaction .header .author:hover .display-name {
-		color: var(--app-primary);
-	}
-	.reaction .header .author .picture {
-		display: flex;
-		margin-right: 1rem;
-		flex: 0 0 auto;
-		justify-content: center;
-		align-items: center;
-	}
-	.reaction .header .author .display-name {
-		flex: 1 1 auto;
-	}
-	.reaction .header .creation {
-		margin: auto 0 auto 1rem;
-		flex: 0 0 auto;
-		font-size: .75rem;
-		justify-self: flex-end;
-		align-self: flex-start;
-		opacity: .25;
-	}
-	.reaction .content {
-		margin-bottom: 1rem;
-		flex: 1 1 100%;
-	}
-	:global(.reaction > .create-reaction) {
-		margin: 0 0 0 1rem;
-		padding: 1rem 0 1rem 1rem;
-		border-left: solid 1px var(--app-border-01);
-	}
-	:global(.reaction .reaction) {
-		margin: 0 0 0 1rem;
-		padding: 1rem 0 1rem 1rem;
-		background: none;
-		border: none;
-		border-left: solid 1px var(--app-border-01);
-		border-radius: 0;
-	}
-	:global(.reaction .reaction .header) {
-		margin-top: .5rem;
-	}
-	:global(.reaction .create-reaction .not-signed-in) {
-		margin: 0 !important;
-	}
+<style lang="stylus">
+	.reaction
+		margin-top 2rem
+		padding 1rem
+		flex 1 1 100%
+		border solid 1px var(--app-border-01)
+		border-radius var(--app-border-radius)
+		.header
+			display flex
+			margin-bottom 1rem
+			flex 1 1 100%
+			justify-content flex-start
+			align-content center
+			align-items center
+			.author
+				display flex
+				flex 0 0 auto
+				justify-content flex-start
+				align-content center
+				align-items center
+				cursor pointer
+				opacity .5
+			&:hover
+				opacity 1
+				.picture
+					border-color var(--app-primary)
+					svg > *
+						stroke var(--app-primary)
+				.display-name
+					color var(--app-primary)
+			.picture
+				display flex
+				margin-right 1rem
+				flex 0 0 auto
+				justify-content center
+				align-items center
+			.display-name
+				flex 1 1 auto
+			.creation
+				margin auto 0 auto 1rem
+				flex 0 0 auto
+				font-size .75rem
+				justify-self flex-end
+				align-self flex-start
+				opacity .25
+		.content
+			margin-bottom 1rem
+			flex 1 1 100%
+
+
+
+	:global(.reaction > .create-reaction)
+		margin 0 0 0 1rem
+		padding 1rem 0 1rem 1rem
+		border-left solid 1px var(--app-border-01)
+	:global(.reaction .reaction)
+		margin 0 0 0 1rem
+		padding 1rem 0 1rem 1rem
+		background none
+		border none
+		border-left solid 1px var(--app-border-01)
+		border-radius 0
+	:global(.reaction .reaction .header)
+		margin-top .5rem
+	:global(.reaction .create-reaction .not-signed-in)
+		margin 0 !important
 </style>
 
 

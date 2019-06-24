@@ -1,0 +1,264 @@
+#app
+	--app-bg #FFF
+	--app-bg-lightest rgba(0,0,0,.025)
+
+	--app-fg #000
+	--app-fg-lightest rgba(0,0,0,.25)
+
+	--app-border-01 rgba(0,0,0,.1)
+	--app-border-radius 4px
+
+	--app-primary #03F
+	--app-primary-01 rgba(0,50,255,.1)
+
+	--app-btn-bg transparent
+	--app-btn-fg #000
+	--app-btn-border transparent
+	// --app-btn-hover-bg 
+	// --app-btn-hover-fg 
+	// --app-btn-hover-border 
+	// --app-btn-active-bg 
+	// --app-btn-active-fg 
+	// --app-btn-active-border 
+	// --app-btn-focus-bg 
+	// --app-btn-focus-fg 
+	// --app-btn-focus-border 
+
+	--app-btn-secondary-bg transparent
+	--app-btn-secondary-fg var(--app-fg)
+	--app-btn-secondary-border transparent
+	--app-btn-secondary-hover-bg var(--app-bg-lightest)
+	--app-btn-secondary-hover-fg var(--app-fg)
+	--app-btn-secondary-hover-border var(--app-fg)
+	--app-btn-secondary-active-bg var(--app-fg)
+	--app-btn-secondary-active-fg var(--app-bg)
+	--app-btn-secondary-active-border var(--app-fg)
+	--app-btn-secondary-focus-bg var(--app-fg)
+	--app-btn-secondary-focus-fg #FFF
+	--app-btn-secondary-focus-border var(--app-fg)
+
+	--app-btn-primary-bg transparent
+	--app-btn-primary-fg var(--app-primary)
+	--app-btn-primary-border var(--app-border-01)
+	--app-btn-primary-hover-bg rgba(0,50,255,.1)
+	--app-btn-primary-hover-fg var(--app-primary)
+	--app-btn-primary-hover-border var(--app-primary)
+	--app-btn-primary-active-bg var(--app-primary)
+	--app-btn-primary-active-fg #FFF
+	--app-btn-primary-active-border var(--app-primary)
+	--app-btn-primary-focus-bg var(--app-primary)
+	--app-btn-primary-focus-fg #FFF
+	--app-btn-primary-focus-border var(--app-primary)
+
+	/* --app-btn-danger-bg 
+	--app-btn-danger-fg 
+	--app-btn-danger-border 
+	--app-btn-danger-hover-bg 
+	--app-btn-danger-hover-fg 
+	--app-btn-danger-hover-border 
+	--app-btn-danger-active-bg 
+	--app-btn-danger-active-fg 
+	--app-btn-danger-active-border 
+	--app-btn-danger-focus-bg 
+	--app-btn-danger-focus-fg 
+	--app-btn-danger-focus-border  */
+
+html
+	width 100vw
+	height 100vh
+
+html, body
+	margin 0
+	padding 0
+	box-sizing border-box
+	overflow hidden
+
+body
+	font-family:
+		'Lucida Sans',
+		'Lucida Sans Regular',
+		'Lucida Grande',
+		'Roboto',
+		'Arial'
+	line-height 1.5
+	font-size 1rem
+
+#app
+	width 100vw
+	height 100vh
+	overflow auto
+	color var(--app-fg)
+	background-color var(--app-bg)
+	transition all cubic-bezier(.22,.61,.36,1) 400ms
+	&.black-theme
+		--app-bg #000
+		--app-bg-lightest rgba(255,255,255,.15)
+
+		--app-fg #FFF
+		--app-fg-lightest rgba(255,255,255,.5)
+
+		--app-border-01 rgba(255,255,255,.2)
+
+		--app-primary #09F
+		--app-primary-01 rgba(0,170,255,.2)
+
+		--app-btn-primary-border var(--app-border-01)
+
+div, input, button, textarea, svg, svg *,
+span, a, p, q, b, i, label, section,
+h1, h2, h3, h4, h5, h6
+	background none
+	border none
+	outline none
+	box-sizing border-box
+	transition all cubic-bezier(.22,.61,.36,1) 200ms
+
+span, a, q, p, i, b, label,
+input, textarea, button
+	font-size 1rem
+
+.hidden
+	display none !important
+
+.modal
+	display flex
+	margin auto
+	padding 2rem
+	border-radius var(--app-border-radius)
+	background-color var(--app-bg)
+	flex 0 1 auto
+	flex-flow row wrap
+	box-shadow 0 16px 40px rgba(0,0,0,.3)
+	border solid 1px var(--app-border-01)
+	overflow hidden
+
+#app.black-theme .modal
+	box-shadow 0 16px 40px rgba(255,255,255,.1)
+
+h3.view-title
+	margin 0 auto 4rem auto
+	text-align center
+
+button
+	display flex
+	margin 0
+	padding .5rem 1rem
+	cursor pointer
+	border solid 1px var(--app-btn-border)
+	justify-content center
+	align-content center
+	align-items center
+	color var(--app-fg)
+	border-radius var(--app-border-radius)
+	// -webkit-touch-callout none
+	// -webkit-user-select none
+	// -khtml-user-select none
+	// -moz-user-select none
+	// -ms-user-select none
+	user-select none
+	cursor pointer
+	> *:not(:first-child)
+		margin-left .5rem
+	&.small
+		padding .25rem .5rem
+		font-size .75rem
+	&.large
+		padding 1rem 2rem
+	&.full-width
+		flex 1 1 100%
+		width 100%
+	&.secondary
+		color var(--app-btn-secondary-fg)
+		background-color var(--app-btn-secondary-bg)
+		border-color var(--app-btn-secondary-border) !important
+		&:hover
+			color var(--app-btn-secondary-hover-fg)
+			background-color var(--app-btn-secondary-hover-bg)
+			border-color var(--app-btn-secondary-hover-border) !important
+		&:focus, &:active, &.active
+			color var(--app-btn-secondary-active-fg)
+			background-color var(--app-btn-secondary-active-bg)
+			border-color var(--app-btn-secondary-active-border) !important
+	&.primary
+		color var(--app-btn-primary-fg)
+		background-color var(--app-btn-primary-bg)
+		border-color var(--app-btn-primary-border) !important
+		&:hover
+			color var(--app-btn-primary-hover-fg)
+			background-color var(--app-btn-primary-hover-bg)
+			border-color var(--app-btn-primary-hover-border) !important
+			.icon
+				.stroked
+					stroke var(--app-btn-primary-hover-fg)
+				.filled > *
+					fill var(--app-btn-primary-hover-fg)
+		&:focus, &:active, &.active
+			background-color var(--app-btn-primary-active-bg)
+			color var(--app-btn-primary-active-fg)
+			> *
+				stroke var(--app-btn-primary-active-fg)
+				fill var(--app-btn-primary-active-fg)
+	&.danger
+		color #F05
+		&:hover
+			border-color #F05 !important
+			background-color rgba(255,0,50,.05)
+			.icon
+				.stroked
+					stroke #F05
+				.filled > *
+					fill #F05
+		&:focus, &:active, &.active
+			background-color #F05
+			color #fff
+			> *
+				stroke #F05
+				fill #F05
+	&[disabled], &.disabled
+		opacity .25
+		pointer-events none
+	&.link
+		display inline
+		padding 0
+		border none
+		color var(--app-primary)
+		font-size inherit
+		font-weight inherit
+	&.link:hover
+		text-decoration underline
+
+input, textarea
+	padding .5rem
+	border solid 1px var(--app-border-01)
+	border-radius var(--app-border-radius)
+	box-shadow 0
+	color var(--app-fg)
+	&:hover
+		border-color var(--app-fg)
+	&:active, &:focus
+		border-color var(--app-primary)
+		box-shadow 0 0 0 .25rem var(--app-primary-01)
+	&.small
+		padding .25rem
+	&.large
+		padding 1rem
+	&.full-width
+		flex 1 1 100%
+		width 100%
+
+.icon
+	height 1.5rem
+	width 1.5rem
+	&.stroked
+		stroke var(--app-fg)
+	&.filled > *
+		fill var(--app-fg)
+	&.small
+		height 1rem
+		width 1rem
+	&.large
+		height 2rem
+		width 2rem
+	&.x-large
+		height 3rem
+		width 3rem

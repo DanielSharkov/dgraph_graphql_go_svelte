@@ -123,36 +123,30 @@
 
 
 
-<style>
-	.modal.signin {
-		position: relative;
-		display: flex;
-		flex: 0 1 500px;
-	}
-	.modal.signin h1 {
-		margin: 0 0 1rem 0;
-		text-align: center;
-		flex: 1 1 100%;
-	}
-	.modal.signin form {
-		display: flex;
-		flex: 0 1 100%;
-		width: 100%;
-		flex-flow: row wrap;
-		align-content: flex-start;
-		align-items: center;
-	}
-	.modal.signin form .input-error {
-		color: #f05;
-		margin: 0 auto 1rem auto;
-	}
-	.modal.signin form input {
-		margin: 0 0 2rem 0;
-		flex: 1 1 100%;
-	}
-	.modal.signin form button.primary {
-		margin: 0 0 0 auto;
-	}
+<style lang="stylus">
+	.modal.signin
+		position relative
+		display flex
+		flex 0 1 500px
+		h1
+			margin 0 0 1rem 0
+			text-align center
+			flex 1 1 100%
+		form
+			display flex
+			flex 0 1 100%
+			width 100%
+			flex-flow row wrap
+			align-content flex-start
+			align-items center
+			.input-error
+				color #f05
+				margin 0 auto 1rem auto
+			input
+				margin 0 0 2rem 0
+				flex 1 1 100%
+			button.primary
+				margin 0 0 0 auto
 </style>
 
 

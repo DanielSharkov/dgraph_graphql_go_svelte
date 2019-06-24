@@ -25,90 +25,80 @@
 
 
 
-<style>
-	.post {
-		display: flex;
-		margin: 0 auto 4rem auto;
-		padding: 2rem;
-		border: solid 1px var(--app-border-01);
-		border-radius: var(--app-border-radius);
-		flex-flow: row wrap;
-	}
-	.post .header {
-		display: flex;
-		flex: 1 1 100%;
-		justify-content: flex-start;
-		align-content: center;
-		align-items: center;
-	}
-	.post .author {
-		display: flex;
-		flex: 0 0 auto;
-		justify-content: flex-start;
-		align-content: center;
-		align-items: center;
-		cursor: pointer;
-	}
-	.post .author:hover .picture {
-		border-color: var(--app-primary);
-	}
-	.post .author:hover .picture svg > * {
-		stroke: var(--app-primary);
-	}
-	.post .author:hover .display-name {
-		color: var(--app-primary);
-	}
-	.post .author .picture {
-		display: flex;
-		margin-right: 1rem;
-		flex: 0 0 auto;
-		justify-content: center;
-		align-items: center;
-	}
-	.post .author .display-name {
-		flex: 1 1 auto;
-	}
-	.post .creation {
-		margin-left: auto;
-		flex: 0 0 auto;
-		font-size: .75rem;
-		justify-self: flex-end;
-		align-self: flex-start;
-		opacity: .25;
-	}
-	.post .content {
-		margin: 2rem 0;
-		flex: 1 1 100%;
-	}
-	.post .content .title {
-		margin: 0 0 .5rem 0;
-		padding: .25rem;
-		flex: 1 0 auto;
-	}
-	.post .content .contents {
-		width: 100%;
-		font-family:
-			'Lucida Sans',
-			'Lucida Sans Regular',
-			'Lucida Grande',
-			'Roboto',
-			'Arial';
-		margin: 0;
-		padding: .25rem;
-		flex: 1 1 100%;
-		word-wrap: break-word;
-	}
-	.post .reactions {
-		display: flex;
-		flex: 1 1 100%;
-		flex-flow: row wrap;
-	}
-	:global(.post .reactions > .create-reaction) {
-		margin-top: 2rem;
-		padding: 1rem;
-		border: solid 1px var(--app-border-01);
-		border-radius: var(--app-border-radius);
-	}
+<style lang="stylus">
+	.post
+		display flex
+		margin 0 auto 4rem auto
+		padding 2rem
+		border solid 1px var(--app-border-01)
+		border-radius var(--app-border-radius)
+		flex-flow row wrap
+		.header
+			display flex
+			flex 1 1 100%
+			justify-content flex-start
+			align-content center
+			align-items center
+		.author
+			display flex
+			flex 0 0 auto
+			justify-content flex-start
+			align-content center
+			align-items center
+			cursor pointer
+			&:hover
+				.picture
+					border-color var(--app-primary)
+					svg > *
+						stroke var(--app-primary)
+				.display-name
+					color var(--app-primary)
+			.picture
+				display flex
+				margin-right 1rem
+				flex 0 0 auto
+				justify-content center
+				align-items center
+			.display-name
+				flex 1 1 auto
+		.creation
+			margin-left auto
+			flex 0 0 auto
+			font-size .75rem
+			justify-self flex-end
+			align-self flex-start
+			opacity .25
+		.content
+			margin 2rem 0
+			flex 1 1 100%
+			.title
+				margin 0 0 .5rem 0
+				padding .25rem
+				flex 1 0 auto
+			.contents
+				width 100%
+				font-family:
+					'Lucida Sans',
+					'Lucida Sans Regular',
+					'Lucida Grande',
+					'Roboto',
+					'Arial'
+				margin 0
+				padding .25rem
+				flex 1 1 100%
+				word-wrap break-word
+		.reactions
+			display flex
+			flex 1 1 100%
+			flex-flow row wrap
+
+
+
+	:global(.post .reactions > .create-reaction)
+		margin-top 2rem
+		padding 1rem
+		border solid 1px var(--app-border-01)
+		border-radius var(--app-border-radius)
 </style>
 
 
@@ -160,7 +150,7 @@
 				+ Write reaction
 			</button>
 		{/if}
-		{#each reactions as reaction}
+		{#each reactions.reverse() as reaction}
 			<Reaction {reaction}/>
 		{/each}
 	</div>

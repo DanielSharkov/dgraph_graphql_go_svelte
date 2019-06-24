@@ -37,7 +37,17 @@ module.exports = {
 					loader: 'svelte-loader',
 					options: {
 						emitCss: true,
-						hotReload: false
+						hotReload: false,
+						preprocess: require('svelte-preprocess')({
+							aliases: [['stylus']],
+							stylus: {
+								plugins: [
+									require('autoprefixer')({
+										browsers: 'last 2 versions'
+									})
+								]
+							},
+						})
 					}
 				}
 			},
@@ -51,6 +61,10 @@ module.exports = {
 					prod ? MiniCssExtractPlugin.loader : 'style-loader',
 					'css-loader'
 				]
+			},
+			{
+				test: /\.styl$/,
+				loader: 'style-loader!css-loader!stylus-loader'
 			}
 		]
 	},

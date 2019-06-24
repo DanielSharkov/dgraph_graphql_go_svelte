@@ -4,7 +4,7 @@ A frontend implementation for [romshark/dgraph_graphql_go](https://github.com/ro
 - [x] [Svelte](https://svelte.dev)
 - [x] [Dgraph-GraphQL-Go API](https://github.com/romshark/dgraph_graphql_go)
 - [x] [SPA (Routing)](https://github.com/DanielSharkov/svelte-router)
-- [ ] CSS Preprocessor
+- [x] [CSS Preprocessor (Stylus)](http://stylus-lang.com)
 - [ ] PWA
 - [ ] GraphQL Caching
 - [ ] SSR

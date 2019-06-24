@@ -22,70 +22,59 @@
 
 
 
-<style>
-	h3 {
-		margin: auto;
-	}
+<style lang="stylus">
+	h3
+		margin auto
 
-	#userList {
-		display: flex;
-		flex-flow: row wrap;
-	}
-	#userList .user {
-		display: flex;
-		padding: 2rem 1rem;
-		flex-flow: row wrap;
-		flex: 0 0 calc(50% - 1rem);
-		border-radius: var(--app-border-radius);
-		border: solid 1px var(--app-border-01);
-		justify-content: center;
-		align-items: center;
-		transform: scale(1);
-		cursor: pointer;
-	}
-	#userList .user:nth-child(odd) {
-		margin: 0 1rem 2rem 0;
-	}
-	#userList .user:nth-child(even) {
-		margin: 0 0 2rem 1rem;
-	}
-	#userList .user:hover {
-		transform: scale(1.05);
-		box-shadow: 0 10px 20px rgba(0,0,0,.05);
-	}
-	#userList .user .picture {
-		display: flex;
-		margin-bottom: 2rem;
-		padding: 1rem;
-		flex: 0 0 auto;
-		background-color: var(--app-bg-lightest);
-		border-radius: 100%;
-		justify-content: center;
-		align-items: center;
-	}
-	#userList .user .displayName {
-		flex: 1 1 100%;
-		text-align: center;
-	}
+	#userList
+		display flex
+		flex-flow row wrap
 
-	@media screen and (min-width: 826px) {
-		#userList .user {
-			flex: 0 0 calc(100% / 4 - 2rem);
-		}
-		/* Every first user */
-		#userList .user:nth-child(4n+1) {
-			margin: 0 1rem 2rem 0;
-		}
-		/* Every secound & third user */
-		#userList .user:nth-child(4n+2),
-		#userList .user:nth-child(4n+3) {
-			margin: 0 1.5rem 2rem 1.5rem;
-		}
-		/* Every fourth user */
-		#userList .user:nth-child(4n-0) {
-			margin: 0 0 2rem 1rem;
-		}
-	}
+	.user
+		display flex
+		padding 2rem 1rem
+		flex-flow row wrap
+		flex 0 0 calc(50% - 1rem)
+		border-radius var(--app-border-radius)
+		border solid 1px var(--app-border-01)
+		justify-content center
+		align-items center
+		transform scale(1)
+		cursor pointer
+		&:nth-child(odd)
+			margin 0 1rem 2rem 0
+		&:nth-child(even)
+			margin 0 0 2rem 1rem
+		&:hover
+			transform scale(1.05)
+			box-shadow 0 10px 20px rgba(0,0,0,.05)
+		.picture
+			display flex
+			margin-bottom 2rem
+			padding 1rem
+			flex 0 0 auto
+			background-color var(--app-bg-lightest)
+			border-radius 100%
+			justify-content center
+			align-items center
+		.displayName
+			flex 1 1 100%
+			text-align center
+
+
+
+	@media screen and (min-width 826px)
+		.user
+			flex 0 0 calc(100% / 4 - 2rem)
+			/* Every first user */
+			&:nth-child(4n+1)
+				margin 0 1rem 2rem 0
+			/* Every secound & third user */
+			&:nth-child(4n+2), &:nth-child(4n+3)
+				margin 0 1.5rem 2rem 1.5rem
+			/* Every fourth user */
+			&:nth-child(4n-0)
+				margin 0 0 2rem 1rem
 </style>
 
 
