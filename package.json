@@ -2,7 +2,7 @@
   "name": "svelte-app",
   "version": "1.0.0",
   "devDependencies": {
-    "@danielsharkov/svelte-router": "^1.0.3",
+    "@danielsharkov/svelte-router": "^1.1.0",
     "autoprefixer": "^9.6.0",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
