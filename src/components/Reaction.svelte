@@ -22,9 +22,7 @@
 
 <style lang="stylus">
 	.reaction
-		margin-top 2rem
 		padding 1rem
-		flex 1 1 100%
 		border solid 1px var(--app-border-01)
 		border-radius var(--app-border-radius)
 		.header
@@ -42,14 +40,14 @@
 				align-items center
 				cursor pointer
 				opacity .5
-			&:hover
-				opacity 1
-				.picture
-					border-color var(--app-primary)
-					svg > *
-						stroke var(--app-primary)
-				.display-name
-					color var(--app-primary)
+				&:hover
+					opacity 1
+					.picture
+						border-color var(--app-primary)
+						svg > *
+							stroke var(--app-primary)
+					.display-name
+						color var(--app-primary)
 			.picture
 				display flex
 				margin-right 1rem

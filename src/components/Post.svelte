@@ -29,12 +29,9 @@
 
 <style lang="stylus">
 	.post
-		display flex
-		margin 0 auto 4rem auto
 		padding 2rem
 		border solid 1px var(--app-border-01)
 		border-radius var(--app-border-radius)
-		flex-flow row wrap
 		.header
 			display flex
 			flex 1 1 100%
@@ -90,9 +87,9 @@
 				flex 1 1 100%
 				word-wrap break-word
 		.reactions
-			display flex
-			flex 1 1 100%
-			flex-flow row wrap
+			display grid
+			grid-template-columns 1fr
+			grid-gap 2rem
 
 
 

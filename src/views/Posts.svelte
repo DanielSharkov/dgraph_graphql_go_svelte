@@ -103,13 +103,15 @@
 		display block
 		width 100%
 
+	#posts
+		display grid
+		grid-template-columns 1fr
+		grid-gap 4rem
+
 	.post
-		display flex
-		margin 0 auto 2rem auto
 		padding 2rem
 		border solid 1px var(--app-border-01)
 		border-radius var(--app-border-radius)
-		flex-flow row wrap
 		.header
 			display flex
 			flex 1 1 100%
