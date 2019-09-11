@@ -4,6 +4,7 @@
 	import { fade } from 'svelte/transition'
 	import SignInModal from './components/SignInModal'
 	import globalStyles from './styles/global.styl'
+	import blackTheme from './styles/black-theme.styl'
 	import {
 		sessionUser,
 		isValidSession,

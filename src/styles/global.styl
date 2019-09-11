@@ -1,86 +1,4 @@
-#app
-	--app-bg #FFF
-	--app-bg-lightest rgba(0,0,0,.025)
-
-	--app-fg #000
-	--app-fg-lightest rgba(0,0,0,.25)
-
-	--app-border-01 rgba(0,0,0,.1)
-	--app-border-radius 4px
-
-	--app-primary #03F
-	--app-primary-01 rgba(0,50,255,.1)
-
-	--app-danger #F05
-	--app-danger-01 rgba(255,0,50,.1)
-
-	--app-warn #FC0
-	--app-warn-01 rgba(255,204,0,.1)
-
-	--app-btn-bg transparent
-	--app-btn-fg #000
-	--app-btn-border transparent
-	// --app-btn-hover-bg 
-	// --app-btn-hover-fg 
-	// --app-btn-hover-border 
-	// --app-btn-active-bg 
-	// --app-btn-active-fg 
-	// --app-btn-active-border 
-	// --app-btn-focus-bg 
-	// --app-btn-focus-fg 
-	// --app-btn-focus-border 
-
-	--app-btn-secondary-bg transparent
-	--app-btn-secondary-fg var(--app-fg)
-	--app-btn-secondary-border transparent
-	--app-btn-secondary-hover-bg var(--app-bg-lightest)
-	--app-btn-secondary-hover-fg var(--app-fg)
-	--app-btn-secondary-hover-border var(--app-fg)
-	--app-btn-secondary-active-bg var(--app-fg)
-	--app-btn-secondary-active-fg var(--app-bg)
-	--app-btn-secondary-active-border var(--app-fg)
-	--app-btn-secondary-focus-bg var(--app-fg)
-	--app-btn-secondary-focus-fg #FFF
-	--app-btn-secondary-focus-border var(--app-fg)
-
-	--app-btn-primary-bg transparent
-	--app-btn-primary-fg var(--app-primary)
-	--app-btn-primary-border var(--app-border-01)
-	--app-btn-primary-hover-bg var(--app-primary-01)
-	--app-btn-primary-hover-fg var(--app-primary)
-	--app-btn-primary-hover-border var(--app-primary)
-	--app-btn-primary-active-bg var(--app-primary)
-	--app-btn-primary-active-fg #FFF
-	--app-btn-primary-active-border var(--app-primary)
-	--app-btn-primary-focus-bg var(--app-primary)
-	--app-btn-primary-focus-fg #FFF
-	--app-btn-primary-focus-border var(--app-primary)
-
-	--app-btn-danger-bg transparent
-	--app-btn-danger-fg var(--app-danger)
-	--app-btn-danger-border var(--app-border-01)
-	--app-btn-danger-hover-bg var(--app-danger-01)
-	--app-btn-danger-hover-fg var(--app-danger)
-	--app-btn-danger-hover-border var(--app-danger)
-	--app-btn-danger-active-bg var(--app-danger)
-	--app-btn-danger-active-fg #FFF
-	--app-btn-danger-active-border var(--app-danger)
-	--app-btn-danger-focus-bg var(--app-danger)
-	--app-btn-danger-focus-fg #FFF
-	--app-btn-danger-focus-border var(--app-danger)
-
-	--app-btn-warn-bg transparent
-	--app-btn-warn-fg var(--app-warn)
-	--app-btn-warn-border var(--app-border-01)
-	--app-btn-warn-hover-bg var(--app-warn-01)
-	--app-btn-warn-hover-fg var(--app-warn)
-	--app-btn-warn-hover-border var(--app-warn)
-	--app-btn-warn-active-bg var(--app-warn)
-	--app-btn-warn-active-fg #FFF
-	--app-btn-warn-active-border var(--app-warn)
-	--app-btn-warn-focus-bg var(--app-warn)
-	--app-btn-warn-focus-fg #FFF
-	--app-btn-warn-focus-border var(--app-warn)
+@import 'global-variables'
 
 html
 	width 100vw
@@ -109,19 +27,6 @@ body
 	color var(--app-fg)
 	background-color var(--app-bg)
 	transition all cubic-bezier(.22,.61,.36,1) 400ms
-	&.black-theme
-		--app-bg #000
-		--app-bg-lightest rgba(255,255,255,.15)
-
-		--app-fg #FFF
-		--app-fg-lightest rgba(255,255,255,.5)
-
-		--app-border-01 rgba(255,255,255,.2)
-
-		--app-primary #09F
-		--app-primary-01 rgba(0,170,255,.2)
-
-		--app-btn-primary-border var(--app-border-01)
 
 div, input, button, textarea, svg, svg *,
 span, a, p, q, b, i, label, section,
@@ -154,9 +59,6 @@ input, textarea, button
 	box-shadow 0 16px 40px rgba(0,0,0,.3)
 	border solid 1px var(--app-border-01)
 	overflow hidden
-
-#app.black-theme .modal
-	box-shadow 0 16px 40px rgba(255,255,255,.1)
 
 h3.view-title
 	margin 0 auto 4rem auto
