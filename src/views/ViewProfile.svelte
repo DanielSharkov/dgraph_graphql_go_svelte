@@ -358,38 +358,35 @@
 
 	#posts, #reactions
 		.entries
-			display flex
-			flex-flow row wrap
+			display grid
+			grid-template-columns 1fr
+			grid-gap 2rem
 			.entry
-				display flex
-				margin 0 0 1rem 0
-				padding 20px
+				position relative
+				padding 1rem 1rem 2rem 1rem
 				background-color var(--app-bg)
 				box-shadow none
 				border solid 1px var(--app-border-01)
 				border-radius var(--app-border-radius)
-				flex-flow row wrap
-				flex 0 1 100%
 				transition all cubic-bezier(.22,.61,.36,1) 300ms
-				> *
-					flex 1 1 100%
 				&.hoverable
 					cursor pointer
 					&:hover
 						transform scale(1.05)
 						box-shadow 0 10px 20px rgba(0,0,0,.05)
-					> *
-						flex 1 1 100%
 				.content
 					margin-top 0
 					margin-bottom .5rem
 				.creation
-					margin-top auto
+					position absolute
+					bottom 1rem
+					display block
 					font-size .75rem
 					opacity .5
 
 	#reactions .entries .entry
 		.react, .subject
+			display block
 			margin-bottom 1rem
 		.react .emotion
 			margin-right .25rem
@@ -398,14 +395,8 @@
 
 	@media screen and (min-width 826px)
 		#posts, #reactions
-			.entries .entry
-				flex 0 1 calc(50% - 1rem)
-				/* Every first post */
-				&:nth-child(odd)
-					margin 0 1rem 2rem 0
-				/* Every secound post */
-				&:nth-child(even)
-					margin 0 0 2rem 1rem
+			.entries
+				grid-template-columns 1fr 1fr
 </style>
 
 
