@@ -67,9 +67,7 @@
 	}
 
 	function openSignInModal() {
-		modalViewer.open(
-			new ModalView('sign_in')
-		)
+		modalViewer.open(new ModalView('sign_in'))
 	}
 </script>
 
