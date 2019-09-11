@@ -293,15 +293,13 @@
 			flex 0 0 auto
 			align-items center
 			align-self flex-start
-			border solid 1px transparent
 			border-radius var(--app-border-radius)
 		.close-all-sessions
 			margin auto 0
+			border solid 1px transparent
 			&:not(:hover):not(:active):not(:focus)
 				color var(--app-fg-lightest)
 		.entries
-			display flex
-			flex-flow row wrap
 			border solid 1px var(--app-border-01)
 			border-radius var(--app-border-radius)
 			.session
