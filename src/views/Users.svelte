@@ -27,8 +27,9 @@
 		margin auto
 
 	#userList
-		display flex
-		flex-flow row wrap
+		display grid
+		grid-template-columns repeat(2, 1fr)
+		grid-gap 2rem
 
 	.user
 		display flex
@@ -41,10 +42,6 @@
 		align-items center
 		transform scale(1)
 		cursor pointer
-		&:nth-child(odd)
-			margin 0 1rem 2rem 0
-		&:nth-child(even)
-			margin 0 0 2rem 1rem
 		&:hover
 			transform scale(1.05)
 			box-shadow 0 10px 20px rgba(0,0,0,.05)
@@ -64,17 +61,8 @@
 
 
 	@media screen and (min-width 826px)
-		.user
-			flex 0 0 calc(100% / 4 - 2rem)
-			/* Every first user */
-			&:nth-child(4n+1)
-				margin 0 1rem 2rem 0
-			/* Every secound & third user */
-			&:nth-child(4n+2), &:nth-child(4n+3)
-				margin 0 1.5rem 2rem 1.5rem
-			/* Every fourth user */
-			&:nth-child(4n-0)
-				margin 0 0 2rem 1rem
+		#userList
+			grid-template-columns repeat(4, 1fr)
 </style>
 
 
