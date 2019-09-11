@@ -97,8 +97,8 @@
 
 
 	:global(.post .reactions > .create-reaction)
-		margin-top 2rem
-		padding 1rem
+		padding .5rem
+		line-height 1
 		border solid 1px var(--app-border-01)
 		border-radius var(--app-border-radius)
 </style>
