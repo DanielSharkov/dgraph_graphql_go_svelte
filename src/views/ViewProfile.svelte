@@ -107,6 +107,7 @@
 			user.sessions = resp.user.sessions
 		}
 	}
+	fetchUser()
 
 	async function closeSession(key, index) {
 		const resp = await api.Query(
@@ -202,7 +203,7 @@
 <svelte:head>
 	<title>{user.displayName}</title>
 </svelte:head>
-<svelte:window on:routeUpdated={fetchUser} on:userSignIn={fetchUser}/>
+<svelte:window on:userSignIn={fetchUser}/>
 
 
 
