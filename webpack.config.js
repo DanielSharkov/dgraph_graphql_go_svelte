@@ -1,7 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-//const mode = process.env.NODE_ENV || 'development';
-const mode = 'development'
+const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
 
 module.exports = {
@@ -37,16 +36,16 @@ module.exports = {
 					loader: 'svelte-loader',
 					options: {
 						emitCss: true,
-						hotReload: false,
+						hotReload: true,
 						preprocess: require('svelte-preprocess')({
 							aliases: [['stylus']],
-							stylus: {
+							postcss: {
 								plugins: [
 									require('autoprefixer')({
 										browsers: 'last 2 versions'
 									})
 								]
-							},
+							}
 						})
 					}
 				}
@@ -59,8 +58,7 @@ module.exports = {
 					 * For developing, use 'style-loader' instead.
 					 * */
 					prod ? MiniCssExtractPlugin.loader : 'style-loader',
-					'css-loader',
-					'postcss-loader'
+					'css-loader'
 				]
 			},
 			{
