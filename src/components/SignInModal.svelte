@@ -110,7 +110,7 @@
 		display flex
 		flex 0 1 500px
 		h1
-			margin 0 0 1rem 0
+			margin 0 0 2rem 0
 			text-align center
 			flex 1 1 100%
 		form
