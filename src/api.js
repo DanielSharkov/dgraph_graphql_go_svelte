@@ -27,9 +27,12 @@ export function API(hostUrl, graphEndpoint) {
 						}),
 					})
 					const data = await resp.json()
+					if (data.errors) {
+						throw data
+					}
 					return data.data
 				} catch(err) {
-					window.handleRequestError(err.response)
+					window.handleRequestError(err)
 					throw err
 				}
 			}

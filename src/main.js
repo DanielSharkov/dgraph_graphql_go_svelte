@@ -13,16 +13,16 @@ if (typeof(Storage) !== undefined) {
 	window.eventUserSignIn = new CustomEvent('userSignIn')
 
 	window.handleRequestError = function(err) {
-		// err.data.errors.c = error code
-		// err.data.errors.m = error message
+		// err.errors.c = error code
+		// err.errors.m = error message
 		if (err === undefined) {
 			console.error('DEBUG\nUnexpected error @ handleRequestError')
 		}
-		else if (err.data.errors !== undefined) {
+		else if (err.errors) {
 			alert(
 				'DEBUG\n' +
-				`Err code: ${err.data.errors.c}\n` +
-				`Err msg: ${err.data.errors.m}`,
+				`Err code: ${err.errors.c}\n` +
+				`Err msg: ${err.errors.m}`,
 			)
 		}
 		else {
