@@ -3,6 +3,7 @@
 	import router from './router'
 	import { fade } from 'svelte/transition'
 	import SignInModal from './components/SignInModal'
+	import globalStyles from './styles/global.styl'
 	import {
 		sessionUser,
 		isValidSession,

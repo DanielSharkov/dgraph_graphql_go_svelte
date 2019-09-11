@@ -1,6 +1,5 @@
 import App from './App'
 import { UserSession } from './stores'
-import globalStyles from '../public/global.styl'
 
 // App only going to work when web storage is available
 if (typeof(Storage) !== undefined) {
