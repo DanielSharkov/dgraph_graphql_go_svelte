@@ -297,9 +297,9 @@
 			border-radius var(--app-border-radius)
 		.close-all-sessions
 			margin auto 0
-			border solid 1px transparent
 			&:not(:hover):not(:active):not(:focus)
 				color var(--app-fg-lightest)
+				border-color transparent
 		.entries
 			border solid 1px var(--app-border-01)
 			border-radius var(--app-border-radius)
