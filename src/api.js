@@ -1,41 +1,39 @@
 import { sessionUser } from './stores'
-import Axios from 'axios'
 
 export function API(hostUrl, graphEndpoint) {
-	const axios = Axios.create({
-		method: 'post',
-		baseURL: hostUrl + graphEndpoint,
-		timeout: 5000,
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
+	const baseURL = hostUrl + graphEndpoint
 
 	let session;
 	sessionUser.subscribe(s => session = s)
 
 	Object.defineProperties(this, {
-		Query: {value: async function(query, args) {
-			const headers = {}
+		Query: {
+			async value(query, args) {
+				const headers = {
+					'Content-Type': 'application/json'
+				}
 
-			if (session) {
-				headers['Authorization'] = `Bearer ${session.key}`
+				if (session) {
+					headers['Authorization'] = `Bearer ${session.key}`
+				}
+
+				try {
+					const resp = await fetch(baseURL, {
+						method: 'POST',
+						headers,
+						body: JSON.stringify({
+							query: query,
+							variables: args,
+						}),
+					})
+					const data = await resp.json()
+					return data.data
+				} catch(err) {
+					window.handleRequestError(err.response)
+					throw err
+				}
 			}
-	
-			try {
-				const resp = await axios ({
-					data: JSON.stringify({
-						query: query,
-						variables: args,
-					}),
-					headers,
-				})
-				return resp.data.data
-			} catch(err) {
-				window.handleRequestError(err.response)
-				throw err
-			}
-		}}
+		}
 	})
 }
 
