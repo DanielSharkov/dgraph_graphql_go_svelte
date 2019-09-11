@@ -223,6 +223,6 @@
 
 <div id="posts">
 	{#each postList as post}
-		<Post {...post}/>
+		<Post {post}/>
 	{/each}
 </div>

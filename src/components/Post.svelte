@@ -10,14 +10,16 @@
 	import Reaction from './Reaction'
 	import CreateReaction from './CreateReaction'
 
-	export let id;
-	export let creation;
-	export let title;
-	export let contents;
-	export let reactions = []
-	export let author = {
-		id: null,
-		displayName: null,
+	export let post = {
+		id: '',
+		creation: new Date(0),
+		title: '',
+		contents: '',
+		reactions: [],
+		author: {
+			id: null,
+			displayName: null,
+		},
 	}
 
 	let createReaction = false
@@ -103,12 +105,12 @@
 
 
 
-<div class="post" post-id={id}>
+<div class="post" post-id={post.id}>
 	<div class="header">
 		<div
 		class="author"
-		author-id={author.id}
-		on:click={() => router.push('profile', {id: author.id})}>
+		author-id={post.author.id}
+		on:click={() => router.push('profile', {id: post.author.id})}>
 			<div class="picture">
 				<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
@@ -116,11 +118,11 @@
 				</svg>
 			</div>
 			<span class="display-name">
-				{author.displayName}
+				{post.author.displayName}
 			</span>
 		</div>
 		<span class="creation">{
-			new Date(creation).toLocaleDateString('en-US', {
+			new Date(post.creation).toLocaleDateString('en-US', {
 				year: 'numeric',
 				month: 'numeric',
 				day: 'numeric',
@@ -130,17 +132,17 @@
 		}</span>
 	</div>
 	<div class="content">
-		<h3 class="title">{title}</h3>
-		<pre class="contents">{contents}</pre>
+		<h3 class="title">{post.title}</h3>
+		<pre class="contents">{post.contents}</pre>
 	</div>
 	<div class="reactions">
 		{#if createReaction}
 			<CreateReaction
-				subject={id}
+				subject={post.id}
 				on:cancel={() => createReaction = false}
 				on:created={react => {
 					createReaction = false
-					reactions = [react.detail, ...reactions]
+					post.reactions = [react.detail, ...post.reactions]
 				}}
 			/>
 		{:else}
@@ -150,7 +152,7 @@
 				+ Write reaction
 			</button>
 		{/if}
-		{#each reactions.reverse() as reaction}
+		{#each post.reactions.reverse() as reaction}
 			<Reaction {reaction}/>
 		{/each}
 	</div>
