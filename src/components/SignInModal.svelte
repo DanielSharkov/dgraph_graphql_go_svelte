@@ -174,10 +174,10 @@
 			{/if}
 		</button>
 		<button
-		type="button"
+		type="submit"
 		class="primary"
 		disabled={!isValidInput}
-		on:click={primaryAction}>
+		on:click|preventDefault={primaryAction}>
 			{#if isSigningUp}
 				Sign up
 			{:else}
