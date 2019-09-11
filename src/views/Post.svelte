@@ -35,6 +35,7 @@
 
 		post = resp.post
 	}
+	fetchPost()
 </script>
 
 <svelte:head>
