@@ -11,6 +11,12 @@
 	--app-primary #03F
 	--app-primary-01 rgba(0,50,255,.1)
 
+	--app-danger #F05
+	--app-danger-01 rgba(255,0,50,.1)
+
+	--app-warn #FC0
+	--app-warn-01 rgba(255,204,0,.1)
+
 	--app-btn-bg transparent
 	--app-btn-fg #000
 	--app-btn-border transparent
@@ -40,7 +46,7 @@
 	--app-btn-primary-bg transparent
 	--app-btn-primary-fg var(--app-primary)
 	--app-btn-primary-border var(--app-border-01)
-	--app-btn-primary-hover-bg rgba(0,50,255,.1)
+	--app-btn-primary-hover-bg var(--app-primary-01)
 	--app-btn-primary-hover-fg var(--app-primary)
 	--app-btn-primary-hover-border var(--app-primary)
 	--app-btn-primary-active-bg var(--app-primary)
@@ -50,18 +56,31 @@
 	--app-btn-primary-focus-fg #FFF
 	--app-btn-primary-focus-border var(--app-primary)
 
-	/* --app-btn-danger-bg 
-	--app-btn-danger-fg 
-	--app-btn-danger-border 
-	--app-btn-danger-hover-bg 
-	--app-btn-danger-hover-fg 
-	--app-btn-danger-hover-border 
-	--app-btn-danger-active-bg 
-	--app-btn-danger-active-fg 
-	--app-btn-danger-active-border 
-	--app-btn-danger-focus-bg 
-	--app-btn-danger-focus-fg 
-	--app-btn-danger-focus-border  */
+	--app-btn-danger-bg transparent
+	--app-btn-danger-fg var(--app-danger)
+	--app-btn-danger-border var(--app-border-01)
+	--app-btn-danger-hover-bg var(--app-danger-01)
+	--app-btn-danger-hover-fg var(--app-danger)
+	--app-btn-danger-hover-border var(--app-danger)
+	--app-btn-danger-active-bg var(--app-danger)
+	--app-btn-danger-active-fg #FFF
+	--app-btn-danger-active-border var(--app-danger)
+	--app-btn-danger-focus-bg var(--app-danger)
+	--app-btn-danger-focus-fg #FFF
+	--app-btn-danger-focus-border var(--app-danger)
+
+	--app-btn-warn-bg transparent
+	--app-btn-warn-fg var(--app-warn)
+	--app-btn-warn-border var(--app-border-01)
+	--app-btn-warn-hover-bg var(--app-warn-01)
+	--app-btn-warn-hover-fg var(--app-warn)
+	--app-btn-warn-hover-border var(--app-warn)
+	--app-btn-warn-active-bg var(--app-warn)
+	--app-btn-warn-active-fg #FFF
+	--app-btn-warn-active-border var(--app-warn)
+	--app-btn-warn-focus-bg var(--app-warn)
+	--app-btn-warn-focus-fg #FFF
+	--app-btn-warn-focus-border var(--app-warn)
 
 html
 	width 100vw
@@ -111,7 +130,11 @@ h1, h2, h3, h4, h5, h6
 	border none
 	outline none
 	box-sizing border-box
-	transition all cubic-bezier(.22,.61,.36,1) 200ms
+	transition cubic-bezier(.22,.61,.36,1) 200ms
+	transition-property:
+		background, opacity, transform, border, color,
+		box-shadow, padding, margin, border-radius,
+		fill, stroke, height, width
 
 span, a, q, p, i, b, label,
 input, textarea, button
@@ -150,11 +173,6 @@ button
 	align-items center
 	color var(--app-fg)
 	border-radius var(--app-border-radius)
-	// -webkit-touch-callout none
-	// -webkit-user-select none
-	// -khtml-user-select none
-	// -moz-user-select none
-	// -ms-user-select none
 	user-select none
 	cursor pointer
 	> *:not(:first-child)
@@ -169,51 +187,112 @@ button
 		width 100%
 	&.secondary
 		color var(--app-btn-secondary-fg)
+		border-color var(--app-btn-secondary-border)
 		background-color var(--app-btn-secondary-bg)
-		border-color var(--app-btn-secondary-border) !important
+		.icon
+			&.stroked > *
+				stroke var(--app-btn-secondary-fg)
+			&.filled > *
+				fill var(--app-btn-secondary-fg)
 		&:hover
 			color var(--app-btn-secondary-hover-fg)
+			border-color var(--app-btn-secondary-hover-border)
 			background-color var(--app-btn-secondary-hover-bg)
-			border-color var(--app-btn-secondary-hover-border) !important
+			.icon
+				&.stroked > *
+					stroke var(--app-btn-secondary-hover-fg)
+				&.filled > *
+					fill var(--app-btn-secondary-hover-fg)
 		&:focus, &:active, &.active
 			color var(--app-btn-secondary-active-fg)
+			border-color var(--app-btn-secondary-active-border)
 			background-color var(--app-btn-secondary-active-bg)
-			border-color var(--app-btn-secondary-active-border) !important
+			.icon
+				&.stroked > *
+					stroke var(--app-btn-secondary-active-fg)
+				&.filled > *
+					fill var(--app-btn-secondary-active-fg)
 	&.primary
 		color var(--app-btn-primary-fg)
+		border-color var(--app-btn-primary-border)
 		background-color var(--app-btn-primary-bg)
-		border-color var(--app-btn-primary-border) !important
+		.icon
+			&.stroked > *
+				stroke var(--app-btn-primary-fg)
+			&.filled > *
+				fill var(--app-btn-primary-fg)
 		&:hover
 			color var(--app-btn-primary-hover-fg)
+			border-color var(--app-btn-primary-hover-border)
 			background-color var(--app-btn-primary-hover-bg)
-			border-color var(--app-btn-primary-hover-border) !important
 			.icon
-				.stroked
+				&.stroked > *
 					stroke var(--app-btn-primary-hover-fg)
-				.filled > *
+				&.filled > *
 					fill var(--app-btn-primary-hover-fg)
 		&:focus, &:active, &.active
-			background-color var(--app-btn-primary-active-bg)
 			color var(--app-btn-primary-active-fg)
-			> *
-				stroke var(--app-btn-primary-active-fg)
-				fill var(--app-btn-primary-active-fg)
-	&.danger
-		color #F05
-		&:hover
-			border-color #F05 !important
-			background-color rgba(255,0,50,.05)
+			border-color var(--app-btn-primary-active-border)
+			background-color var(--app-btn-primary-active-bg)
 			.icon
-				.stroked
-					stroke #F05
-				.filled > *
-					fill #F05
+				&.stroked > *
+					stroke var(--app-btn-primary-active-fg)
+				&.filled > *
+					fill var(--app-btn-primary-active-fg)
+	&.danger
+		color var(--app-btn-danger-fg)
+		border-color var(--app-btn-danger-border)
+		background-color var(--app-btn-danger-bg)
+		.icon
+			&.stroked > *
+				stroke var(--app-btn-danger-fg)
+			&.filled > *
+				fill var(--app-btn-danger-fg)
+		&:hover
+			border-color var(--app-btn-danger-hover-fg)
+			border-color var(--app-btn-danger-hover-border)
+			background-color var(--app-btn-danger-hover-bg)
+			.icon
+				&.stroked > *
+					stroke var(--app-btn-danger-hover-fg)
+				&.filled > *
+					fill var(--app-btn-danger-hover-fg)
 		&:focus, &:active, &.active
-			background-color #F05
-			color #fff
-			> *
-				stroke #F05
-				fill #F05
+			color var(--app-btn-danger-active-fg)
+			border-color var(--app-btn-danger-active-border)
+			background-color var(--app-btn-danger-active-bg)
+			.icon
+				&.stroked > *
+					stroke var(--app-btn-danger-active-fg)
+				&.filled > *
+					fill var(--app-btn-danger-active-fg)
+	&.warn
+		color var(--app-btn-warn-fg)
+		border-color var(--app-btn-warn-border)
+		background-color var(--app-btn-warn-bg)
+		.icon
+			&.stroked > *
+				stroke var(--app-btn-warn-fg)
+			&.filled > *
+				fill var(--app-btn-warn-fg)
+		&:hover
+			border-color var(--app-btn-warn-hover-fg)
+			border-color var(--app-btn-warn-hover-border)
+			background-color var(--app-btn-warn-hover-bg)
+			.icon
+				&.stroked > *
+					stroke var(--app-btn-warn-hover-fg)
+				&.filled > *
+					fill var(--app-btn-warn-hover-fg)
+		&:focus, &:active, &.active
+			color var(--app-btn-warn-active-fg)
+			border-color var(--app-btn-warn-active-border)
+			background-color var(--app-btn-warn-active-bg)
+			.icon
+				&.stroked > *
+					stroke var(--app-btn-warn-active-fg)
+				&.filled > *
+					fill var(--app-btn-warn-active-fg)
 	&[disabled], &.disabled
 		opacity .25
 		pointer-events none
