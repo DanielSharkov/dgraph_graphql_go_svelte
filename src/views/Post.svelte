@@ -10,28 +10,19 @@
 			`query ($id: Identifier!) {
 				post(id: $id) {
 					id
-					author {
-						id
-						displayName
-					}
+					author { id displayName }
 					creation
 					title
 					contents
 					reactions {
 						id
-						author {
-							id
-							displayName
-						}
+						author { id displayName }
 						emotion
 						message
 						creation
 						reactions {
 							id
-							author {
-								id
-								displayName
-							}
+							author { id displayName }
 							emotion
 							message
 							creation

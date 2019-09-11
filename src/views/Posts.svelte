@@ -21,28 +21,19 @@
 			`{
 				posts {
 					id
-					author {
-						id
-						displayName
-					}
+					author { id displayName }
 					creation
 					title
 					contents
 					reactions {
 						id
-						author {
-							id
-							displayName
-						}
+						author { id displayName }
 						emotion
 						message
 						creation
 						reactions {
 							id
-							author {
-								id
-								displayName
-							}
+							author { id displayName }
 							emotion
 							message
 							creation
@@ -69,24 +60,13 @@
 		}
 
 		const resp = await api.Query(
-			`mutation (
-				$author: Identifier!,
-				$title: String!,
-				$contents: String!
-			) {
-				createPost(
-					author: $author,
-					title: $title,
-					contents: $contents
-				) {
+			`mutation ($author: Identifier!, $title: String!, $contents: String!) {
+				createPost(author: $author, title: $title, contents: $contents) {
 					id
 					creation
 					title
 					contents
-					author {
-						id
-						displayName
-					}
+					author { id displayName }
 				}
 			}`,
 			{

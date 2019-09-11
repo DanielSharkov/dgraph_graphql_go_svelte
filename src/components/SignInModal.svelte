@@ -18,21 +18,11 @@
 
 		try {
 			const resp = await api.Query(
-				`mutation (
-					$password: String!,
-					$email: String!
-				) {
-					createSession(
-						email: $email,
-						password: $password
-					) {
+				`mutation ($password: String!, $email: String!) {
+					createSession(email: $email, password: $password) {
 						key
 						creation
-						user {
-							id
-							displayName
-							email
-						}
+						user { id displayName email }
 					}
 				}`,
 				{
@@ -61,21 +51,12 @@
 	async function SignUp() {
 		try {
 			const resp = await api.Query(
-				`mutation (
-						$email: String!,
-						$displayName: String!,
-						$password: String!
-					) {
-						createUser(
-							email: $email,
-							displayName: $displayName,
-							password: $password
-						) {
-							id
-							displayName
-						}
+				`mutation ($email: String!, $displayName: String!, $password: String!) {
+					createUser(email: $email, displayName: $displayName, password: $password) {
+						id
+						displayName
 					}
-				`,
+				}`,
 				{
 					displayName: formData.displayName,
 					email: formData.email,

@@ -41,11 +41,7 @@
 					id
 					displayName
 					creation
-					posts {
-						id
-						title
-						creation
-					}
+					posts { id title creation }
 					publishedReactions {
 						id
 						emotion
@@ -53,15 +49,8 @@
 						creation
 						subject {
 							__typename
-							... on Post {
-								id
-								title
-							}
-							... on Reaction {
-								id
-								emotion
-								message
-							}
+							... on Post { id title }
+							... on Reaction { id emotion message }
 						}
 					}
 				}
@@ -74,15 +63,8 @@
 						email
 						displayName
 						creation
-						sessions {
-							key
-							creation
-						}
-						posts {
-							id
-							title
-							creation
-						}
+						sessions { key creation }
+						posts { id title creation }
 						publishedReactions {
 							id
 							emotion
@@ -90,15 +72,8 @@
 							creation
 							subject {
 							__typename
-								... on Post {
-									id
-									title
-								}
-								... on Reaction {
-									id
-									emotion
-									message
-								}
+								... on Post { id title }
+								... on Reaction { id emotion message }
 							}
 						}
 					}
