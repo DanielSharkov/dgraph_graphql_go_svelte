@@ -28,4 +28,4 @@ function declareStore_posts() {
 	}
 }
 
-export const user = declareStore_posts()
+export const posts = declareStore_posts()

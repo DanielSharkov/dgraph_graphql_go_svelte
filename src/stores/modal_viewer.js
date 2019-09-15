@@ -55,4 +55,4 @@ function declareStore_modalViewer() {
 	}
 }
 
-export const user = declareStore_modalViewer()
+export const modalViewer = declareStore_modalViewer()

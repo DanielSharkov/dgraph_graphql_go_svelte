@@ -1,11 +1,11 @@
 import { app } from './app'
-import { sessionUser } from './session_user'
+import { userSession } from './user_session'
 import { posts } from './posts'
 import { modalViewer } from './modal_viewer'
 
 export {
 	app,
-	sessionUser,
+	userSession,
 	posts,
 	modalViewer,
 }

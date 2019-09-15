@@ -7,7 +7,7 @@ export function initStore() {
 
 let _initStore = function(){}
 
-function declareStore_user() {
+function declareStore_userSession() {
 	function syncLocStorSession(state) {
 		if (localStorage !== undefined) {
 			localStorage.setItem('dggs_session', JSON.stringify(state))
@@ -56,4 +56,4 @@ function declareStore_user() {
 	}
 }
 
-export const user = declareStore_user()
+export const userSession = declareStore_userSession()
