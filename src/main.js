@@ -1,15 +1,9 @@
 import App from './App'
-import { UserSession } from './stores'
+
+let app;
 
 // App only going to work when web storage is available
 if (typeof(Storage) !== undefined) {
-	if (window.localStorage.getItem('session') === undefined) {
-		window.localStorage.setItem('session', new UserSession())
-	}
-	if (window.localStorage.getItem('appTheme') === undefined) {
-		window.localStorage.setItem('appTheme', '')
-	}
-
 	window.eventUserSignIn = new CustomEvent('userSignIn')
 
 	window.handleRequestError = function(err) {
@@ -34,14 +28,14 @@ if (typeof(Storage) !== undefined) {
 		}
 	}
 
-	const app = new App({target: document.body})
+	app = new App({target: document.body})
 	window.app = app
-
 }
 else {
 	alert(
-		`The browser you use doesn't support web storage,` +
-		`wherefore the app is not going to work.`,
+		`Warning! You're using this app without a local storage api ` +
+		`wherefore you actually can't use this app.` +
+		`\nRecommended Browsers: Chrome (Opera, Vivaldi), Safari, Firefox`
 	)
 }
 

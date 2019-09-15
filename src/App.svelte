@@ -12,6 +12,13 @@
 		ModalView,
 		appTheme,
 	} from './stores'
+	import { app } from './stores/index'
+	import initStores from './stores/initStores'
+
+	// Loads asynchronous data
+	app.load((resolve, fail)=> {
+		initStores().then(resolve).catch(fail)
+	})
 
 	function sessionUserAction() {
 		if ($isValidSession) {
