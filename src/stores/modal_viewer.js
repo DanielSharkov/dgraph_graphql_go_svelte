@@ -3,6 +3,7 @@ import { writable, get as getStore, derived } from 'svelte/store'
 function declareStore_modalViewer() {
 	const { subscribe, update } = writable({
 		currentModal: null,
+		allowBgEscape: true,
 		modals: {},
 	})
 
@@ -29,7 +30,7 @@ function declareStore_modalViewer() {
 				return store
 			})
 		},
-		open(modalName, data = null) {
+		open(modalName, data = null, options) {
 			if (typeof modalName !== 'string') {
 				throw new Error(
 					`invalid modal name: ${modalName} (${typeof modalName})`,
@@ -43,12 +44,24 @@ function declareStore_modalViewer() {
 					data,
 					component: store.modals[modalName],
 				}
+				if (options) {
+					if (options.allowBgEscape != undefined) {
+						if (typeof options.allowBgEscape != 'boolean') {
+							throw new Error(
+								`expected option 'allowBgEscape' of type boolen: ` +
+								`${options.allowBgEscape} (${typeof options.allowBgEscape})`,
+							)
+						}
+						store.allowBgEscape = options.allowBgEscape
+					}
+				}
 				return store
 			})
 		},
 		close() {
 			update((store)=> {
 				store.currentModal = null
+				store.allowBgEscape = true
 				return store
 			})
 		},
