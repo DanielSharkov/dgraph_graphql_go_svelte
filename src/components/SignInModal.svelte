@@ -1,5 +1,6 @@
 <script>
-	import { sessionUser, UserSession, modalViewer } from '../stores'
+	import { userSession, modalViewer } from '../stores/'
+	import { UserSession } from '../types/UserSession'
 	import { api } from '../api'
 
 	let isSigningUp = false
@@ -31,13 +32,13 @@
 				}
 			)
 
-			sessionUser.set(new UserSession(
+			userSession.set(
 				resp.createSession.key,
 				resp.createSession.user.id,
 				resp.createSession.user.email,
 				resp.createSession.user.displayName,
 				resp.createSession.creation,
-			))
+			)
 
 			modalViewer.close()
 			setTimeout(() => {

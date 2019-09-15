@@ -1,12 +1,6 @@
 <script>
 	import Post from '../components/Post'
-	import {
-		sessionUser,
-		isValidSession,
-		UserSession,
-		modalViewer,
-		ModalView,
-	} from '../stores'
+	import { userSession, modalViewer } from '../stores/'
 	import { api } from '../api'
 
 	const postList = []
@@ -52,7 +46,7 @@
 
 	async function createNewPost() {
 		if (
-			!$isValidSession ||
+			!userSession.isValidSession ||
 			formPostData.title === '' ||
 			formPostData.contents === ''
 		) {
@@ -70,7 +64,7 @@
 				}
 			}`,
 			{
-				author: $sessionUser.id,
+				author: $userSession.id,
 				title: formPostData.title,
 				contents: formPostData.contents,
 			},
@@ -82,10 +76,6 @@
 		showCreatePost = false
 		formPostData.title = ''
 		formPostData.contents = ''
-	}
-
-	function openSignInModal() {
-		modalViewer.open(new ModalView('sign_in'))
 	}
 </script>
 
@@ -157,7 +147,7 @@
 
 
 
-{#if $isValidSession}
+{#if userSession.isValidSession}
 	<div
 	id="createPost"
 	class="post"
@@ -171,7 +161,7 @@
 					</svg>
 				</div>
 				<span class="display-name">
-					{$sessionUser.displayName}
+					{$userSession.displayName}
 				</span>
 			</div>
 		</div>
@@ -216,7 +206,7 @@
 	</button>
 {:else}
 	<h3 class="view-title">
-		<button class="link" on:click={openSignInModal}>
+		<button class="link" on:click={()=> modalViewer.open('signIn')}>
 			Sign in
 		</button>
 		to write a post.

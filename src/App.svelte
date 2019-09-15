@@ -5,29 +5,26 @@
 	import SignInModal from './components/SignInModal'
 	import globalStyles from './styles/global.styl'
 	import blackTheme from './styles/black-theme.styl'
-	import {
-		sessionUser,
-		isValidSession,
-		modalViewer,
-		ModalView,
-		appTheme,
-	} from './stores'
-	import { app } from './stores/index'
+	import { app as appStore, userSession, modalViewer } from './stores/'
 	import initStores from './stores/initStores'
 
 	// Loads asynchronous data
-	app.load((resolve, fail)=> {
+	appStore.load((resolve, fail)=> {
 		initStores().then(resolve).catch(fail)
 	})
 
-	function sessionUserAction() {
+	let isValidSession = userSession.isValidSession
+
+	function userSessionAction() {
 		if ($isValidSession) {
-			router.push('profile', {id: $sessionUser.id})
+			router.push('profile', {id: $userSession.id})
 		}
 		else {
-			modalViewer.open(new ModalView('sign_in'))
+			modalViewer.open('signIn')
 		}
 	}
+
+	modalViewer.registerModal('signIn', SignInModal)
 </script>
 
 
@@ -59,7 +56,7 @@
 				&:focus
 					box-shadow 0 0 0 .25rem var(--app-primary-01)
 
-	#sessionUser
+	#userSession
 		display flex
 		margin-left auto
 		flex 0 0 auto
@@ -138,13 +135,18 @@
 
 
 
-<div id="app" class="{$appTheme}-theme">
-	{#if $modalViewer.type !== ''}
+<div id="app" class="{$appStore.theme.name}-theme">
+	{#if $modalViewer.currentModal}
 		<div id="modal-viewport" transition:fade={{duration:100}}>
-			<div class="background" on:click={modalViewer.close}/>
-			{#if $modalViewer.type === 'sign_in'}
+			<div class="background" on:click={()=> {
+				if ($modalViewer.allowBgEscape) {
+					modalViewer.close()
+				}
+			}}/>
+			<svelte:component this={$modalViewer.currentModal.component}/>
+			<!-- {#if $modalViewer.currentModal === 'signIn'}
 				<SignInModal/>
-			{/if}
+			{/if} -->
 		</div>
 	{/if}
 
@@ -161,15 +163,15 @@
 			{/each}
 		</div>
 		<div
-		id="sessionUser"
+		id="userSession"
 		class:profile-view={
 			$router.route.name == 'profile' &&
-			$router.route.params.id === $sessionUser.id
+			$router.route.params.id === $userSession.id
 		}>
-			<button class="user" on:click={sessionUserAction}>
+			<button class="user" on:click={userSessionAction}>
 				<span class="displayName">
 					{#if $isValidSession}
-						{$sessionUser.displayName}
+						{$userSession.displayName}
 					{:else}
 						Sign in
 					{/if}

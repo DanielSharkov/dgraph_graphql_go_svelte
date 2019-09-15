@@ -34,11 +34,16 @@ function declareStore_userSession() {
 
 	return {
 		subscribe,
-		set(session) {
-			if (session instanceof UserSession) {
-				syncLocStorSession(session.json())
-				return set(session)
-			}
+		set(key, id, email, displayName, creation) {
+			const newSession = new UserSession(
+				key,
+				id,
+				email,
+				displayName,
+				creation,
+			)
+			syncLocStorSession(newSession.json())
+			return set(newSession)
 		},
 		reset() {
 			const nullSess = new UserSession()

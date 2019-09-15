@@ -6,11 +6,6 @@ import ProfileView from './views/ViewProfile'
 import PostsView from './views/Posts'
 import PostView from './views/Post'
 
-import { isValidSession } from './stores'
-
-let $isValidSession;
-isValidSession.subscribe(val => $isValidSession = val)
-
 export default new Router({
 	window,
 	routes: {

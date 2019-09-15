@@ -1,5 +1,5 @@
 <script>
-	import { sessionUser } from '../stores'
+	import { userSession } from '../stores/'
 	import router from '../router'
 	import { api } from '../api'
 
@@ -69,7 +69,7 @@
 
 <div id="userList">
 	{#each userList as {id, displayName}}
-		{#if id === $sessionUser.id && userList.length === 1}
+		{#if id === $userSession.id && userList.length === 1}
 			<h3 class="view-title">
 				Your the only existing user ☹️
 			</h3>

@@ -1,10 +1,10 @@
-import { sessionUser } from './stores'
+import { userSession } from './stores/'
 
 export function API(hostUrl, graphEndpoint) {
 	const baseURL = hostUrl + graphEndpoint
 
 	let session;
-	sessionUser.subscribe(s => session = s)
+	userSession.subscribe(s => session = s)
 
 	Object.defineProperties(this, {
 		Query: {

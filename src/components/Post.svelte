@@ -1,11 +1,4 @@
 <script>
-	import {
-		sessionUser,
-		isValidSession,
-		emotions,
-		emotionsDisplayName,
-	} from '../stores'
-	import { api } from '../api'
 	import router from '../router'
 	import Reaction from './Reaction'
 	import CreateReaction from './CreateReaction'

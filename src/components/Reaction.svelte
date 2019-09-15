@@ -1,5 +1,5 @@
 <script>
-	import { emotionsDisplayName } from '../stores'
+	import { posts } from '../stores/'
 	import router from '../router'
 	import CreateReaction from './CreateReaction'
 
@@ -115,7 +115,7 @@
 		}</span>
 	</div>
 	<div class="content">
-		<span>{$emotionsDisplayName[reaction.emotion]}</span>
+		<span>{posts.getEmotionDisplayName(reaction.emotion)}</span>
 		<span>{reaction.message}</span>
 	</div>
 	{#if reaction.reactions && reaction.reactions.length > 0}

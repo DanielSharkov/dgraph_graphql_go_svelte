@@ -1,14 +1,9 @@
 <script>
 	import { createEventDispatcher } from 'svelte'
 	import { api } from '../api'
-	import {
-		isValidSession,
-		sessionUser,
-		emotions,
-		emotionsDisplayName,
-		modalViewer,
-		ModalView,
-	} from '../stores'
+	import { userSession, posts, modalViewer } from '../stores/'
+
+	let isValidSession = userSession.isValidSession
 
 	const dispatch = createEventDispatcher()
 
@@ -20,11 +15,7 @@
 	}
 
 	async function reactOnPost() {
-		if (
-			!$isValidSession &
-			form.emote === '' &&
-			form.message === ''
-		) {
+		if (!$isValidSession && form.emote === '' && form.message === '') {
 			return
 		}
 
@@ -48,7 +39,7 @@
 				}
 			}`,
 			{
-				authorId: $sessionUser.id,
+				authorId: $userSession.id,
 				subjectId: subject,
 				emotion: form.emote,
 				message: form.message,
@@ -56,18 +47,14 @@
 		)
 
 		resp.createReaction.author = {
-			id: $sessionUser.id,
-			displayName: $sessionUser.displayName,
+			id: $userSession.id,
+			displayName: $userSession.displayName,
 		}
 
 		form.emote = ''
 		form.message = ''
 
 		dispatch('created', resp.createReaction)
-	}
-
-	function openSignInModal() {
-		modalViewer.open(new ModalView('sign_in'))
 	}
 </script>
 
@@ -119,12 +106,12 @@
 
 <div class="create-reaction">
 	{#if $isValidSession}
-		{#each $emotions as emote}
+		{#each posts.emotions as emote}
 			<button
 			class="emote"
 			class:selected={{emote}.emote === form.emote}
 			on:click={() => form.emote = {emote}.emote}>
-				{$emotionsDisplayName[emote]}
+				{posts.emotionsDisplayName[emote]}
 			</button>
 		{/each}
 		<div class="actions">
@@ -143,7 +130,7 @@
 		></textarea>
 	{:else}
 		<span class="not-signed-in">
-			<button class="link" on:click={openSignInModal}>
+			<button class="link" on:click={()=> modalViewer.open('signIn')}>
 				Sign in
 			</button>
 			to create a reaction

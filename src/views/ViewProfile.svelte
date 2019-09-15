@@ -1,13 +1,9 @@
 <script>
-	import {
-		isValidSession,
-		sessionUser,
-		UserSession,
-		emotionsDisplayName,
-		appTheme,
-	} from '../stores'
+	import { app as appStore, userSession, posts } from '../stores/'
 	import { api } from './../api'
 	import router from '../router'
+
+	let isValidSession = userSession.isValidSession
 
 	let isEditing = false
 
@@ -24,13 +20,13 @@
 
 	let userNotExisting = false
 
-	$:isSignedInUser = $sessionUser.id == params.id
+	$:isSignedInUser = $userSession.id == params.id
 	$:passChanged = profileEdit.newPass !== ''
 	$:isValidPass = profileEdit.newPass.length > 5
-	$:emailChanged = profileEdit.newEmail !== $sessionUser.email
+	$:emailChanged = profileEdit.newEmail !== $userSession.email
 
 	const profileEdit = {
-		newEmail: $sessionUser.email,
+		newEmail: $userSession.email,
 		newPass: '',
 	}
 
@@ -55,7 +51,7 @@
 					}
 				}
 			}`
-		if ($isValidSession && $sessionUser.id == params.id) {
+		if ($isValidSession && $userSession.id == params.id) {
 			query = `
 				query ($id: Identifier!) {
 					user(id: $id) {
@@ -102,7 +98,7 @@
 		}
 		user.reactions = user.reactions
 
-		if (params.id === $sessionUser.id) {
+		if (params.id === $userSession.id) {
 			profileEdit.newEmail = user.email = resp.user.email
 			user.sessions = resp.user.sessions
 		}
@@ -122,8 +118,8 @@
 				user.sessions = user.sessions
 			}
 			// When closing current session reset the session
-			if (key === $sessionUser.key) {
-				sessionUser.reset()
+			if (key === $userSession.key) {
+				userSession.reset()
 			}
 		}
 	}
@@ -131,17 +127,17 @@
 	async function closeAllSessions() {
 		const resp = await api.Query(
 			`mutation ($id: Identifier!) { closeAllSessions(user: $id) }`,
-			{id: $sessionUser.id},
+			{id: $userSession.id},
 		)
 
 		if (resp.closeAllSessions) {
-			sessionUser.reset()
+			userSession.reset()
 		}
 	}
 
 	function cancelEdit() {
 		profileEdit.newPass = ''
-		profileEdit.newEmail = $sessionUser.email
+		profileEdit.newEmail = $userSession.email
 		isEditing = false
 	}
 
@@ -149,8 +145,8 @@
 		if (!emailChanged && !isValidPass) return
 
 		let vars = {
-			user: $sessionUser.id,
-			editor: $sessionUser.id,
+			user: $userSession.id,
+			editor: $userSession.id,
 			newEmail: null,
 			newPass: null,
 		}
@@ -184,26 +180,31 @@
 
 		profileEdit.newPass = ''
 		profileEdit.newEmail = resp.editUser.email
-		let oldData = $sessionUser
-		sessionUser.set(new UserSession(
+		let oldData = $userSession
+		userSession.set(
 			oldData.key,
 			oldData.id,
 			resp.editUser.email,
 			oldData.displayName,
 			oldData.creation,
-		))
+		)
 		isEditing = false
 	}
 
 	function viewPost(id) {
 		router.push('post', {id})
 	}
+
+	function onUserSignIn() {
+		router.push('profile', {id: $userSession.id})
+		// setTimeout(fetchUser, 1000)
+	}
 </script>
 
 <svelte:head>
 	<title>{user.displayName}</title>
 </svelte:head>
-<svelte:window on:userSignIn={fetchUser}/>
+<svelte:window on:userSignIn={onUserSignIn}/>
 
 
 
@@ -464,7 +465,7 @@
 					</div>
 				{:else}
 					<div class="actions">
-						<button class="signout" on:click={() => closeSession($sessionUser.key)}>
+						<button class="signout" on:click={() => closeSession($userSession.key)}>
 							<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M86 91v19H22V10h64v19M48 61h50m0 0L79 42m19 19L79 79"/>
 							</svg>
@@ -474,8 +475,8 @@
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M84 24L16 92l-6 18 18-6 68-68M84 24l12 12M84 24l10-10 12 12-10 10"/>
 							</svg>
 						</button>
-						<button on:click={appTheme.toggle}>
-							{#if $appTheme === 'black'}
+						<button on:click={appStore.toggleTheme}>
+							{#if $appStore.theme === 'black'}
 								<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
 									<circle cx="60" cy="60" r="28" stroke-width=".4rem"/>
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".4rem" d="M29 30l-8-8M18 60H7M21 99l8-8M60 113v-11M99 99l-8-8M113 60h-11M91 29l8-8M60 18V7"/>
@@ -501,7 +502,7 @@
 					{#each user.sessions as session, index}
 						<div
 						class="session"
-						class:current={session.key === $sessionUser.key}>
+						class:current={session.key === $userSession.key}>
 							<div class="device-icon">
 								<svg class="icon x-large filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
 									<path d="M60 80a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
@@ -510,7 +511,7 @@
 							</div>
 							<div class="content">
 								<span class="device-name">Here device name</span>
-								{#if session.key === $sessionUser.key}
+								{#if session.key === $userSession.key}
 									<span class="current-label">This session</span>
 								{/if}
 								<span class="creation">{
@@ -595,7 +596,7 @@
 						}}>
 							<div class="react">
 								<span class="emotion">
-									{$emotionsDisplayName[emotion]}
+									{posts.getEmotionDisplayName(emotion)}
 								</span>
 								<span class="content">
 									{message}
@@ -610,7 +611,7 @@
 									<span>"{subject.title}"</span>
 								{:else if subject.__typename === 'Reaction'}
 									<span class="emotion">
-										{$emotionsDisplayName[subject.emotion]}
+										{posts.getEmotionDisplayName(subject.emotion)}
 									</span>
 									<span class="message">
 										{subject.message}
