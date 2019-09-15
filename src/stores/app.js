@@ -148,6 +148,18 @@ function declareStore_app() {
 	function getTheme() {
 		return getStore({subscribe}).theme
 	}
+	function toggleTheme() {
+		update((store)=> {
+			if (store.theme.name === store.themes[0].name) {
+				store.theme = themes[1]
+			}
+			else {
+				store.theme = themes[0]
+			}
+			syncLocStorTheme(store.theme.name)
+			return store
+		})
+	}
 	function load(
 		callback,
 		{
@@ -267,6 +279,7 @@ function declareStore_app() {
 		subscribe,
 		setTheme,
 		getTheme,
+		toggleTheme,
 		load,
 		failLoader,
 		cancelLoader,
