@@ -10,12 +10,12 @@ let _initStore = function(){}
 function declareStore_userSession() {
 	function syncLocStorSession(state) {
 		if (localStorage !== undefined) {
-			localStorage.setItem('dggs_session', JSON.stringify(state))
+			localStorage.setItem('dggs_session', state)
 		}
 	}
 
 	if (!localStorage.dggs_session) {
-		syncLocStorSession(new UserSession())
+		syncLocStorSession(new UserSession().json())
 	}
 
 	let currentSession = new UserSession()
@@ -46,7 +46,7 @@ function declareStore_userSession() {
 			return set(nullSess)
 		},
 		isValidSession: derived(
-			subscribe,
+			{subscribe},
 			(session)=> (
 				session.key !== '' &&
 				session.id !== '' &&
