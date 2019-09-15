@@ -23,7 +23,7 @@ function declareStore_userSession() {
 			decoded.id,
 			decoded.email,
 			decoded.displayName,
-			decoded.creation,
+			new Date(decoded.creation),
 		)
 	}
 	const { subscribe, set } = writable(currentSession)
@@ -40,7 +40,7 @@ function declareStore_userSession() {
 				id,
 				email,
 				displayName,
-				creation,
+				new Date(creation),
 			)
 			syncLocStorSession(newSession.json())
 			return set(newSession)
