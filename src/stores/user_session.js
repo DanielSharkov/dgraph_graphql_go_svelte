@@ -14,10 +14,6 @@ function declareStore_userSession() {
 		}
 	}
 
-	if (!localStorage.dggs_session) {
-		syncLocStorSession(new UserSession().json())
-	}
-
 	let currentSession = new UserSession()
 	const fromLS = localStorage.dggs_session
 	if (fromLS) {
@@ -31,6 +27,10 @@ function declareStore_userSession() {
 		)
 	}
 	const { subscribe, set } = writable(currentSession)
+
+	if (!localStorage.dggs_session) {
+		syncLocStorSession(currentSession.json())
+	}
 
 	return {
 		subscribe,
