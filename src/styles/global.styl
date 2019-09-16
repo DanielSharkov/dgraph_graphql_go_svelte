@@ -244,3 +244,36 @@ input, textarea
 	&.x-large
 		height 3rem
 		width 3rem
+
+.flex
+	&-row, &-row-nowrap
+		display flex
+		flex-flow row wrap
+		.center-v, &.center-v
+			align-content center
+			align-items center
+		.center-h, &.center-h
+			justify-content center
+		.center-content, &.center-content
+			justify-content center
+			align-content center
+			align-items center
+	&-col, &-col-nowrap
+		display flex
+		flex-flow column wrap
+		.center-v, &.center-v
+			justify-content center
+		.center-h, &.center-h
+			align-content center
+			align-items center
+		.center-content, &.center-content
+			justify-content center
+			align-content center
+			align-items center
+	&-row, &-col
+		.full-width, &.full-width
+			flex 1 1 100%
+		&-nowrap
+			flex-wrap nowrap
+			.full-width, &.full-width
+				flex 1 1 100%

@@ -1,21 +1,18 @@
 <script>
-	import { createEventDispatcher } from 'svelte'
 	import { api } from '../api'
 	import { app as appStore, userSession, posts } from '../stores/'
 
 	let isValidSession = userSession.isValidSession
 
+	import { createEventDispatcher } from 'svelte'
 	const dispatch = createEventDispatcher()
 
 	export let subject;
 
-	const form = {
-		emote: '',
-		message: '',
-	}
+	const form = { emote: '', message: '' }
 
 	async function reactOnPost() {
-		if (!$isValidSession && form.emote === '' && form.message === '') {
+		if (!$isValidSession && !form.emote && !form.message) {
 			return
 		}
 
@@ -56,41 +53,41 @@
 
 		dispatch('created', resp.createReaction)
 	}
+	
+	function openSignInModal() {
+		appStore.modals.open('signIn')
+	}
+
+	function cancelCreation() {
+		dispatch('cancel')
+	}
+
+	$:isInvalidForm = !form.emote || !form.message
 </script>
 
 
 
 <style lang="stylus">
 	.create-reaction
-		display flex
 		align-items center
-		flex-flow row wrap
 		flex 1 1 100%
 		.emote
-			display flex
-			height 2.5rem
-			width 2.5rem
-			margin 0 1rem 0 0
+			margin-right 1rem
 			font-size 1.5rem
-			justify-content center
-			align-content center
-			align-items center
 			line-height 1
 			padding .5rem
-			border-radius var(--app-border-radius)
-			background none
-			border solid 1px transparent
-			cursor pointer
 			&:hover
-				border-color var(--app-border-01)
+				transform scale(1.5)
 			&:active
+				transform scale(.85)
 				background-color var(--app-border-01)
-				border-color transparent
 			&.selected
+				transform scale(1)
 				background-color var(--app-primary-01)
 				border-color var(--app-primary)
+				cursor default
 		.actions
-			margin 0 0 0 auto
+			margin auto 0 auto auto
 			> *
 				display inline-block
 		.message
@@ -104,7 +101,7 @@
 
 
 
-<div class="create-reaction">
+<div class="create-reaction flex-row full-width">
 	{#if $isValidSession}
 		{#each $posts.emotions as emote}
 			<button
@@ -115,10 +112,10 @@
 			</button>
 		{/each}
 		<div class="actions">
-			<button class="secondary" on:click={() => dispatch('cancel')}>
+			<button class="secondary" on:click={cancelCreation}>
 				Cancel
 			</button>
-			<button class="primary" on:click={reactOnPost}>
+			<button class="primary" on:click={reactOnPost} disabled={isInvalidForm}>
 				React!
 			</button>
 		</div>
@@ -130,7 +127,7 @@
 		></textarea>
 	{:else}
 		<span class="not-signed-in">
-			<button class="link" on:click={()=> appStore.modals.open('signIn')}>
+			<button class="link" on:click={openSignInModal}>
 				Sign in
 			</button>
 			to create a reaction

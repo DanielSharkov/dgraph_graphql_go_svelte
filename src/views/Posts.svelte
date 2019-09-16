@@ -5,38 +5,33 @@
 	import { fly } from '../utils/transitions'
 
 	const postList = []
-	let showCreatePost = false
-	const formPostData = {
-		title: '',
-		contents: '',
-	}
+	let showPostCreation = false
+	const formPostData = { title: '', contents: '' }
 
 	async function fetchPosts() {
-		const resp = await api.Query(
-			`{
-				posts {
+		const resp = await api.Query(`{
+			posts {
+				id
+				author { id displayName }
+				creation
+				title
+				contents
+				reactions {
 					id
 					author { id displayName }
+					emotion
+					message
 					creation
-					title
-					contents
 					reactions {
 						id
 						author { id displayName }
 						emotion
 						message
 						creation
-						reactions {
-							id
-							author { id displayName }
-							emotion
-							message
-							creation
-						}
 					}
 				}
-			}`,
-		)
+			}
+		}`)
 
 		for (const post of resp.posts) {
 			postList.unshift(post)
@@ -48,8 +43,8 @@
 	async function createNewPost() {
 		if (
 			!userSession.isValidSession ||
-			formPostData.title === '' ||
-			formPostData.contents === ''
+			!formPostData.title ||
+			!formPostData.contents
 		) {
 			return
 		}
@@ -74,9 +69,20 @@
 		postList.unshift(resp.createPost)
 		postList = postList
 
-		showCreatePost = false
+		hidePostCreation()
 		formPostData.title = ''
 		formPostData.contents = ''
+	}
+
+	function openSignInModal() {
+		appStore.modals.open('signIn')
+	}
+
+	function openPostCreation() {
+		showPostCreation = true
+	}
+	function hidePostCreation() {
+		showPostCreation = false
 	}
 </script>
 
@@ -87,8 +93,8 @@
 
 
 <style lang="stylus">
-	#createNewPost
-		margin 0 auto 2rem auto
+	#createPost, #createNewPost
+		margin 0 auto 4rem auto
 
 	input, textarea
 		display block
@@ -149,10 +155,7 @@
 
 
 {#if userSession.isValidSession}
-	<div
-	id="createPost"
-	class="post"
-	class:hidden={!showCreatePost}>
+	<div id="createPost" class="post" class:hidden={!showPostCreation}>
 		<div class="header">
 			<div class="author">
 				<div class="picture">
@@ -183,16 +186,10 @@
 			></textarea>
 		</div>
 		<div class="actions">
-			<button
-			id="cancelNewPost"
-			class="secondary"
-			on:click={() => showCreatePost = false}>
+			<button id="cancelNewPost" class="secondary" on:click={hidePostCreation}>
 				Cancel
 			</button>
-			<button
-			id="submitNewPost"
-			class="primary"
-			on:click={createNewPost}>
+			<button id="submitNewPost" class="primary" on:click={createNewPost}>
 				+ Create Post
 			</button>
 		</div>
@@ -200,15 +197,15 @@
 
 	<button
 	id="createNewPost"
-	class:hidden={showCreatePost}
+	class:hidden={showPostCreation}
 	class="full-width large primary"
-	on:click={() => showCreatePost = true}
+	on:click={openPostCreation}
 	in:fly>
 		+ Write a new post
 	</button>
 {:else}
 	<h3 class="view-title">
-		<button class="link" on:click={()=> appStore.modals.open('signIn')}>
+		<button class="link" on:click={openSignInModal}>
 			Sign in
 		</button>
 		to write a post.
@@ -217,6 +214,6 @@
 
 <div id="posts">
 	{#each postList as post, index}
-		<Post {post} index={index + 1}/>
+		<Post {post} transitionDelay={index + 1}/>
 	{/each}
 </div>

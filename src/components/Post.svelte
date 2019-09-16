@@ -15,10 +15,24 @@
 			displayName: null,
 		},
 	}
+	export let transitionDelay = 0
 
-	let createReaction = false
+	let showReactCreation = false
+	function openReactCreation() {
+		showReactCreation = true
+	}
+	function hideReactCreation() {
+		showReactCreation = false
+	}
 
-	export let index = 0
+	function reactionCreated(react) {
+		hideReactCreation()
+		post.reactions = [react.detail, ...post.reactions]
+	}
+
+	function openAuthorProfile(id) {
+		router.push('profile', {id})
+	}
 </script>
 
 
@@ -29,32 +43,23 @@
 		border solid 1px var(--app-border-01)
 		border-radius var(--app-border-radius)
 		.header
-			display flex
 			flex 1 1 100%
 			justify-content flex-start
-			align-content center
-			align-items center
 		.author
-			display flex
 			flex 0 0 auto
-			justify-content flex-start
-			align-content center
-			align-items center
 			cursor pointer
 			&:hover
 				.picture
 					border-color var(--app-primary)
-					svg > *
+					.stroked > *
 						stroke var(--app-primary)
 				.display-name
 					color var(--app-primary)
 			.picture
-				display flex
 				margin-right 1rem
 				flex 0 0 auto
-				justify-content center
-				align-items center
 			.display-name
+				display inline-block
 				flex 1 1 auto
 		.creation
 			margin-left auto
@@ -87,10 +92,8 @@
 			grid-template-columns 1fr
 			grid-gap 2rem
 
-
-
 	:global(.post .reactions > .create-reaction)
-		padding .5rem
+		padding 1rem
 		line-height 1
 		border solid 1px var(--app-border-01)
 		border-radius var(--app-border-radius)
@@ -98,13 +101,12 @@
 
 
 
-<div class="post" post-id={post.id} in:fly={{ delay: index * 100 }}>
-	<div class="header">
+<div class="post" in:fly={{ delay: transitionDelay * 100 }}>
+	<div class="header flex-row center-v">
 		<div
-		class="author"
-		author-id={post.author.id}
-		on:click={() => router.push('profile', {id: post.author.id})}>
-			<div class="picture">
+		class="author flex-row center-v"
+		on:click={()=> openAuthorProfile(post.author.id)}>
+			<div class="picture flex-row center-content">
 				<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
 					<circle cx="60" cy="34" r="21" stroke-width=".5rem"/>
@@ -129,19 +131,14 @@
 		<pre class="contents">{post.contents}</pre>
 	</div>
 	<div class="reactions">
-		{#if createReaction}
+		{#if showReactCreation}
 			<CreateReaction
 				subject={post.id}
-				on:cancel={() => createReaction = false}
-				on:created={react => {
-					createReaction = false
-					post.reactions = [react.detail, ...post.reactions]
-				}}
+				on:cancel={hideReactCreation}
+				on:created={reactionCreated}
 			/>
 		{:else}
-			<button
-			class="full-width primary"
-			on:click={() => createReaction = true}>
+			<button class="full-width primary" on:click={openReactCreation}>
 				+ Write reaction
 			</button>
 		{/if}

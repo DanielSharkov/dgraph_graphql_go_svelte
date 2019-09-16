@@ -1,5 +1,6 @@
 <script>
 	import router from '../router'
+	import { app } from '../stores/'
 	import { userSession } from '../stores/'
 
 	let isValidSession = userSession.isValidSession
@@ -9,7 +10,7 @@
 			router.push('profile', {id: $userSession.id})
 		}
 		else {
-			appStore.modals.open('signIn')
+			app.modals.open('signIn')
 		}
 	}
 
@@ -34,7 +35,7 @@
 			padding 2rem
 		#navigation button
 			display inline-block
-			margin 0 1rem 0 0
+			margin-right 1rem
 
 	#userSession
 		margin-left auto
@@ -89,7 +90,9 @@
 	id="userSession"
 	class:profile-view={isProfileView}>
 		<button class="user" on:click={userSessionAction}>
-			<span class="displayName">{signInButtonText}</span>
+			<span class="displayName">
+				{signInButtonText}
+			</span>
 			<div class="picture">
 				<svg class="icon stroked" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 120" fill="none" stroke="#000">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".5rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
