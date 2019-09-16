@@ -13,14 +13,14 @@ if (typeof(Storage) !== undefined) {
 			console.error('DEBUG\nUnexpected error @ handleRequestError')
 		}
 		else if (err.errors) {
-			alert(
+			console.warn(
 				'DEBUG\n' +
 				`Err code: ${err.errors.c}\n` +
 				`Err msg: ${err.errors.m}`,
 			)
 		}
 		else {
-			alert(
+			console.warn(
 				'DEBUG\n' +
 				`Req. status: ${err.status}\n` +
 				`Req. data: ${err.data}`,
