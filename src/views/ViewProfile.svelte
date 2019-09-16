@@ -12,7 +12,7 @@
 	const user = {
 		displayName: '',
 		sessions: [],
-		creation: new Date(0),
+		creation: null,
 		email: '',
 		posts: [],
 		reactions: [],
