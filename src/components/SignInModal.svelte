@@ -1,11 +1,12 @@
 <script>
-	import { app as appStore, userSession } from '../stores/'
+	import { app, userSession } from '../stores/'
 	import { UserSession } from '../types/UserSession'
 	import { api } from '../api'
 	import { fly } from '../utils/transitions'
+	import { cubicInOut } from 'svelte/easing'
 
 	let isSigningUp = false
-	let inputError = ''
+	let inputError;
 
 	const formData = {
 		email: '',
@@ -14,7 +15,7 @@
 	}
 
 	async function SignIn() {
-		if (formData.email === '' || formData.password === '') {
+		if (!formData.email || !formData.password) {
 			return
 		}
 
@@ -41,12 +42,11 @@
 				resp.createSession.creation,
 			)
 
-			appStore.modals.close()
-			setTimeout(() => {
-				window.dispatchEvent(window.eventUserSignIn)
-			}, 0)
+			app.modals.close()
+			window.dispatchEvent(window.eventUserSignIn)
 		} catch(err) {
-			inputError = err.response.data.errors.m
+			setErrorMessage(err.errors.m)
+			inputError = err.errors.m
 		}
 	}
 
@@ -67,7 +67,7 @@
 			)
 			SignIn()
 		} catch(err) {
-			inputError = err.response.data.errors.m
+			setErrorMessage(err.erros.m)
 		}
 	}
 
@@ -75,56 +75,73 @@
 	function validateInput() {
 		if (isSigningUp) {
 			isValidInput = (
-				formData.email !== '' &&
-				formData.password !== '' &&
-				formData.displayName !== ''
+				formData.email && formData.password && formData.displayName
 			)
 		}
 		else {
 			isValidInput = (
-				formData.email !== '' &&
-				formData.password !== ''
+				formData.email && formData.password
 			)
 		}
 	}
 	validateInput()
 
-	function primaryAction() {
-		if (isSigningUp) {
-			SignUp()
-		}
-		else {
-			SignIn()
-		}
+	let errorMessageId = 0
+	function setErrorMessage(msg) {
+		errorMessageId++
+		const thisMsgId = errorMessageId
+		inputError = msg
+		setTimeout(()=> {
+			if (errorMessageId == thisMsgId) {
+				inputError = null
+			}
+		}, 5000)
 	}
 
+	function primaryAction() {
+		isSigningUp ? SignUp() : SignIn()
+	}
 	function secondaryAction() {
 		isSigningUp = !isSigningUp
 		validateInput()
+	}
+	
+	$:signText = isSigningUp ? 'Sign up' : 'Sign in'
+	$:signBtnText = isSigningUp ? 'Back to sign in' : 'No account? Sign up!'
+
+	function errorInOut(node) {
+		const height = node.clientHeight
+		return {
+			duration: 500,
+			css(tick) {
+				tick = cubicInOut(tick)
+				return `
+					height: ${height * tick}px;
+					margin-bottom: ${tick}rem;
+				`
+			}
+		}
 	}
 </script>
 
 
 
 <style lang="stylus">
-	.modal.signin
-		position relative
-		display flex
+	#modal-signin
 		flex 0 1 500px
 		h1
 			margin 0 0 2rem 0
 			text-align center
 			flex 1 1 100%
 		form
-			display flex
 			flex 0 1 100%
 			width 100%
-			flex-flow row wrap
 			align-content flex-start
 			align-items center
 			.input-error
 				color #f05
 				margin 0 auto 1rem auto
+				overflow hidden
 			input
 				margin 0 0 2rem 0
 				flex 1 1 100%
@@ -134,18 +151,12 @@
 
 
 
-<div class="modal signin" transition:fly>
-	<h1>
-		{#if isSigningUp}
-			Sign up
-		{:else}
-			Sign in
+<div id="modal-signin" class="modal flex-row" transition:fly={{ duration: 300, multiplier: 2 }}>
+	<h1>{signText}</h1>
+	<form class="flex-row">
+		{#if inputError}
+			<p class="input-error" transition:errorInOut>{inputError}</p>
 		{/if}
-	</h1>
-	<form>
-		<p class="input-error" class:invisible={inputError === ''}>
-			{inputError}
-		</p>
 		<input
 			class="large"
 			class:hidden={!isSigningUp}
@@ -169,22 +180,14 @@
 			bind:value={formData.password}
 		/>
 		<button type="button" class="secondary" on:click={secondaryAction}>
-			{#if isSigningUp}
-				Back to sign in
-			{:else}
-				No account? Sign up!
-			{/if}
+			{signBtnText}
 		</button>
 		<button
 		type="submit"
 		class="primary"
 		disabled={!isValidInput}
 		on:click|preventDefault={primaryAction}>
-			{#if isSigningUp}
-				Sign up
-			{:else}
-				Sign in
-			{/if}
+			{signText}
 		</button>
 	</form>
 </div>

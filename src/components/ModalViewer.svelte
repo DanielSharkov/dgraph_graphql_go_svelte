@@ -15,13 +15,11 @@
 		position absolute
 		top 0
 		left 0
-		display flex
 		width 100vw
 		min-height 100vh
 		padding 2rem
 		justify-content center
 		align-items center
-		flex-flow row wrap
 		> .background
 			z-index -1
 			position fixed
@@ -34,11 +32,10 @@
 			-webkit-backdrop-filter blur(16px)
 		:global(> .modal)
 			position relative
-			display flex
 </style>
 
 {#if $app.modals.currentModal}
-	<div id="modal-viewport" transition:fade={{ duration: 200 }}>
+	<div id="modal-viewport" class="flex-row" transition:fade={{ duration: 300 }}>
 		<div class="background" on:click={backgroundClose}/>
 		<svelte:component this={$app.modals.currentModal.component}/>
 	</div>
