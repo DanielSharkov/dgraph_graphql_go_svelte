@@ -2,7 +2,7 @@
 	import { app as appStore, userSession } from '../stores/'
 	import { UserSession } from '../types/UserSession'
 	import { api } from '../api'
-	import { cubicOut } from 'svelte/easing'
+	import { fly } from '../utils/transitions'
 
 	let isSigningUp = false
 	let inputError = ''
@@ -102,19 +102,6 @@
 		isSigningUp = !isSigningUp
 		validateInput()
 	}
-	
-	function testTrans() {
-		return {
-			duration: 200,
-			css(tick) {
-				tick = cubicOut(tick)
-				return `
-					transform: translateY(${2 - tick * 2}rem);
-					opacity: ${tick};
-				`
-			},
-		}
-	}
 </script>
 
 
@@ -147,7 +134,7 @@
 
 
 
-<div class="modal signin" transition:testTrans>
+<div class="modal signin" transition:fly>
 	<h1>
 		{#if isSigningUp}
 			Sign up
