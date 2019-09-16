@@ -5,9 +5,7 @@ export function fade(node, {duration = 500, delay = 0, easing = cubicOut}) {
 		duration,
 		delay,
 		css(tick) {
-			if (easing) {
-				tick = easing(tick)
-			}
+			tick = easing(tick)
 			return `opacity: ${tick};`
 		},
 	}
