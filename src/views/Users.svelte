@@ -2,6 +2,7 @@
 	import { userSession } from '../stores/'
 	import router from '../router'
 	import { api } from '../api'
+	import { fly } from '../utils/transitions'
 
 	const userList = []
 
@@ -63,18 +64,27 @@
 	@media screen and (min-width 826px)
 		#userList
 			grid-template-columns repeat(4, 1fr)
+	@media screen and (max-width 825px)
+		#userList
+			grid-template-columns repeat(3, 1fr)
+	@media screen and (max-width 600px)
+		#userList
+			grid-template-columns repeat(2, 1fr)
+	@media screen and (max-width 425px)
+		#userList
+			grid-template-columns 1fr
 </style>
 
 
 
 <div id="userList">
-	{#each userList as {id, displayName}}
+	{#each userList as {id, displayName}, index}
 		{#if id === $userSession.id && userList.length === 1}
 			<h3 class="view-title">
 				Your the only existing user ☹️
 			</h3>
 		{:else}
-			<div class="user" on:click={() => router.push('profile', {id})}>
+			<div class="user" on:click={() => router.push('profile', {id})} in:fly={{ delay: index * 40 }}>
 				<div class="picture">
 					<svg class="icon x-large stroked" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>

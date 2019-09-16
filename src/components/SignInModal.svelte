@@ -105,7 +105,7 @@
 	
 	function testTrans() {
 		return {
-			duration: 300,
+			duration: 200,
 			css(tick) {
 				tick = cubicOut(tick)
 				return `
@@ -147,7 +147,7 @@
 
 
 
-<div class="modal signin" in:testTrans>
+<div class="modal signin" transition:testTrans>
 	<h1>
 		{#if isSigningUp}
 			Sign up

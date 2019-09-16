@@ -94,6 +94,7 @@
 				stroke #fff
 
 	#router-viewport
+		position relative
 		display block
 		max-width 800px
 		margin auto
@@ -101,9 +102,10 @@
 
 	@media screen and (max-width 825px)
 		header
-			padding 1rem
+			padding 2rem
+			margin 0
 		#router-viewport
-			padding 0 1rem 4rem 1rem
+			padding 0 2rem 4rem 2rem
 </style>
 
 

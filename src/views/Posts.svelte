@@ -2,6 +2,7 @@
 	import Post from '../components/Post'
 	import { app as appStore, userSession } from '../stores/'
 	import { api } from '../api'
+	import { fly } from '../utils/transitions'
 
 	const postList = []
 	let showCreatePost = false
@@ -201,7 +202,8 @@
 	id="createNewPost"
 	class:hidden={showCreatePost}
 	class="full-width large primary"
-	on:click={() => showCreatePost = true}>
+	on:click={() => showCreatePost = true}
+	in:fly>
 		+ Write a new post
 	</button>
 {:else}
@@ -214,7 +216,7 @@
 {/if}
 
 <div id="posts">
-	{#each postList as post}
-		<Post {post}/>
+	{#each postList as post, index}
+		<Post {post} index={index + 1}/>
 	{/each}
 </div>

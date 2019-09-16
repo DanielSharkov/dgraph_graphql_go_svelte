@@ -2,6 +2,7 @@
 	import router from '../router'
 	import Reaction from './Reaction'
 	import CreateReaction from './CreateReaction'
+	import { fly } from '../utils/transitions'
 
 	export let post = {
 		id: '',
@@ -16,6 +17,8 @@
 	}
 
 	let createReaction = false
+
+	export let index = 0
 </script>
 
 
@@ -95,7 +98,7 @@
 
 
 
-<div class="post" post-id={post.id}>
+<div class="post" post-id={post.id} in:fly={{ delay: index * 100 }}>
 	<div class="header">
 		<div
 		class="author"

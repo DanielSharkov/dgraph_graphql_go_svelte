@@ -1,20 +1,10 @@
 <script>
 	import { app } from '../stores/'
-	import { cubicOut } from 'svelte/easing'
+	import { fade } from '../utils/transitions'
 
 	function backgroundClose() {
 		if ($app.modals.allowBgEscape) {
 			app.modals.close()
-		}
-	}
-
-	function fade() {
-		return {
-			duration: 300,
-			css(tick) {
-				tick = cubicOut(tick)
-				return `opacity: ${tick};`
-			},
 		}
 	}
 </script>
@@ -48,7 +38,7 @@
 </style>
 
 {#if $app.modals.currentModal}
-	<div id="modal-viewport" transition:fade>
+	<div id="modal-viewport" transition:fade={{ duration: 200 }}>
 		<div class="background" on:click={backgroundClose}/>
 		<svelte:component this={$app.modals.currentModal.component}/>
 	</div>

@@ -2,6 +2,7 @@
 	import { app as appStore, userSession, posts } from '../stores/'
 	import { api } from './../api'
 	import router from '../router'
+	import { fly } from '../utils/transitions'
 
 	let isValidSession = userSession.isValidSession
 
@@ -202,7 +203,9 @@
 </script>
 
 <svelte:head>
-	<title>{user.displayName}</title>
+	{#if user.displayName}
+		<title>{user.displayName}</title>
+	{/if}
 </svelte:head>
 <svelte:window on:userSignIn={onUserSignIn}/>
 
@@ -246,6 +249,9 @@
 			width 5rem
 		.display-name
 			margin-bottom 0
+			transition-duration 1s
+			&.hide
+				opacity 0
 		.display-name, .email, .new-pass
 			flex 1 1 100%
 			text-align center
@@ -261,6 +267,9 @@
 			text-align center
 			font-size .75rem
 			opacity .5
+			transition-duration 1s
+			&.hide
+				opacity 0
 		.actions
 			position absolute
 			top 0
@@ -406,14 +415,14 @@
 	<h3 class="view-title">User not existing</h3>
 {:else}
 	<div id="user-profile" class:is-editing-profile={isEditing}>
-		<section id="personal-data">
+		<section id="personal-data" in:fly>
 			<div class="picture">
 				<svg class="icon stroked" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
 					<circle cx="60" cy="34" r="21" stroke-width=".25rem"/>
 				</svg>
 			</div>
-			<h1 class="display-name">
+			<h1 class="display-name" class:hide={!profileEdit.displayName}>
 				{profileEdit.displayName}
 			</h1>
 			{#if isSignedInUser}
@@ -438,7 +447,7 @@
 				</span>
 			{/if}
 
-			<p class="creation">Joined on {
+			<p class="creation" class:hide={!user.creation}>Joined on {
 				new Date(user.creation).toLocaleDateString('en-US', {
 					weekday: 'long',
 					year: 'numeric',
@@ -493,7 +502,7 @@
 		</section>
 
 		{#if isSignedInUser}
-			<section id="sessions">
+			<section id="sessions" in:fly={{ delay: 100 }}>
 				<h4>Open sessions</h4>
 				<button class="danger small close-all-sessions" on:click={closeAllSessions}>
 					Close all sessions
@@ -539,7 +548,7 @@
 			</section>
 		{/if}
 
-		<section id="posts">
+		<section id="posts" in:fly={{ delay: 200 }}>
 			<h4>Published posts</h4>
 			<div class="entries">
 				{#if user.posts.length < 1}
@@ -569,7 +578,7 @@
 			</div>
 		</section>
 
-		<section id="reactions">
+		<section id="reactions" in:fly={{ delay: 300 }}>
 			<h4>Published reactions</h4>
 			<div class="entries">
 				{#if user.reactions.length < 1}
