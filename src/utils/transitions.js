@@ -1,6 +1,10 @@
 import { cubicOut } from 'svelte/easing'
 
-export function fade(node, {duration = 500, delay = 0, easing = cubicOut}) {
+export function fade(node, {
+	duration = 500,
+	delay = 0,
+	easing = cubicOut,
+}) {
 	return {
 		duration,
 		delay,
@@ -11,7 +15,12 @@ export function fade(node, {duration = 500, delay = 0, easing = cubicOut}) {
 	}
 }
 
-export function fly(node, {duration = 500, delay = 0, easing = cubicOut}) {
+export function fly(node, {
+	duration = 500,
+	delay = 0,
+	easing = cubicOut,
+	multiplier = 1,
+}) {
 	return {
 		duration,
 		delay,
@@ -19,7 +28,7 @@ export function fly(node, {duration = 500, delay = 0, easing = cubicOut}) {
 			tick = easing(tick)
 			return `
 				opacity: ${tick};
-				transform: translateY(${tick - 1}rem)
+				transform: translateY(${multiplier * (tick - 1)}rem)
 			`
 		},
 	}
