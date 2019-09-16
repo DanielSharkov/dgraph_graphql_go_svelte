@@ -1,12 +1,12 @@
 <script>
 	import { RouterViewport } from '@danielsharkov/svelte-router'
 	import router from './router'
-	import { fade } from 'svelte/transition'
 	import SignInModal from './components/SignInModal'
 	import globalStyles from './styles/global.styl'
 	import blackTheme from './styles/black-theme.styl'
-	import { app as appStore, userSession, modalViewer } from './stores/'
+	import { app as appStore, userSession } from './stores/'
 	import initStores from './stores/initStores'
+	import ModalViewer from './components/ModalViewer'
 
 	// Loads asynchronous data
 	appStore.load((resolve, fail)=> {
@@ -20,11 +20,11 @@
 			router.push('profile', {id: $userSession.id})
 		}
 		else {
-			modalViewer.open('signIn')
+			appStore.modals.open('signIn')
 		}
 	}
 
-	modalViewer.registerModal('signIn', SignInModal)
+	appStore.modals.registerModal('signIn', SignInModal)
 </script>
 
 
@@ -93,38 +93,11 @@
 			.picture svg > *
 				stroke #fff
 
-
-
 	#router-viewport
 		display block
 		max-width 800px
 		margin auto
 		padding-bottom 4rem
-
-	#modal-viewport
-		z-index 10
-		position absolute
-		top 0
-		left 0
-		display flex
-		width 100vw
-		min-height 100vh
-		padding 2rem
-		justify-content center
-		align-items center
-		flex-flow row wrap
-		> .background
-			z-index -1
-			position fixed
-			top 0
-			left 0
-			width 100%
-			height 100%
-			background-color rgba(0,0,0,.5)
-			backdrop-filter blur(16px)
-			-webkit-backdrop-filter blur(16px)
-
-
 
 	@media screen and (max-width 825px)
 		header
@@ -136,19 +109,7 @@
 
 
 <div id="app" class="{$appStore.theme.name}-theme">
-	{#if $modalViewer.currentModal}
-		<div id="modal-viewport" transition:fade={{duration:100}}>
-			<div class="background" on:click={()=> {
-				if ($modalViewer.allowBgEscape) {
-					modalViewer.close()
-				}
-			}}/>
-			<svelte:component this={$modalViewer.currentModal.component}/>
-			<!-- {#if $modalViewer.currentModal === 'signIn'}
-				<SignInModal/>
-			{/if} -->
-		</div>
-	{/if}
+	<ModalViewer/>
 
 	<header>
 		<div id="navigation">

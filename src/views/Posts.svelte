@@ -1,6 +1,6 @@
 <script>
 	import Post from '../components/Post'
-	import { userSession, modalViewer } from '../stores/'
+	import { app as appStore, userSession } from '../stores/'
 	import { api } from '../api'
 
 	const postList = []
@@ -206,7 +206,7 @@
 	</button>
 {:else}
 	<h3 class="view-title">
-		<button class="link" on:click={()=> modalViewer.open('signIn')}>
+		<button class="link" on:click={()=> appStore.modals.open('signIn')}>
 			Sign in
 		</button>
 		to write a post.

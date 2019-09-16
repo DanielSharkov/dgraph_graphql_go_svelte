@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte'
 	import { api } from '../api'
-	import { userSession, posts, modalViewer } from '../stores/'
+	import { app as appStore, userSession, posts } from '../stores/'
 
 	let isValidSession = userSession.isValidSession
 
@@ -130,7 +130,7 @@
 		></textarea>
 	{:else}
 		<span class="not-signed-in">
-			<button class="link" on:click={()=> modalViewer.open('signIn')}>
+			<button class="link" on:click={()=> appStore.modals.open('signIn')}>
 				Sign in
 			</button>
 			to create a reaction

@@ -1,7 +1,8 @@
 <script>
-	import { userSession, modalViewer } from '../stores/'
+	import { app as appStore, userSession } from '../stores/'
 	import { UserSession } from '../types/UserSession'
 	import { api } from '../api'
+	import { cubicOut } from 'svelte/easing'
 
 	let isSigningUp = false
 	let inputError = ''
@@ -40,7 +41,7 @@
 				resp.createSession.creation,
 			)
 
-			modalViewer.close()
+			appStore.modals.close()
 			setTimeout(() => {
 				window.dispatchEvent(window.eventUserSignIn)
 			}, 0)
@@ -101,6 +102,19 @@
 		isSigningUp = !isSigningUp
 		validateInput()
 	}
+	
+	function testTrans() {
+		return {
+			duration: 300,
+			css(tick) {
+				tick = cubicOut(tick)
+				return `
+					transform: translateY(${2 - tick * 2}rem);
+					opacity: ${tick};
+				`
+			},
+		}
+	}
 </script>
 
 
@@ -133,7 +147,7 @@
 
 
 
-<div class="modal signin" class:show-sign-up-panel={isSigningUp}>
+<div class="modal signin" in:testTrans>
 	<h1>
 		{#if isSigningUp}
 			Sign up
