@@ -47,4 +47,6 @@
 
 
 
-<Post {...post}/>
+{#if post}
+	<Post {post}/>
+{/if}
