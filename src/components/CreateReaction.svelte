@@ -106,12 +106,12 @@
 
 <div class="create-reaction">
 	{#if $isValidSession}
-		{#each posts.emotions as emote}
+		{#each $posts.emotions as emote}
 			<button
 			class="emote"
 			class:selected={{emote}.emote === form.emote}
-			on:click={() => form.emote = {emote}.emote}>
-				{posts.emotionsDisplayName[emote]}
+			on:click={()=> form.emote = {emote}.emote}>
+				{$posts.emotionsDisplayNames[emote]}
 			</button>
 		{/each}
 		<div class="actions">

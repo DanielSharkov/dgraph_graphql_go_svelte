@@ -1,30 +1,25 @@
+import { writable, get as getStore } from 'svelte/store'
+
 function declareStore_posts() {
-	const emotions = Object.freeze([
-		'happy',
-		'angry',
-		'excited',
-		'fearful',
-		'thoughtful',
-	])
-	const emotionsDisplayNames = Object.freeze({
-		happy: `😃`,
-	    angry: `😠`,
-	    excited: `🤩`,
-	    fearful: `😰`,
-	    thoughtful: `🤔`,
+	const { subscribe } = writable({
+		emotions: [
+			'happy',
+			'angry',
+			'excited',
+			'fearful',
+			'thoughtful',
+		],
+		emotionsDisplayNames: {
+			happy: `😃`,
+		    angry: `😠`,
+		    excited: `🤩`,
+		    fearful: `😰`,
+		    thoughtful: `🤔`,
+		},
 	})
 
 	return {
-		//subscribe,
-		getEmotionsDisplayNames() {
-			return emotionsDisplayNames
-		},
-		getEmotionDisplayName(emote) {
-			return emotionsDisplayNames[emote]
-		},
-		getEmotions() {
-			return emotions
-		},
+		subscribe,
 	}
 }
 

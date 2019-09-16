@@ -115,7 +115,7 @@
 		}</span>
 	</div>
 	<div class="content">
-		<span>{posts.getEmotionDisplayName(reaction.emotion)}</span>
+		<span>{$posts.emotionsDisplayNames[reaction.emotion]}</span>
 		<span>{reaction.message}</span>
 	</div>
 	{#if reaction.reactions && reaction.reactions.length > 0}

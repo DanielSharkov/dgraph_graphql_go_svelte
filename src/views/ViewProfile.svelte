@@ -1,5 +1,5 @@
 <script>
-	import { app as appStore, userSession, posts } from '../stores/'
+	import { app as appStore, userSession, posts as postsStore } from '../stores/'
 	import { api } from './../api'
 	import router from '../router'
 	import { fly } from '../utils/transitions'
@@ -605,7 +605,7 @@
 						}}>
 							<div class="react">
 								<span class="emotion">
-									{posts.getEmotionDisplayName(emotion)}
+									{$postsStore.emotionsDisplayNames[emotion]}
 								</span>
 								<span class="content">
 									{message}
@@ -620,7 +620,7 @@
 									<span>"{subject.title}"</span>
 								{:else if subject.__typename === 'Reaction'}
 									<span class="emotion">
-										{posts.getEmotionDisplayName(subject.emotion)}
+										{$postsStore.emotionsDisplayNames[subject.emotion]}
 									</span>
 									<span class="message">
 										{subject.message}
