@@ -34,7 +34,7 @@
 		}`)
 
 		for (const post of resp.posts) {
-			postList.unshift(post)
+			postList.push(post)
 		}
 		postList = postList
 	}
@@ -66,7 +66,7 @@
 			},
 		)
 
-		postList.unshift(resp.createPost)
+		postList.push(resp.createPost)
 		postList = postList
 
 		hidePostCreation()
@@ -213,7 +213,7 @@
 {/if}
 
 <div id="posts">
-	{#each postList as post, index}
+	{#each postList.reverse() as post, index}
 		<Post {post} transitionDelay={index + 1}/>
 	{/each}
 </div>

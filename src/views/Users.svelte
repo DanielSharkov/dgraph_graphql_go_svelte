@@ -10,11 +10,15 @@
 		const resp = await api.Query(`{ users { id displayName } }`)
 
 		for (let user of resp.users) {
-			userList.unshift(user)
+			userList.push(user)
 		}
 		userList = userList
 	}
 	fetchUsers()
+
+	function openUserProfile(id) {
+		router.push('profile', {id})
+	}
 </script>
 
 <svelte:head>
@@ -33,33 +37,25 @@
 		grid-gap 2rem
 
 	.user
-		display flex
 		padding 2rem 1rem
 		flex-flow row wrap
 		flex 0 0 calc(50% - 1rem)
 		border-radius var(--app-border-radius)
 		border solid 1px var(--app-border-01)
-		justify-content center
-		align-items center
 		transform scale(1)
 		cursor pointer
 		&:hover
 			transform scale(1.05)
 			box-shadow 0 10px 20px rgba(0,0,0,.05)
 		.picture
-			display flex
 			margin-bottom 2rem
 			padding 1rem
 			flex 0 0 auto
 			background-color var(--app-bg-lightest)
 			border-radius 100%
-			justify-content center
-			align-items center
 		.displayName
 			flex 1 1 100%
 			text-align center
-
-
 
 	@media screen and (min-width 826px)
 		#userList
@@ -78,14 +74,17 @@
 
 
 <div id="userList">
-	{#each userList as {id, displayName}, index}
+	{#each userList.reverse() as {id, displayName}, index}
 		{#if id === $userSession.id && userList.length === 1}
 			<h3 class="view-title">
 				Your the only existing user ☹️
 			</h3>
 		{:else}
-			<div class="user" on:click={() => router.push('profile', {id})} in:fly={{ delay: index * 40 }}>
-				<div class="picture">
+			<div
+			class="user flex-row center-content"
+			on:click={()=> openUserProfile(id)}
+			in:fly={{ delay: index * 40 }}>
+				<div class="picture flex-row center-content">
 					<svg class="icon x-large stroked" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width=".25rem" d="M103 107V96c0-14-11-25-25-25H42c-14 0-25 11-25 25v11"/>
 						<circle cx="60" cy="34" r="21" stroke-width=".25rem"/>
